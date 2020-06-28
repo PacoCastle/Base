@@ -2,8 +2,10 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using DatingApp.API.Dtos;
 using DatingApp.API.Helpers;
 using DatingApp.API.Models;
+using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 
 namespace DatingApp.API.Data
@@ -188,5 +190,29 @@ namespace DatingApp.API.Data
 
             return await PagedList<Product>.CreateAsync(products, productParams.PageNumber, productParams.PageSize);
         }
+
+        public async Task<int> AddByStored(List<ConfigurationForRegisterDto> configurationForRegisterDto)
+        {
+            int res = 0; 
+            //var json = Newtonsoft.Json.JsonConvert.SerializeObject(configurationForRegisterDto);
+            foreach ( ConfigurationForRegisterDto current in configurationForRegisterDto)            {           
+
+                
+                res = res =+ await _context.Database.ExecuteSqlCommandAsync(
+                    "spXML_DeviceConfiguration @ServerName,@Chanel, @Device, @Tags",
+                    new SqlParameter("@ServerName", current.ServerName),
+                    new SqlParameter("@Chanel", current.Chanel),
+                    new SqlParameter("@Device", current.Device),
+                    new SqlParameter("@Tags", Newtonsoft.Json.JsonConvert.SerializeObject(current.Tags)));
+
+            }          
+
+            return res;               
+                
+        }
+        public async Task<List<DeviceConfiguration>> GetDevices()
+        {
+            return await _context.DeviceConfiguration.ToListAsync();            
+        }        
     }
 }

@@ -15,6 +15,7 @@ namespace DatingApp.API.Data
         public DbSet<Message> Messages { get; set; }
         public DbSet<Plc> Plc { get; set; }       
         public DbSet<Product> Product { get; set; }       
+        public DbSet<DeviceConfiguration> DeviceConfiguration { get; set; }       
 
         protected override void OnModelCreating(ModelBuilder builder)
         {

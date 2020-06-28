@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using DatingApp.API.Dtos;
 using DatingApp.API.Helpers;
 using DatingApp.API.Models;
 
@@ -22,5 +23,7 @@ namespace DatingApp.API.Data
         Task<IEnumerable<Plc>> GetPlcForDevice(int idDevice);
         Task<Product> GetProduct(int id);
         Task<PagedList<Product>> GetProducts(ProductParams productParams);
+        Task<int> AddByStored(List<ConfigurationForRegisterDto> configurationForRegisterDto);
+        Task<List<DeviceConfiguration>> GetDevices();        
     }
 }
