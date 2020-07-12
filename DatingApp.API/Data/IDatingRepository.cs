@@ -24,16 +24,16 @@ namespace DatingApp.API.Data
         Task<Product> GetProduct(int id);
         Task<PagedList<Product>> GetProducts(ProductParams productParams);
         Task<int> AddByStored(List<ConfigurationForRegisterDto> configurationForRegisterDto);
-        Task<List<DeviceConfiguration>> GetDevices();  
-
+        Task<List<DeviceConfiguration>> GetDevices();
         Task<MachineModel> GetMachine(int id);
         Task<List<MachineModel>> GetMachines();
-
         Task<PartModel> GetPart(int id);
         Task<List<PartModel>> GetParts();        
         Task<MachinePartAttempt> GetMachinePartAttempt(int id);
         Task<List<MachinePartAttempt>> GetMachinePartsAttempts();       
         Task<MachinePartAttempt> RegisterMachinePartAttempt(MachPartAttemRegisterDto MachPartAttemRegisterDto);
+        Task<AttemptDetail> GetAttemptDetail(int id);        
+        Task<List<AttemptDetail>> GetAttemptDetails();
 
     }
 }

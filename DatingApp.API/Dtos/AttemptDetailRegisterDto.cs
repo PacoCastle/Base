@@ -1,11 +1,11 @@
 using System;
+using Microsoft.AspNetCore.Http;
 
-namespace DatingApp.API.Models
+namespace DatingApp.API.Dtos
 {
-    public class AttemptDetail
+    public class AttemptDetailRegisterDto
     {
-        public int Id { get; set; }
-
+    
         public int MachinePartAttemptId { get; set; } 
 
         public string AnguloLH { get; set; }
@@ -22,7 +22,6 @@ namespace DatingApp.API.Models
 
         public bool IsAccepted { get; set; }
 
-        public int Attempt { get; set; }        
-          
+        public int Attempt { get; set; }      
     }
 }

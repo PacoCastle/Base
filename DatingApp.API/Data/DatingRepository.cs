@@ -264,6 +264,17 @@ namespace DatingApp.API.Data
         public async Task<List<MachinePartAttempt>> GetMachinePartsAttempts()
         {
             return await  _context.MachinePartAttempt.ToListAsync();            
-        }        
+        }  
+
+        public async Task<AttemptDetail> GetAttemptDetail(int id)
+        {
+            return await _context.AttemptDetail.FirstOrDefaultAsync(p =>
+                p.Id == id);
+        }
+        public async Task<List<AttemptDetail>> GetAttemptDetails()
+        {
+            return await  _context.AttemptDetail.ToListAsync();            
+        } 
+               
     }
 }

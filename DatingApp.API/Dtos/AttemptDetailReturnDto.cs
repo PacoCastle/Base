@@ -1,8 +1,8 @@
 using System;
 
-namespace DatingApp.API.Models
+namespace DatingApp.API.Dtos
 {
-    public class AttemptDetail
+    public class AttemptDetailReturnDto
     {
         public int Id { get; set; }
 
@@ -22,7 +22,6 @@ namespace DatingApp.API.Models
 
         public bool IsAccepted { get; set; }
 
-        public int Attempt { get; set; }        
-          
+        public int Attempt { get; set; }     
     }
 }
