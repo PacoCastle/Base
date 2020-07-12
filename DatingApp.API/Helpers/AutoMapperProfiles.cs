@@ -43,6 +43,13 @@ namespace DatingApp.API.Helpers
             CreateMap<ProductForRegisterDto, Product>();
             CreateMap<Product, ProductForReturnDto>();
             CreateMap<ProductForUpdateDto, Product>();
+            CreateMap<PartForRegisterDto,PartModel>();
+            CreateMap<PartModel, PartForReturnDto>();
+            CreateMap<PartForUpdateDto, PartModel>();
+            CreateMap<MachPartAttemRegisterDto,MachinePartAttempt>();
+            CreateMap<MachinePartAttempt, MachPartAttemReturnDto>();
+            CreateMap<MachPartAttemUpdateDto, MachinePartAttempt>();        
+            
         }
     }
 }
