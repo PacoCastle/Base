@@ -51,6 +51,9 @@ namespace DatingApp.API.Helpers
             CreateMap<MachPartAttemUpdateDto, MachinePartAttempt>();       
             CreateMap<AttemptDetailRegisterDto,AttemptDetail>();
             CreateMap<AttemptDetail, AttemptDetailReturnDto>(); 
+            CreateMap<MachineRegisterDto,MachineModel>();
+            CreateMap<MachineModel, MachineReturnDto>();
+            CreateMap<MachineUpdateDto, MachineModel>();
             
         }
     }
