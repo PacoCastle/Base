@@ -1,0 +1,48 @@
+﻿<!-- Material form login -->
+<div class="contenedor" >
+        <mat-card class="login">
+
+        <mat-card-title class="info-color white-text text-center py-4">
+          <img src="assets/img/dana.png" alt="">          
+        </mat-card-title>
+
+
+        <!--Card content-->
+        <mat-card-content class="px-lg-5 pt-0">
+
+          <!-- Form -->
+          <form class="text-center" [formGroup]="login">
+
+            <!-- Email -->
+           <div class="md-form">
+              <mat-form-field class="example-form-field">
+                <mat-label>User</mat-label>
+                <input matInput type="text" formControlName="user">
+                <button mat-button *ngIf="value" matSuffix mat-icon-button aria-label="Clear" (click)="formLogin.user.reset()">
+                  <mat-icon>close</mat-icon>
+                </button>
+              </mat-form-field>              
+            </div>
+
+            <!-- Password -->
+            <div class="md-form">
+              <mat-form-field class="example-form-field">
+                <mat-label>Password</mat-label>
+                <input matInput type="password" formControlName="pass">
+                <button mat-button *ngIf="value" matSuffix mat-icon-button aria-label="Clear" (click)="formLogin.pass.reset()">
+                  <mat-icon>close</mat-icon>
+                </button>
+              </mat-form-field>
+            </div>
+
+            <!-- Sign in button -->
+            <button  mat-stroked-button color="primary" [disabled]="login.invalid" (click)="loginUser()">Sign in</button>
+
+          </form>
+          <!-- Form -->
+
+        </mat-card-content>
+
+      </mat-card>
+      <!-- Material form login -->
+</div>
