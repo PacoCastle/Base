@@ -3,7 +3,26 @@
 }
 
 img {
-    max-height: 50px;
+    max-height: 8vh;
     border: 2px solid white;
-    display: inline
+    display: inline;
+    border-radius: 25px;
 }
+.navbar-dark .navbar-brand{
+    color: black;
+}
+.bg-primary {
+    background-color: #EEEEEE !important;
+    position: relative;
+    color: black;
+    float: left;
+    width: 78%;
+    height: 10%;
+    z-index: 2;
+    border: none;
+    padding-top: 1%;
+  }
+
+  .text-light{
+      color: black !important;
+  }

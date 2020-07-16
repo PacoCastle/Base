@@ -1,0 +1,8 @@
+.conteiner-home {
+    height: 88%;
+    border: 1px solid #EEEEEE;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    
+    }

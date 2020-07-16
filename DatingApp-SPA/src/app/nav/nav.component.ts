@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import { AuthService } from '../_services/auth.service';
 import { AlertifyService } from '../_services/alertify.service';
 import { Router } from '@angular/router';
@@ -11,7 +11,10 @@ import { Router } from '@angular/router';
 export class NavComponent implements OnInit {
   model: any = {};
   photoUrl: string;
-
+  title: any;
+  @Input() set pageTitle(val){
+    this.title = val;
+  };
   constructor(
     public authService: AuthService,
     private alertify: AlertifyService,
@@ -20,20 +23,10 @@ export class NavComponent implements OnInit {
 
   ngOnInit() {
     this.authService.currentPhotoUrl.subscribe(photoUrl => this.photoUrl = photoUrl);
-  }
-
-  login() {
-    this.authService.login(this.model).subscribe(
-      next => {
-        this.alertify.success('Logged in successfully');
-      },
-      error => {
-        this.alertify.error(error);
-      },
-      () => {
-        this.router.navigate(['/members']);
-      }
-    );
+    if(localStorage.getItem("title") === "Home"){
+      this.title = localStorage.getItem("title");
+      this.router.navigate(["/home"]);
+    } 
   }
 
   loggedIn() {
@@ -46,6 +39,6 @@ export class NavComponent implements OnInit {
     this.authService.decodedToken = null;
     this.authService.currentUser = null;
     this.alertify.message('logged out');
-    this.router.navigate(['/home']);
+    this.router.navigate(['/login']);
   }
 }

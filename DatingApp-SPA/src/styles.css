@@ -50,3 +50,102 @@
     border-top: 1px solid #eee;
     padding: 15px 0;
   }
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif;
+  background-color: #EEEEEE !important;
+}
+
+.login{
+  max-width: 400px;
+  text-align: center;
+}
+
+.conteiner {
+  height: -webkit-fill-available;
+  background-color: #E7F6F6;
+  border: 1px solid #99cccc;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(rgba(53, 144, 196, 1), rgba(255, 255, 255, 0.42), rgb(0, 0, 0, 1));
+  }
+  .content3 {
+  padding: 80px;
+  }
+.mat-stroked-button:hover {
+  color: white;
+  background: rgba(53, 144, 196, 1);
+  transition: all ease 1s;
+}
+
+.mat-stroked-button:disabled:hover {
+  color: rgba(0, 0, 0, 0.26);
+  background: transparent;
+}
+
+.mat-stroked-button{
+  color: rgba(53, 144, 196, 1);
+}
+
+.bg-primary {
+  background-color: #EEEEEE !important;
+  position: relative;
+  color: black;
+  float: left;
+  width: 85%;
+  height: 10%;
+  z-index: 2;
+  border: none;
+}
+
+::-webkit-scrollbar {
+  width: 8px;     /* Tamaño del scroll en vertical */
+  height: 8px;    /* Tamaño del scroll en horizontal */
+}
+
+::-webkit-scrollbar-thumb {
+  background: #3590c4;
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #1c77ac;
+  box-shadow: 0 0 2px 1px rgba(0, 0, 0, 0.2);
+}
+::-webkit-scrollbar-thumb:active {
+  background-color: #999999;
+}
+::-webkit-scrollbar-track {
+  background: #e1e1e1;
+  border-radius: 4px;
+}
+::-webkit-scrollbar-track:hover,
+::-webkit-scrollbar-track:active {
+  background: #d4d4d4;
+}
+
+.h-a {
+  height: auto;
+}
+.mat-tab-label{
+  border-top: 1px solid #3590c4;
+  border-right: 1px solid #3590c4;
+  border-left: 1px solid #3590c4;
+  border-radius: 10px 10px 0px 0px;
+}
+
+.mat-tab-label:hover{
+  border-top: 1px solid white;
+  border-right: 1px solid white;
+  border-left: 1px solid white;
+  background: #3590c4;
+  color: white;
+  transition: .7s;
+}
+.mat-tab-label-active{
+
+  background: #3590c4;
+  color: white;
+}
+.mat-tab-body-wrapper{
+  box-shadow: 1px 1px 4px 0;
+}

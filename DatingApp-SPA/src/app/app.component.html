@@ -1,2 +1,4 @@
-<app-nav></app-nav>
+
+<app-menu *ngIf="authService.currentUser" (title)="setTitle($event)"></app-menu>
+<app-nav *ngIf="authService.currentUser" [pageTitle]="pageTitle"></app-nav>
 <router-outlet></router-outlet>

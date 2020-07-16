@@ -1,0 +1,17 @@
+<div class="wrapper sidenav-container col-4">
+    <a [routerLink]="['/home']" class="col-12 p-0" (click)="sendTitle('Home')"><img src="assets/img/dana.png" alt="" class="img"></a>
+    <hr color="white" size="3">
+    <div class="row col-12">
+        <div class="col-md-12 col-xs-12 in p-0 " id="sidebar" *ngFor="let menu of dummyListMenu; let i = index">
+            <div class="list-group panel " *ngIf="menu?.subMenus.length > 0">
+                <a  [href]="['#menu' + i]" class="list-group-item collapsed pl-3" data-toggle="collapse" data-parent="#sidebar"
+                    aria-expanded="false">
+                    <i [class]="[menu.icon]"></i> <span class="hidden-sm-down ml-2">{{menu.menu}}</span> </a>
+                <div class="collapse" [id]="['menu' + i]" *ngFor="let sub of menu?.subMenus">
+                   <a [routerLink]="['',sub.menu]" class="list-group-item pl-3" (click)="sendTitle(sub.name)">
+                       <i [class]="[sub.icon]"></i> <span class="hidden-sm-down ml-2">{{sub.name}}</span></a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
