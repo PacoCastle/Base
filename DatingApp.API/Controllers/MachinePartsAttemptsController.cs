@@ -7,7 +7,8 @@ using System;
  using DatingApp.API.Dtos;
  using DatingApp.API.Helpers;
  using DatingApp.API.Models;
- using Microsoft.AspNetCore.Authorization;
+using DatingApp.API.Services;
+using Microsoft.AspNetCore.Authorization;
  using Microsoft.AspNetCore.Mvc;
  
 namespace DatingApp.API.Controllers
@@ -19,16 +20,19 @@ namespace DatingApp.API.Controllers
      {
          private readonly IDatingRepository _repo;
          private readonly IMapper _mapper;
-         public MachinePartsAttemptsController(IDatingRepository repo, IMapper mapper)
+
+         private readonly IMachinePartsAttemptsService _service;
+         public MachinePartsAttemptsController(IDatingRepository repo, IMapper mapper, IMachinePartsAttemptsService service)
          {
              _mapper = mapper;
-             _repo = repo;             
+             _repo = repo;
+             _service = service;             
          }
 
         [HttpGet("{id}", Name = "GetMachinePartsAttempt")]
          public async Task<IActionResult> GetMachinePartsAttempt(int id)
          {
-              var MachinePartsAttemptFromRepo = await _repo.GetMachinePartAttempt(id);
+              var MachinePartsAttemptFromRepo = await _service.GetMachinePartAttempt(id);
 
               if (MachinePartsAttemptFromRepo == null)
                  return NotFound();
@@ -39,7 +43,7 @@ namespace DatingApp.API.Controllers
          [HttpGet(Name = "GetMachinePartsAttempts")]
          public async Task<IActionResult> GetMachinePartsAttempts()
          {
-              var MachinePartsAttemptsFromRepo = await _repo.GetMachinePartsAttempts();
+              var MachinePartsAttemptsFromRepo = await _service.GetMachinePartsAttempts();
 
               var MachinePartsAttempts = _mapper.Map<IEnumerable<MachPartAttemReturnDto>>(MachinePartsAttemptsFromRepo);               
               

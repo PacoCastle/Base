@@ -9,6 +9,7 @@ using DatingApp.API.Data;
 using DatingApp.API.Helpers;
 using DatingApp.API.Hubs;
 using DatingApp.API.Models;
+using DatingApp.API.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
@@ -112,6 +113,7 @@ namespace DatingApp.API
             services.AddAutoMapper(typeof(DatingRepository).Assembly);
             services.AddScoped<IDatingRepository, DatingRepository>();
             services.AddScoped<LogUserActivity>();
+            services.AddScoped<IMachinePartsAttemptsService, MachinePartsAttemptsService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
