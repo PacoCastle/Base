@@ -25,7 +25,6 @@ export class LoginComponent implements OnInit {
       user: new FormControl(null,[Validators.required]),
       pass: new FormControl(null,[Validators.required])
     });
-    this.formLogin.numPart.disable();
   }
 
   get formLogin() {

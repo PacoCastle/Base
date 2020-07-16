@@ -60,8 +60,7 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif;
   text-align: center;
 }
 
-.contenedor {
-  margin: 10px auto;
+.conteiner {
   height: -webkit-fill-available;
   background-color: #E7F6F6;
   border: 1px solid #99cccc;
@@ -70,7 +69,7 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif;
   justify-content: center;
   background: linear-gradient(rgba(53, 144, 196, 1), rgba(255, 255, 255, 0.42), rgb(0, 0, 0, 1));
   }
-  .contenido3 {
+  .content3 {
   padding: 80px;
   }
 .mat-stroked-button:hover {
@@ -122,4 +121,31 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif;
 ::-webkit-scrollbar-track:hover,
 ::-webkit-scrollbar-track:active {
   background: #d4d4d4;
+}
+
+.h-a {
+  height: auto;
+}
+.mat-tab-label{
+  border-top: 1px solid #3590c4;
+  border-right: 1px solid #3590c4;
+  border-left: 1px solid #3590c4;
+  border-radius: 10px 10px 0px 0px;
+}
+
+.mat-tab-label:hover{
+  border-top: 1px solid white;
+  border-right: 1px solid white;
+  border-left: 1px solid white;
+  background: #3590c4;
+  color: white;
+  transition: .7s;
+}
+.mat-tab-label-active{
+
+  background: #3590c4;
+  color: white;
+}
+.mat-tab-body-wrapper{
+  box-shadow: 1px 1px 4px 0;
 }

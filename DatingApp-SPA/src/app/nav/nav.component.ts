@@ -23,7 +23,10 @@ export class NavComponent implements OnInit {
 
   ngOnInit() {
     this.authService.currentPhotoUrl.subscribe(photoUrl => this.photoUrl = photoUrl);
-    this.title = "Home"
+    if(localStorage.getItem("title") === "Home"){
+      this.title = localStorage.getItem("title");
+      this.router.navigate(["/home"]);
+    } 
   }
 
   loggedIn() {
