@@ -1,11 +1,19 @@
 ﻿<Properties StartupConfiguration="{7CAD252E-A948-47F6-8DB0-FA132315E82A}|Default">
-  <MonoDevelop.Ide.ItemProperties.DatingApp.Core FirstBuild="True" />
-  <MonoDevelop.Ide.Workbench>
+  <MonoDevelop.Ide.Workbench ActiveDocument="DatingApp.Logs/DatingApp.Logs.csproj">
+    <Files>
+      <File FileName="DatingApp.Core/DatingApp.Core.csproj" Line="5" Column="59" />
+      <File FileName="DatingApp.Service/DatingApp.Service.csproj" Line="12" Column="1" />
+      <File FileName="DatingApp.Data/DatingApp.Data.csproj" Line="12" Column="1" />
+      <File FileName="DatingApp.Logs/DatingApp.Logs.csproj" Line="5" Column="59" />
+    </Files>
     <Pads>
       <Pad Id="ProjectPad">
         <State name="__root__">
           <Node name="DatingApp.API" expanded="True">
             <Node name="DatingApp.Core" expanded="True" />
+            <Node name="DatingApp.Data" expanded="True" />
+            <Node name="DatingApp.Logs" expanded="True" />
+            <Node name="DatingApp.Service" expanded="True" />
           </Node>
         </State>
       </Pad>
