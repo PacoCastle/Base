@@ -214,6 +214,11 @@ namespace DatingApp.API.Data
         {
             return await _context.DeviceConfiguration.ToListAsync();            
         } 
+        public async Task<DeviceConfiguration> GetDevice(int id)
+        {
+            return await _context.DeviceConfiguration.FirstOrDefaultAsync(p =>
+                p.Id == id);
+        }   
 
         public async Task<MachineModel> GetMachine(int id)
         {

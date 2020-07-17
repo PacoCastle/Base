@@ -25,6 +25,7 @@ namespace DatingApp.API.Data
         Task<PagedList<Product>> GetProducts(ProductParams productParams);
         Task<int> AddByStored(List<ConfigurationForRegisterDto> configurationForRegisterDto);
         Task<List<DeviceConfiguration>> GetDevices();
+        Task<DeviceConfiguration> GetDevice(int id);
         Task<MachineModel> GetMachine(int id);
         Task<List<MachineModel>> GetMachines();
         Task<PartModel> GetPart(int id);

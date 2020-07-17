@@ -54,6 +54,7 @@ namespace DatingApp.API.Helpers
             CreateMap<MachineRegisterDto,MachineModel>();
             CreateMap<MachineModel, MachineReturnDto>();
             CreateMap<MachineUpdateDto, MachineModel>();
+            CreateMap<DeviceConfigurationForUpdateDto, DeviceConfiguration>();
             
         }
     }
