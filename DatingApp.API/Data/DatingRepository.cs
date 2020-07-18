@@ -4,9 +4,9 @@ using System.Linq;
 using System.Threading.Tasks;
 using DatingApp.API.Dtos;
 using DatingApp.API.Helpers;
-using DatingApp.API.Models;
 using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
+using DatingApp.Core;
 
 namespace DatingApp.API.Data
 {
@@ -214,6 +214,11 @@ namespace DatingApp.API.Data
         {
             return await _context.DeviceConfiguration.ToListAsync();            
         } 
+        public async Task<DeviceConfiguration> GetDevice(int id)
+        {
+            return await _context.DeviceConfiguration.FirstOrDefaultAsync(p =>
+                p.Id == id);
+        }   
 
         public async Task<MachineModel> GetMachine(int id)
         {

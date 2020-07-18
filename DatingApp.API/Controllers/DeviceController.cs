@@ -6,7 +6,6 @@ using System;
  using DatingApp.API.Data;
  using DatingApp.API.Dtos;
  using DatingApp.API.Helpers;
- using DatingApp.API.Models;
  using Microsoft.AspNetCore.Authorization;
  using Microsoft.AspNetCore.Mvc;
  
@@ -45,6 +44,23 @@ namespace DatingApp.API.Controllers
             return Ok(configurationForRegisterDto);             
 
               throw new Exception("Creating the Configuration failed on save");
-         }         
+         }
+         [HttpPut("{id}")]
+        public async Task<IActionResult> UpdateDevice(int id,  DeviceConfigurationForUpdateDto DeviceConfigurationForUpdateDto)
+        {
+            var DeviceFromRepo = await _repo.GetDevice(id);
+
+            _mapper.Map(DeviceConfigurationForUpdateDto, DeviceFromRepo);
+
+            if (await _repo.SaveAll())
+             {
+                 var PartForReturnDto = _mapper.Map<PartForReturnDto>(DeviceFromRepo);
+
+                 return Ok(PartForReturnDto);
+                 //return CreatedAtRoute("GetParts",PartForReturnDto);
+             }
+
+            throw new Exception($"Updating Part {id} failed on save");
+        }              
      }
  } 

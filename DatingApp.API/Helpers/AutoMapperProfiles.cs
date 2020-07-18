@@ -1,7 +1,7 @@
 using System.Linq;
 using AutoMapper;
 using DatingApp.API.Dtos;
-using DatingApp.API.Models;
+using DatingApp.Core;
 
 namespace DatingApp.API.Helpers
 {
@@ -54,6 +54,7 @@ namespace DatingApp.API.Helpers
             CreateMap<MachineRegisterDto,MachineModel>();
             CreateMap<MachineModel, MachineReturnDto>();
             CreateMap<MachineUpdateDto, MachineModel>();
+            CreateMap<DeviceConfigurationForUpdateDto, DeviceConfiguration>();
             
         }
     }
