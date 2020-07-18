@@ -22,19 +22,31 @@ import {
   AgmCoreModule
 } from '@agm/core';
 import { AdminLayoutComponent } from './layouts/admin-layout/admin-layout.component';
-
+import { JwtModule } from '@auth0/angular-jwt';
+import { HttpClientModule } from '@angular/common/http';
+export function tokenGetter() {
+  return localStorage.getItem('token');
+}
 @NgModule({
   imports: [
     BrowserAnimationsModule,
     FormsModule,
     ReactiveFormsModule,
     HttpModule,
+    HttpClientModule,
     ComponentsModule,
     RouterModule,
     AppRoutingModule,
     AgmCoreModule.forRoot({
       apiKey: 'YOUR_GOOGLE_MAPS_API_KEY'
-    })
+    }),
+    JwtModule.forRoot({
+      config: {
+        tokenGetter,
+        whitelistedDomains: ['localhost:5000'],
+        blacklistedRoutes: ['localhost:5000/api/auth']
+      },
+    }),
   ],
   declarations: [
     AppComponent,

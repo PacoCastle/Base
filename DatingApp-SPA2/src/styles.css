@@ -1,1 +1,7 @@
 /* You can add global styles to this file, and also import other style files */
+.h-80{
+    height: 80vh;
+}
+.color-button{
+    background: #3590c4!important;
+}

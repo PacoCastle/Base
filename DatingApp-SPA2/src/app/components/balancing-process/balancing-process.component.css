@@ -1,0 +1,25 @@
+.graph{
+    position: relative;
+    float: left;
+    height: 85%;
+}
+.md-form{
+    position: relative;
+    float: left;
+}
+.over{
+    overflow: auto;
+    margin-bottom: 3px;
+}
+.h-30{
+    height: 30%;
+}
+.b-transparent{
+    background: #ffffff69;
+}
+.h-80{
+    height: 88vh;
+}
+.main-panel .main-content{
+    padding: 10px 10px !important;
+}
