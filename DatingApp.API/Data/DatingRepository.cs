@@ -4,9 +4,9 @@ using System.Linq;
 using System.Threading.Tasks;
 using DatingApp.API.Dtos;
 using DatingApp.API.Helpers;
-using DatingApp.API.Models;
 using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
+using DatingApp.Core;
 
 namespace DatingApp.API.Data
 {

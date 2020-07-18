@@ -1,7 +1,7 @@
 using System;
 using System.Threading.Tasks;
-using DatingApp.API.Models;
 using Microsoft.EntityFrameworkCore;
+using DatingApp.Core;
 
 namespace DatingApp.API.Data
 {
