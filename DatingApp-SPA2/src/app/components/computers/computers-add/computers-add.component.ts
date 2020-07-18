@@ -21,6 +21,7 @@ export class ComputersAddComponent implements OnInit {
       this.machine = new FormGroup({
         name: new FormControl(this.detailMachine.name,[Validators.required]),
         description: new FormControl(this.detailMachine.description),
+        status: new FormControl(this.detailMachine.status, [Validators.required])
       });
     } else {
       this.machine = new FormGroup({
@@ -40,12 +41,31 @@ export class ComputersAddComponent implements OnInit {
       Name: this.formMachine.name.value,
       Description: this.formMachine.description.value,
       Status: this.formMachine.status.value
+    };
+    if(this.update){
+      this.machineService.updateMachine(this.detailMachine.id, data).subscribe(res =>{
+        Swal.fire("Success","Machine Successfully Updated", "success")
+      }, error =>{
+        Swal.fire("Error Update", error.error, "error");
+      });
+    } else{
+      this.machineService.addMachine(data).subscribe(res =>{
+        Swal.fire("Success","Machine Successfully Added", "success")
+      }, error =>{
+        Swal.fire("Error Add", error.error, "error");
+      });
     }
-    this.machineService.addMachine(data).subscribe(res =>{
-      Swal.fire("Success","Machine Successfully Added", "success")
-    }, error =>{
-      Swal.fire("Error", error, "error");
-    });
+    
+  }
+
+  validData(){
+   let valid = false;
+   if(this.formMachine.name.value !== this.detailMachineOld.name ||
+    this.formMachine.description.value !== this.detailMachineOld.description ||
+    this.formMachine.status.value !== this.detailMachineOld.status ){
+      valid = true;
+    }
+   return valid;   
   }
 
 }

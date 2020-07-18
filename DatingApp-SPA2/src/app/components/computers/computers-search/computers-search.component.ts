@@ -44,4 +44,19 @@ export class ComputersSearchComponent implements OnInit {
     });
   }
 
+  openModalUpdate(machine: any){
+    const dialogRef = this.matDialog.open(ComputersAddComponent, {
+      disableClose: true,
+      width: '60%'
+    });
+    dialogRef.componentInstance.detailMachine = machine;
+    dialogRef.componentInstance.detailMachineOld = machine;
+    dialogRef.componentInstance.update = true;
+    dialogRef.afterClosed().subscribe((option) => {
+      if(option){
+        this.searchMachines();
+      }
+    });
+  }
+
 }
