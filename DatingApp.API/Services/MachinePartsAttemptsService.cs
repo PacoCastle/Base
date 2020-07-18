@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using DatingApp.API.Data;
-using DatingApp.Core;
+using DatingApp.Core.Models;
 
 namespace DatingApp.API.Services
 {
@@ -17,6 +17,7 @@ namespace DatingApp.API.Services
         public async Task<MachinePartAttempt> GetMachinePartAttempt(int id)
         {
             return await _repo.GetMachinePartAttempt(id);
+            
         }
         public async Task<List<MachinePartAttempt>> GetMachinePartsAttempts()
         {

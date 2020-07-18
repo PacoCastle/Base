@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Microsoft.AspNetCore.Identity;
 using Newtonsoft.Json;
-using DatingApp.Core;
+using DatingApp.Core.Models;
 
 namespace DatingApp.API.Data
 {

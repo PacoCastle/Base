@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using DatingApp.API.Dtos;
 using DatingApp.API.Helpers;
-using DatingApp.Core;
+using DatingApp.Core.Models;
 
 namespace DatingApp.API.Data
 {

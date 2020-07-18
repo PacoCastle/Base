@@ -14,7 +14,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 using Microsoft.AspNetCore.SignalR;
 using DatingApp.API.Hubs;
-using DatingApp.Core;
+using DatingApp.Core.Models;
 
 namespace DatingApp.API.Controllers
 {

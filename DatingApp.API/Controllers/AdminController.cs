@@ -10,7 +10,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
-using DatingApp.Core;
+using DatingApp.Core.Models;
 
 namespace DatingApp.API.Controllers
 {

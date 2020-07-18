@@ -6,7 +6,7 @@ using DatingApp.API.Dtos;
 using DatingApp.API.Helpers;
 using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
-using DatingApp.Core;
+using DatingApp.Core.Models;
 
 namespace DatingApp.API.Data
 {
