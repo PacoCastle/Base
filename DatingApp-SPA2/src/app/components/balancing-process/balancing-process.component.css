@@ -23,3 +23,24 @@
 .main-panel .main-content{
     padding: 10px 10px !important;
 }
+.disable{
+    color: white
+}
+.valid{
+    /* background: green; */
+    color: #0DC142;
+    font-weight: bold;
+}
+.invalid{
+    /* background: red; */
+    color: #EB3941;
+    font-weight: bold;
+}
+.mat-card{
+    padding: 3px 16px;
+}
+@media (max-width: 991px){
+    .graph{
+        height: 65vh;
+    }
+}

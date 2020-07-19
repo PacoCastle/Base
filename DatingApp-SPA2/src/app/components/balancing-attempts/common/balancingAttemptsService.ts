@@ -7,17 +7,17 @@ import { BaseService } from 'app/components/_services/base-service';
 @Injectable({
   providedIn: 'root'
 })
-export class MachineService extends BaseService {
+export class BalancingAttemptsService extends BaseService {
 
-  getMachine(): Observable<any> {
+  getBalancingAttempts(): Observable<any> {
     return this.get<any>('machines');
   }
 
-  updateMachine(id, data): Observable<any> {
+  updateBalancigAttempt(id, data): Observable<any> {
     return this.put(`machines/${id}`, data);
   }
 
-  addMachine(data): Observable<any> {
+  addBalancingAttempt(data): Observable<any> {
     return this.post('machines', data);
   }
   

@@ -11,7 +11,7 @@ import {MatCardModule} from '@angular/material/card';
 import {MatIconModule} from '@angular/material/icon';
 import {MatInputModule} from '@angular/material/input';
 import {MatButtonModule} from '@angular/material/button';
-import {MatCheckboxModule, MatToolbarModule, MatListModule, MatSidenavModule, MatExpansionModule, MatMenu, MatAutocompleteModule, MatButtonToggleModule, MatChipsModule, MatStepperModule, MatDatepickerModule, MatDialogModule, MatGridListModule, MatNativeDateModule, MatPaginatorModule, MatProgressBarModule, MatProgressSpinnerModule, MatRadioModule, MatRippleModule, MatSelectModule, MatSliderModule, MatSlideToggleModule, MatSnackBarModule, MatSortModule, MatTableModule, MatTabsModule, MatTooltipModule} from '@angular/material';
+import {MatCheckboxModule, MatToolbarModule, MatListModule, MatSidenavModule, MatExpansionModule, MatMenu, MatAutocompleteModule, MatButtonToggleModule, MatChipsModule, MatStepperModule, MatDatepickerModule, MatDialogModule, MatGridListModule, MatNativeDateModule, MatPaginatorModule, MatProgressBarModule, MatProgressSpinnerModule, MatRadioModule, MatRippleModule, MatSelectModule, MatSliderModule, MatSlideToggleModule, MatSnackBarModule, MatSortModule, MatTableModule, MatTabsModule, MatTooltipModule, MatDividerModule} from '@angular/material';
 import {MatMenuModule} from '@angular/material/menu';
 import { BalancingProcessComponent } from './balancing-process/balancing-process.component';
 import { HomeComponent } from './home/home.component';
@@ -27,7 +27,33 @@ import { BalancingAttemptsAddComponent } from './balancing-attempts/balancing-at
 import { BalancingAttemptsSearchComponent } from './balancing-attempts/balancing-attempts-search/balancing-attempts-search.component';
 import { PartsPerComputerAddComponent } from './parts-per-computer/parts-per-computer-add/parts-per-computer-add.component';
 import { PartsPerComputerSearchComponent } from './parts-per-computer/parts-per-computer-search/parts-per-computer-search.component';
-
+import { HTTP_INTERCEPTORS } from '@angular/common/http';
+import { LoaderRequestInterceptor } from './_services/loader-request-interceptor';
+import { NgxUiLoaderModule, NgxUiLoaderConfig } from 'ngx-ui-loader';
+const configLoader : NgxUiLoaderConfig  =
+{
+  bgsColor: "#3590c4",
+  bgsOpacity: 0.5,
+  bgsPosition: "bottom-right",
+  bgsSize: 100,
+  bgsType: "three-strings",
+  blur: 5,
+  fgsColor: "#9a3e65",
+  fgsPosition: "center-center",
+  fgsSize: 100,
+  fgsType: "three-strings",
+  gap: 24,
+  logoPosition: "bottom-right",
+  logoSize: 55,
+  masterLoaderId: "master",
+  overlayBorderRadius: "0",
+  overlayColor: "rgba(234,234,234,0.64)",
+  pbColor: "red",
+  pbDirection: "ltr",
+  pbThickness: 2,
+  hasProgressBar: true,
+  
+}
 @NgModule({
   imports: [
     CommonModule,
@@ -65,7 +91,9 @@ import { PartsPerComputerSearchComponent } from './parts-per-computer/parts-per-
     MatSortModule,
     MatTableModule,
     MatTabsModule,
-    MatTooltipModule
+    MatTooltipModule,
+    NgxUiLoaderModule.forRoot(configLoader),
+    MatDividerModule
   ],
   declarations: [
     FooterComponent,
@@ -93,7 +121,14 @@ import { PartsPerComputerSearchComponent } from './parts-per-computer/parts-per-
     SidebarComponent
   ],
   entryComponents: [
-    ComputersAddComponent
-  ]
+    ComputersAddComponent,
+    UsersAddComponent,
+    ProductsAddComponent,
+    PartsPerComputerAddComponent,
+    BalancingAttemptsAddComponent
+  ],
+  providers: [
+    {provide: HTTP_INTERCEPTORS, useClass: LoaderRequestInterceptor, multi: true}
+  ],
 })
 export class ComponentsModule { }

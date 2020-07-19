@@ -9,7 +9,7 @@
             <div class="col-md-12">
                 <div class="card">
                     <div class="card-header card-header-danger">
-                        <h4 class="card-title ">Machines</h4>
+                        <h4 class="card-title ">Machines List</h4>
                     </div>
                     <div class="card-body">
                         <div class="table-responsive">
@@ -39,7 +39,7 @@
                                             <button mat-icon-button aria-label="Update" (click)="openModalUpdate(machine)">
                                                 <i class="material-icons">update</i>
                                             </button>
-                                            <button mat-icon-button aria-label="Delete">
+                                            <button mat-icon-button aria-label="Delete" (click)="deleteMachine(machine)">
                                                 <i class="material-icons">delete</i>
                                             </button>
                                         </div>

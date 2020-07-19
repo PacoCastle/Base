@@ -21,13 +21,19 @@ export class ComputersAddComponent implements OnInit {
       this.machine = new FormGroup({
         name: new FormControl(this.detailMachine.name,[Validators.required]),
         description: new FormControl(this.detailMachine.description),
-        status: new FormControl(this.detailMachine.status, [Validators.required])
+        electricPower: new FormControl(null, [Validators.required]),
+        airFlow: new FormControl(null, [Validators.required]),
+        coolingWater: new FormControl(null, [Validators.required]),
+        naturalGas: new FormControl(null, [Validators.required])
       });
     } else {
       this.machine = new FormGroup({
         name: new FormControl(null,[Validators.required]),
         description: new FormControl(null),
-        status: new FormControl(null, [Validators.required])
+        electricPower: new FormControl(null, [Validators.required]),
+        airFlow: new FormControl(null, [Validators.required]),
+        coolingWater: new FormControl(null, [Validators.required]),
+        naturalGas: new FormControl(null, [Validators.required])
       });
     }
   }
@@ -40,7 +46,7 @@ export class ComputersAddComponent implements OnInit {
     let data = {
       Name: this.formMachine.name.value,
       Description: this.formMachine.description.value,
-      Status: this.formMachine.status.value
+      Status: 1
     };
     if(this.update){
       this.machineService.updateMachine(this.detailMachine.id, data).subscribe(res =>{
@@ -61,8 +67,7 @@ export class ComputersAddComponent implements OnInit {
   validData(){
    let valid = false;
    if(this.formMachine.name.value !== this.detailMachineOld.name ||
-    this.formMachine.description.value !== this.detailMachineOld.description ||
-    this.formMachine.status.value !== this.detailMachineOld.status ){
+    this.formMachine.description.value !== this.detailMachineOld.description  ){
       valid = true;
     }
    return valid;   

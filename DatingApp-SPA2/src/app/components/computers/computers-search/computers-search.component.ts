@@ -2,6 +2,7 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatPaginator, MatTableDataSource, MatDialog } from '@angular/material';
 import { MachineService } from '../common/machineService';
 import { ComputersAddComponent } from '../computers-add/computers-add.component';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-computers-search',
@@ -10,7 +11,7 @@ import { ComputersAddComponent } from '../computers-add/computers-add.component'
 })
 export class ComputersSearchComponent implements OnInit {
   @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
-  dataSourceMachines: MatTableDataSource<any>;
+  dataSourceMachines = new MatTableDataSource<any>();
   columnsToDisplay: string[] = ['machineId', 'name', 'description', 'actions']
   constructor(private machineService: MachineService,
     private matDialog: MatDialog) { }
@@ -22,9 +23,9 @@ export class ComputersSearchComponent implements OnInit {
   }
   searchMachines() {
     this.machineService.getMachine().subscribe(res =>{
-      this.dataSourceMachines = new MatTableDataSource<any>(res);
-      this.dataSourceMachines.paginator = this.paginator;
-    })
+      this.dataSourceMachines.data = res;
+    });
+    this.dataSourceMachines.paginator = this.paginator;
   }
 
   applyFilter(event: Event) {
@@ -56,6 +57,19 @@ export class ComputersSearchComponent implements OnInit {
       if(option){
         this.searchMachines();
       }
+    });
+  }
+
+  deleteMachine(machine: any){
+    let data = {
+      Name: machine.name,
+      Description: machine.description,
+      Status: 0
+    };
+    this.machineService.updateMachine(machine.id, data).subscribe(res =>{
+      Swal.fire("Success","Machine Successfully Deleted", "success")
+    }, error =>{
+      Swal.fire("Error Delete", error.error, "error");
     });
   }
 

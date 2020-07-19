@@ -2,9 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { AuthService } from '../_services/auth.service';
-import { AlertifyService } from '../_services/alertify.service';
 import Swal from 'sweetalert2';
+import { AuthService } from '../_services/auth.service';
 
 @Component({
   selector: 'app-loggin',
@@ -19,7 +18,7 @@ export class LoginComponent implements OnInit {
   constructor(private http: HttpClient,
     private router: Router,
     public authService: AuthService,
-    private alertify: AlertifyService) {}
+) {}
 
   ngOnInit() {
     this.login = new FormGroup({

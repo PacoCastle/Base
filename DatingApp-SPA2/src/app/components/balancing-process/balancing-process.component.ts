@@ -1,9 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import * as am4core from "@amcharts/amcharts4/core";
 import * as am4charts from "@amcharts/amcharts4/charts";
 import am4themes_animated from "@amcharts/amcharts4/themes/animated"
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { AuthService } from '../_services/auth.service';
+import { MatPaginator, MatTableDataSource } from '@angular/material';
 @Component({
   selector: 'app-balancing-process',
   templateUrl: './balancing-process.component.html',
@@ -11,10 +12,81 @@ import { AuthService } from '../_services/auth.service';
 })
 export class BalancingProcessComponent implements OnInit {
   balancing: FormGroup;
+  @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
+  dataSourceAttempts: MatTableDataSource<any>;
+  columnsToDisplay: string[] = ['attempt']
 
   constructor(private authService: AuthService,) { }
+  dummyAttempt={
+    part: "254C1846",
+    description: "Pieza1",
+    attemps:[
+      {
+        part: "254C1846",
+        attempt: "LH 22 CH 0.0 RH 1.3 17/07/2020 11:12:05",
+        date: "17/07/2020",
+        hour: "11:12:05",
+        data:[
+          {
+            angle: "LH",
+            quantity: 22
+          },
+          {
+            angle: "CH",
+            quantity: 0.0
+          },
+           {
+            angle: "RH",
+            quantity: 21.32
+          },
+        ]
+      },
+      {
+        part: "254C1846",
+        attempt: "LH 22 CH 0.0 RH 1.3 17/07/2020 11:12:05",
+        date: "17/07/2020",
+        hour: "11:12:05",
+        data:[
+          {
+            angle: "LH",
+            quantity: 22
+          },
+          {
+            angle: "CH",
+            quantity: 0.0
+          },
+           {
+            angle: "RH",
+            quantity: 21.32
+          },
+        ]
+      },
+      {
+        part: "254C1846",
+        attempt: "LH 22 CH 0.0 RH 1.3 17/07/2020 11:12:05",
+        date: "17/07/2020",
+        hour: "11:12:05",
+        data:[
+          {
+            angle: "LH",
+            quantity: 22
+          },
+          {
+            angle: "CH",
+            quantity: 0.0
+          },
+           {
+            angle: "RH",
+            quantity: 21.32
+          },
+        ]
+      }
+    ]
 
+  };
   ngOnInit() {
+    this.dataSourceAttempts = new MatTableDataSource<any>(this.dummyAttempt.attemps);
+    this.dataSourceAttempts.paginator = this.paginator;
     this.graph();
     this.balancing = new FormGroup({
       user: new FormControl(this.authService.currentUser.username,[Validators.required]),

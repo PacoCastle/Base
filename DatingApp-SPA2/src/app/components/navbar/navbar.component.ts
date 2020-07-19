@@ -134,6 +134,6 @@ export class NavbarComponent implements OnInit {
         this.authService.decodedToken = null;
         this.authService.currentUser = null;
         Swal.fire('Logged Out');
-        this.router.navigate(['/login']);
+        this.router.navigate(['']);
       }
 }

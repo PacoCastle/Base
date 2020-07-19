@@ -28,7 +28,7 @@ export class AppComponent implements OnInit {
         this.authService.currentUser = user;
       }
     } else {
-      this.router.navigate(["/login"])
+      this.router.navigate([""])
     }
   }
 }
