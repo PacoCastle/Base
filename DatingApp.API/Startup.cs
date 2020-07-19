@@ -131,6 +131,7 @@ namespace DatingApp.API
             services.AddScoped<IDatingRepository, DatingRepository>();
             services.AddScoped<LogUserActivity>();
             services.AddScoped<IMachinePartsAttemptsService, MachinePartsAttemptsService>();
+            services.AddScoped<IAttemptsDetailsService, AttemptsDetailsService>();
             services.AddScoped<IUnitOfWork, UnitOfWork>();
 
             // Register the Swagger generator, defining 1 or more Swagger documents

@@ -7,6 +7,7 @@ namespace DatingApp.Core
     public interface IUnitOfWork : IDisposable
     {
         IMachinePartsAttemptsRepository MachinePartsAttemptsRepository { get; }
+        IAttemptsDetailsRepository AttemptsDetailsRepository { get; }
         Task<int> CommitAsync();
         
     }
