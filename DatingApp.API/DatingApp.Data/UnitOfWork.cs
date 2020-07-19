@@ -10,7 +10,8 @@ namespace DatingApp.Data
     {
         private readonly UDataContext _context;
         private MachinePartsAttemptsRepository _machinePartsAttemptsRepository;        
-        private AttemptsDetailsRepository _attemptsDetailsRepository;       
+        private AttemptsDetailsRepository _attemptsDetailsRepository;
+        private MachineRepository _machineRepository;
 
         public UnitOfWork(UDataContext context)
         {
@@ -19,6 +20,7 @@ namespace DatingApp.Data
 
         public IMachinePartsAttemptsRepository MachinePartsAttemptsRepository => _machinePartsAttemptsRepository = _machinePartsAttemptsRepository ?? new MachinePartsAttemptsRepository(_context);
         public IAttemptsDetailsRepository AttemptsDetailsRepository => _attemptsDetailsRepository = _attemptsDetailsRepository ?? new AttemptsDetailsRepository(_context);
+        public IMachineRepository MachineRepository => _machineRepository = _machineRepository ?? new MachineRepository(_context);
 
         public async Task<int> CommitAsync()
         {

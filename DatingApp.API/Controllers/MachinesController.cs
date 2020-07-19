@@ -1,84 +1,81 @@
 using System;
- using System.Collections.Generic;
- using System.Security.Claims;
- using System.Threading.Tasks;
- using AutoMapper;
- using DatingApp.API.Data;
- using DatingApp.API.Dtos;
- using DatingApp.API.Helpers;
- using Microsoft.AspNetCore.Authorization;
- using Microsoft.AspNetCore.Mvc;
- using DatingApp.Core.Models;
- 
+using System.Collections.Generic;
+using System.Threading.Tasks;
+using AutoMapper;
+using DatingApp.API.Dtos;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using DatingApp.Core.Models;
+using DatingApp.Core.Services;
+
 namespace DatingApp.API.Controllers
- {
+{
     [AllowAnonymous]
-     [Route("api/[controller]")]
-     [ApiController]
-     public class MachinesController : ControllerBase
-     {
-         private readonly IDatingRepository _repo;
-         private readonly IMapper _mapper;
-         public MachinesController(IDatingRepository repo, IMapper mapper)
-         {
-             _mapper = mapper;
-             _repo = repo;             
-         }
+    [Route("api/[controller]")]
+    [ApiController]
+    public class MachinesController : ControllerBase
+    {
+        private readonly IMapper _mapper;
 
-         [HttpGet("{id}", Name = "GetMachine")]
-         public async Task<IActionResult> GetMachine(int id)
-         {
-              var MachineFromRepo = await _repo.GetMachine(id);
+        private readonly IMachineService _service;
+        public MachinesController(IMapper mapper, IMachineService service)
+        {
+            _mapper = mapper;
+            _service = service;
+        }
 
-              if (MachineFromRepo == null)
-                 return NotFound();
+        [HttpGet("{id}", Name = "GetMachine")]
+        public async Task<IActionResult> GetMachine(int id)
+        {
+            var MachineFromRepo = await _service.GetMachineById(id);
 
-              return Ok(MachineFromRepo);
-         }
+            if (MachineFromRepo == null)
+                return NotFound();
 
-         [HttpGet(Name = "GetMachines")]
-         public async Task<IActionResult> GetMachines()
-         {
-              var MachinesFromRepo = await _repo.GetMachines();
+            return Ok(MachineFromRepo);
+        }
 
-              var Machines = _mapper.Map<IEnumerable<MachineReturnDto>>(MachinesFromRepo);               
-              
-              return Ok(Machines);
-         }
+        [HttpGet(Name = "GetMachines")]
+        public async Task<IActionResult> GetMachines()
+        {
+            var MachinesFromRepo = await _service.GetMachines();
 
-          [HttpPost]
-         public async Task<IActionResult> CreateMachine(MachineRegisterDto MachineForCreationDto)
-         {
-             var Machine = _mapper.Map<MachineModel>(MachineForCreationDto);
+            var Machines = _mapper.Map<IEnumerable<MachineReturnDto>>(MachinesFromRepo);
 
-              _repo.Add(Machine);
+            return Ok(Machines);
+        }
 
-              if (await _repo.SaveAll())
-             {
-                 var MachineForReturnDto = _mapper.Map<MachineReturnDto>(Machine);
+        [HttpPost]
+        public async Task<IActionResult> CreateMachine(MachineRegisterDto MachineForCreationDto)
+        {
+            var Machine = _mapper.Map<MachineModel>(MachineForCreationDto);
+            var MachineCreate = await _service.CreateMachine(Machine);
+            var MachineFromRepo = await _service.GetMachineById(MachineCreate.Id);
+            var MachineReturn = _mapper.Map<MachineReturnDto>(Machine);
 
-                 return Ok(MachineForReturnDto);
-                 //return CreatedAtRoute("GetMachines",MachineForReturnDto);
-             }
+            return Ok(MachineReturn);
+          
+            throw new Exception("Creating the Machine failed on save");
+        }
 
-              throw new Exception("Creating the Machine failed on save");
-         }
-      [HttpPut("{id}")]
+        [HttpPut("{id}")]
         public async Task<IActionResult> UpdateMachine(int id, MachineUpdateDto MachineForUpdateDto)
         {
-            var MachineFromRepo = await _repo.GetMachine(id);
+            var MachineToBeUpdate = await _service.GetMachineById(id);
 
-            _mapper.Map(MachineForUpdateDto, MachineFromRepo);
+            if (MachineToBeUpdate == null)
+                return NotFound();
 
-            if (await _repo.SaveAll())
-             {
-                 var MachineForReturnDto = _mapper.Map<MachineReturnDto>(MachineFromRepo);
 
-                 return Ok(MachineForReturnDto);
-                 //return CreatedAtRoute("GetMachines",MachineForReturnDto);
-             }
+            var Machine = _mapper.Map<MachineModel>(MachineForUpdateDto);
+            await _service.UpdateMachine(MachineToBeUpdate, Machine);
+
+            var updateMachine = await _service.GetMachineById(id);
+            var MachineReturn = _mapper.Map<MachineUpdateDto>(updateMachine);
+
+            return Ok(MachineReturn);
 
             throw new Exception($"Updating Machine {id} failed on save");
-        }         
-     }
- } 
+        }
+    }
+}

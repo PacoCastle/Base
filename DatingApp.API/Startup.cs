@@ -30,6 +30,7 @@ using DatingApp.Core.Services;
 using DatingApp.Data;
 using DatingApp.Services;
 using Microsoft.OpenApi.Models;
+using DatingApp.API.DatingApp.Service;
 
 namespace DatingApp.API
 {
@@ -132,6 +133,7 @@ namespace DatingApp.API
             services.AddScoped<LogUserActivity>();
             services.AddScoped<IMachinePartsAttemptsService, MachinePartsAttemptsService>();
             services.AddScoped<IAttemptsDetailsService, AttemptsDetailsService>();
+            services.AddScoped<IMachineService, MachinesService>();
             services.AddScoped<IUnitOfWork, UnitOfWork>();
 
             // Register the Swagger generator, defining 1 or more Swagger documents
