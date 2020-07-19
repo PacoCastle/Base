@@ -6,10 +6,10 @@ using DatingApp.Core.Models;
 
 namespace DatingApp.API.Services
 {
-    public class MachinePartsAttemptsService : IMachinePartsAttemptsService
+    public class MachinePartsAttemptsService_ : IMachinePartsAttemptsService_
     {
         private readonly IDatingRepository _repo;
-        public MachinePartsAttemptsService(IDatingRepository repo)
+        public MachinePartsAttemptsService_(IDatingRepository repo)
         {
             _repo = repo;    
         }

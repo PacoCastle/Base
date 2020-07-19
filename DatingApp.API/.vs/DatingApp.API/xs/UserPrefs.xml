@@ -1,7 +1,7 @@
 ﻿<Properties StartupConfiguration="{7CAD252E-A948-47F6-8DB0-FA132315E82A}|Default">
   <MonoDevelop.Ide.Workbench ActiveDocument="DatingApp.Core/Repositories/IRepository.cs">
     <Files>
-      <File FileName="DatingApp.Data/DatingApp.Data.csproj" Line="6" Column="19" />
+      <File FileName="DatingApp.Data/DatingApp.Data.csproj" Line="7" Column="19" />
       <File FileName="DatingApp.Core/DatingApp.Core.csproj" />
       <File FileName="DatingApp.Core/Models/UserRole.cs" />
       <File FileName="DatingApp.Core/Models/Role.cs" />
@@ -9,22 +9,17 @@
       <File FileName="Helpers/AutoMapperProfiles.cs" />
       <File FileName="DatingApp.API.csproj" />
       <File FileName="Controllers/AdminController.cs" />
-      <File FileName="Services/IMachinePartsAttemptsService.cs" />
       <File FileName="Controllers/AuthController.cs" />
       <File FileName="Services/MachinePartsAttemptsService.cs" />
       <File FileName="Data/AuthRepository.cs" Line="8" Column="35" />
       <File FileName="Data/IAuthRepository.cs" />
-      <File FileName="DatingApp.Core/Repositories/IRepository.cs" Line="12" Column="20" />
+      <File FileName="DatingApp.Core/Repositories/IRepository.cs" Line="10" Column="2" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
         <State name="__root__">
           <Node name="DatingApp.API" expanded="True">
-            <Node name="DatingApp.Core" expanded="True">
-              <Node name="Repositories" expanded="True">
-                <Node name="IRepository.cs" selected="True" />
-              </Node>
-            </Node>
+            <Node name="DatingApp.API" expanded="True" selected="True" />
             <Node name="DatingApp.Service" expanded="True" />
           </Node>
         </State>

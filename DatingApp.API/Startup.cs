@@ -26,6 +26,10 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.Tokens;
 using DatingApp.Core.Models;
+using DatingApp.Core;
+using DatingApp.Core.Services;
+using DatingApp.Data;
+using DatingApp.Services;
 
 namespace DatingApp.API
 {
@@ -46,12 +50,24 @@ namespace DatingApp.API
                 x.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"));
             });
 
+            //QUITAR este debe quedar solo el DataContext
+            services.AddDbContext<UDataContext>(x =>
+            {
+                x.UseLazyLoadingProxies();
+                x.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"));
+            });
+
             ConfigureServices(services);
         }
 
         public void ConfigureProductionServices(IServiceCollection services)
         {
             services.AddDbContext<DataContext>(x =>
+            {
+                x.UseLazyLoadingProxies();
+                x.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"));
+            });
+            services.AddDbContext<UDataContext>(x =>
             {
                 x.UseLazyLoadingProxies();
                 x.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"));
@@ -72,6 +88,7 @@ namespace DatingApp.API
 
             builder = new IdentityBuilder(builder.UserType, typeof(Role), builder.Services);
             builder.AddEntityFrameworkStores<DataContext>();
+            builder.AddEntityFrameworkStores<UDataContext>();
             builder.AddRoleManager<RoleManager<Role>>();
             builder.AddSignInManager<SignInManager<User>>();
 
@@ -114,6 +131,8 @@ namespace DatingApp.API
             services.AddScoped<IDatingRepository, DatingRepository>();
             services.AddScoped<LogUserActivity>();
             services.AddScoped<IMachinePartsAttemptsService, MachinePartsAttemptsService>();
+            services.AddScoped<IUnitOfWork, UnitOfWork>();
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

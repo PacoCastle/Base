@@ -7,6 +7,7 @@ using System;
  using DatingApp.API.Dtos;
  using DatingApp.API.Helpers;
  using DatingApp.API.Services;
+using DatingApp.Core.Services;
 using Microsoft.AspNetCore.Authorization;
  using Microsoft.AspNetCore.Mvc;
  
@@ -50,17 +51,16 @@ namespace DatingApp.API.Controllers
          }
 
         [HttpPost]
-         public async Task<IActionResult> CreateMachinePartAttempt(MachPartAttemRegisterDto MachinePartsAttemptsForCreationDto)
+         public async Task<IActionResult> CreateMachinePartAttempt(MachPartAttemRegisterDto mpaCreateDto)
          {
-             //var MachinePartsAttempts = _mapper.Map<MachinePartAttempt>(MachinePartsAttemptsForCreationDto);
+             var MachinePartsAttempts = await _service.AddByStored(mpaCreateDto.MachineModel, mpaCreateDto.PartModel, mpaCreateDto.InternalSequence);
 
-              var MachinePartsAttempts = await _repo.RegisterMachinePartAttempt(MachinePartsAttemptsForCreationDto);
-
-              if (MachinePartsAttempts.Id > 0)
+              if (MachinePartsAttempts > 0)
              {
-                 var MachinePartsAttemptsForReturnDto = _mapper.Map<MachPartAttemReturnDto>(MachinePartsAttempts);
+                 //var MachinePartsAttemptsForReturnDto = _mapper.Map<MachPartAttemReturnDto>(mpaCreateDto);
+                 //MachinePartsAttemptsForReturnDto.Id = MachinePartsAttempts;
 
-                 return Ok(MachinePartsAttemptsForReturnDto);
+                 return Ok(MachinePartsAttempts);
                  //return CreatedAtRoute("GetMachinePartsAttemptss",MachinePartsAttemptsForReturnDto);
              }
 

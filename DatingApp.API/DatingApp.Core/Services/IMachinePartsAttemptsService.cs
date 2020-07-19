@@ -3,11 +3,12 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using DatingApp.Core.Models;
 
-namespace DatingApp.API.Services
+namespace DatingApp.Core.Services
 {
     public interface IMachinePartsAttemptsService
     {
         Task<MachinePartAttempt> GetMachinePartAttempt(int id);
-        Task<List<MachinePartAttempt>> GetMachinePartsAttempts();   
+        Task<IEnumerable<MachinePartAttempt>> GetMachinePartsAttempts();  
+        Task<int> AddByStored(string MachineModel, string PartModel, string InternalSequence);
     }
 }
