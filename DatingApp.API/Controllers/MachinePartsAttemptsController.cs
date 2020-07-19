@@ -6,7 +6,7 @@ using System;
  using DatingApp.API.Data;
  using DatingApp.API.Dtos;
  using DatingApp.API.Helpers;
- using DatingApp.API.Services;
+ using DatingApp.Core.Models;
 using DatingApp.Core.Services;
 using Microsoft.AspNetCore.Authorization;
  using Microsoft.AspNetCore.Mvc;
@@ -22,10 +22,9 @@ namespace DatingApp.API.Controllers
          private readonly IMapper _mapper;
 
          private readonly IMachinePartsAttemptsService _service;
-         public MachinePartsAttemptsController(IDatingRepository repo, IMapper mapper, IMachinePartsAttemptsService service)
+         public MachinePartsAttemptsController(IMapper mapper, IMachinePartsAttemptsService service)
          {
              _mapper = mapper;
-             _repo = repo;
              _service = service;             
          }
 
@@ -70,17 +69,19 @@ namespace DatingApp.API.Controllers
         [HttpPut("{id}")]
         public async Task<IActionResult> UpdateMachinePartAttempt(int id, MachPartAttemUpdateDto MachPartAttemUpdateDto)
         {
-            var MachPartAttemFromRepo = await _repo.GetMachinePartAttempt(id);
+            var MachPartAttemToBeUpdated = await _service.GetMachinePartAttempt(id);
 
-            _mapper.Map(MachPartAttemUpdateDto, MachPartAttemFromRepo);
+            if (MachPartAttemToBeUpdated == null)
+                return NotFound();
 
-            if (await _repo.SaveAll())
-             {
-                 var MachPartAttemReturnDto = _mapper.Map<MachPartAttemReturnDto>(MachPartAttemFromRepo);
+            var MachinePartAttempt = _mapper.Map<MachinePartAttempt>(MachPartAttemUpdateDto); 
 
-                 return Ok(MachPartAttemReturnDto);
-                 //return CreatedAtRoute("GetParts",PartForReturnDto);
-             }
+            await _service.UpdateMachinePartAttempt(MachPartAttemToBeUpdated, MachinePartAttempt);
+
+            var updatedMachinePartAttempt = await _service.GetMachinePartAttempt(id);
+            var MachPartAttemReturn = _mapper.Map<MachPartAttemReturnDto>(updatedMachinePartAttempt);
+
+            return Ok(MachPartAttemReturn);
 
             throw new Exception($"Updating UpdateMachinePartAttempt {id} failed on save");
         }              

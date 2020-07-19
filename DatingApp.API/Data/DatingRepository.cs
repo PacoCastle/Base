@@ -237,39 +237,7 @@ namespace DatingApp.API.Data
         public async Task<List<PartModel>> GetParts()
         {
             return await  _context.PartModel.ToListAsync();            
-        }  
-
-        public async Task<MachinePartAttempt> RegisterMachinePartAttempt(MachPartAttemRegisterDto MachPartAttemRegisterDto)
-        {
-            MachinePartAttempt machinePartAttempt = new MachinePartAttempt();            
-
-            var machineModel = await _context.MachineModel.FirstOrDefaultAsync(m =>
-                m.Name == MachPartAttemRegisterDto.MachineModel);
-
-            var partModel = await _context.PartModel.FirstOrDefaultAsync(m =>
-                m.Name == MachPartAttemRegisterDto.PartModel);
-
-            machinePartAttempt.InternalSequence = MachPartAttemRegisterDto.InternalSequence;
-            machinePartAttempt.AvailableAttempts = partModel.Attempts;
-            machinePartAttempt.DefaultAttempts = partModel.Attempts;
-            machinePartAttempt.MachineModelId = machineModel.Id;
-            machinePartAttempt.PartModelId = partModel.Id;
-            
-
-            await _context.MachinePartAttempt.AddAsync(machinePartAttempt);
-            await _context.SaveChangesAsync();
-
-            return machinePartAttempt;
-        }
-        public async Task<MachinePartAttempt> GetMachinePartAttempt(int id)
-        {
-            return await _context.MachinePartAttempt.FirstOrDefaultAsync(p =>
-                p.Id == id);
-        }
-        public async Task<List<MachinePartAttempt>> GetMachinePartsAttempts()
-        {
-            return await  _context.MachinePartAttempt.ToListAsync();            
-        }  
+        }         
 
         public async Task<AttemptDetail> GetAttemptDetail(int id)
         {

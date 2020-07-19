@@ -10,5 +10,7 @@ namespace DatingApp.Core.Services
         Task<MachinePartAttempt> GetMachinePartAttempt(int id);
         Task<IEnumerable<MachinePartAttempt>> GetMachinePartsAttempts();  
         Task<int> AddByStored(string MachineModel, string PartModel, string InternalSequence);
+
+        Task UpdateMachinePartAttempt(MachinePartAttempt MachPartAttemToBeUpdate, MachinePartAttempt machinePartAttempt);
     }
 }

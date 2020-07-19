@@ -9,14 +9,14 @@ namespace DatingApp.Data
     public class UnitOfWork : IUnitOfWork
     {
         private readonly UDataContext _context;
-        private MachinePartsAttemptsRepository _machinePartsAttemptsRepo;        
+        private MachinePartsAttemptsRepository _machinePartsAttemptsRepository;        
 
         public UnitOfWork(UDataContext context)
         {
             this._context = context;
         }
 
-        public IMachinePartsAttemptsRepository MachinePartsAttempts => _machinePartsAttemptsRepo = _machinePartsAttemptsRepo ?? new MachinePartsAttemptsRepository(_context);
+        public IMachinePartsAttemptsRepository MachinePartsAttemptsRepository => _machinePartsAttemptsRepository = _machinePartsAttemptsRepository ?? new MachinePartsAttemptsRepository(_context);
 
         public async Task<int> CommitAsync()
         {

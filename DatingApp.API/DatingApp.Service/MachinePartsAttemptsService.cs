@@ -19,17 +19,23 @@ namespace DatingApp.Services
 
         public async Task<MachinePartAttempt> GetMachinePartAttempt(int id)
         {
-            return await _unitOfWork.MachinePartsAttempts.GetByIdAsync(id);
+            return await _unitOfWork.MachinePartsAttemptsRepository.GetByIdAsync(id);
             
         }
         public async Task<IEnumerable<MachinePartAttempt>> GetMachinePartsAttempts()
         {
-            return await  _unitOfWork.MachinePartsAttempts.GetAllAsync();    
+            return await  _unitOfWork.MachinePartsAttemptsRepository.GetAllAsync();    
         }  
         
         public async Task<int> AddByStored(string MachineModel, string PartModel, string InternalSequence)
         {
-            return await  _unitOfWork.MachinePartsAttempts.AddByStored(MachineModel, PartModel, InternalSequence);    
-        }  
+            return await  _unitOfWork.MachinePartsAttemptsRepository.AddByStored(MachineModel, PartModel, InternalSequence);    
+        }
+        public async Task UpdateMachinePartAttempt(MachinePartAttempt MachPartAttemToBeUpdate, MachinePartAttempt machinePartAttempt)
+        {
+            MachPartAttemToBeUpdate.AvailableAttempts = machinePartAttempt.AvailableAttempts;            
+
+            await _unitOfWork.CommitAsync();
+        }
     }
 }

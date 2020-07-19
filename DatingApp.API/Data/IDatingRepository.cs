@@ -29,10 +29,8 @@ namespace DatingApp.API.Data
         Task<MachineModel> GetMachine(int id);
         Task<List<MachineModel>> GetMachines();
         Task<PartModel> GetPart(int id);
-        Task<List<PartModel>> GetParts();        
-        Task<MachinePartAttempt> GetMachinePartAttempt(int id);
-        Task<List<MachinePartAttempt>> GetMachinePartsAttempts();       
-        Task<MachinePartAttempt> RegisterMachinePartAttempt(MachPartAttemRegisterDto MachPartAttemRegisterDto);
+        Task<List<PartModel>> GetParts();  
+        
         Task<AttemptDetail> GetAttemptDetail(int id);        
         Task<List<AttemptDetail>> GetAttemptDetails();
 
