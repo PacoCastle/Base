@@ -36,7 +36,9 @@ namespace DatingApp.API.DatingApp.Service
 
         public async Task UpdateMachine(MachineModel machineToBeUpdateModel, MachineModel machineUpdateModel)
         {
-            machineToBeUpdateModel = machineUpdateModel;
+            machineToBeUpdateModel.Name = machineUpdateModel.Name;
+            machineToBeUpdateModel.Description = machineUpdateModel.Description;
+            machineToBeUpdateModel.Status = machineUpdateModel.Status;
             await _unitOfWork.CommitAsync();
         }
     }
