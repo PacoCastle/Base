@@ -1,4 +1,5 @@
 using System;
+using System.ComponentModel.DataAnnotations;
 
 namespace DatingApp.API
 {
@@ -10,6 +11,7 @@ namespace DatingApp.API
 
         public int TemperatureF => 32 + (int)(TemperatureC / 0.5556);
 
+        [Required, MaxLength(10)]
         public string Summary { get; set; }
     }
 }
