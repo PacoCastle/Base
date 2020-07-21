@@ -12,6 +12,12 @@ namespace DatingApp.API.Dtos
 
         public int Attempts { get; set; }
 
-        public int Status { get; set; }      
+        public int Status { get; set; }  
+
+        public string NoPlanos { get; set; }    
+
+        public string DiametroTubo { get; set; }    
+
+        public string RPM { get; set; }        
     }
 }

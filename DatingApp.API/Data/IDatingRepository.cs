@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using DatingApp.API.Dtos;
 using DatingApp.API.Helpers;
-using DatingApp.API.Models;
+using DatingApp.Core.Models;
 
 namespace DatingApp.API.Data
 {
@@ -24,16 +24,9 @@ namespace DatingApp.API.Data
         Task<Product> GetProduct(int id);
         Task<PagedList<Product>> GetProducts(ProductParams productParams);
         Task<int> AddByStored(List<ConfigurationForRegisterDto> configurationForRegisterDto);
-        Task<List<DeviceConfiguration>> GetDevices();  
-
-        Task<MachineModel> GetMachine(int id);
-        Task<List<MachineModel>> GetMachines();
-
+        Task<List<DeviceConfiguration>> GetDevices();
+        Task<DeviceConfiguration> GetDevice(int id);
         Task<PartModel> GetPart(int id);
-        Task<List<PartModel>> GetParts();        
-        Task<MachinePartAttempt> GetMachinePartAttempt(int id);
-        Task<List<MachinePartAttempt>> GetMachinePartsAttempts();       
-        Task<MachinePartAttempt> RegisterMachinePartAttempt(MachPartAttemRegisterDto MachPartAttemRegisterDto);
-
+        Task<List<PartModel>> GetParts();
     }
 }

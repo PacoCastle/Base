@@ -4,9 +4,9 @@ using System.Linq;
 using System.Threading.Tasks;
 using DatingApp.API.Dtos;
 using DatingApp.API.Helpers;
-using DatingApp.API.Models;
 using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
+using DatingApp.Core.Models;
 
 namespace DatingApp.API.Data
 {
@@ -214,16 +214,11 @@ namespace DatingApp.API.Data
         {
             return await _context.DeviceConfiguration.ToListAsync();            
         } 
-
-        public async Task<MachineModel> GetMachine(int id)
+        public async Task<DeviceConfiguration> GetDevice(int id)
         {
-            return await _context.MachineModel.FirstOrDefaultAsync(p =>
+            return await _context.DeviceConfiguration.FirstOrDefaultAsync(p =>
                 p.Id == id);
-        }        
-        public async Task<List<MachineModel>> GetMachines()
-        {
-            return await  _context.MachineModel.ToListAsync();            
-        } 
+        }         
         public async Task<PartModel> GetPart(int id)
         {
             return await _context.PartModel.FirstOrDefaultAsync(p =>
@@ -232,38 +227,7 @@ namespace DatingApp.API.Data
         public async Task<List<PartModel>> GetParts()
         {
             return await  _context.PartModel.ToListAsync();            
-        }  
-
-        public async Task<MachinePartAttempt> RegisterMachinePartAttempt(MachPartAttemRegisterDto MachPartAttemRegisterDto)
-        {
-            MachinePartAttempt machinePartAttempt = new MachinePartAttempt();            
-
-            var machineModel = await _context.MachineModel.FirstOrDefaultAsync(m =>
-                m.Name == MachPartAttemRegisterDto.MachineModel);
-
-            var partModel = await _context.PartModel.FirstOrDefaultAsync(m =>
-                m.Name == MachPartAttemRegisterDto.PartModel);
-
-            machinePartAttempt.InternalSequence = MachPartAttemRegisterDto.InternalSequence;
-            machinePartAttempt.AvailableAttempts = partModel.Attempts;
-            machinePartAttempt.DefaultAttempts = partModel.Attempts;
-            machinePartAttempt.MachineModelId = machineModel.Id;
-            machinePartAttempt.PartModelId = partModel.Id;
-            
-
-            await _context.MachinePartAttempt.AddAsync(machinePartAttempt);
-            await _context.SaveChangesAsync();
-
-            return machinePartAttempt;
-        }
-        public async Task<MachinePartAttempt> GetMachinePartAttempt(int id)
-        {
-            return await _context.MachinePartAttempt.FirstOrDefaultAsync(p =>
-                p.Id == id);
-        }
-        public async Task<List<MachinePartAttempt>> GetMachinePartsAttempts()
-        {
-            return await  _context.MachinePartAttempt.ToListAsync();            
-        }        
+        } 
+               
     }
 }

@@ -1,7 +1,7 @@
-using DatingApp.API.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using DatingApp.Core.Models;
 
 namespace DatingApp.API.Data
 {

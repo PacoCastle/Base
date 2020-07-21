@@ -1,7 +1,7 @@
 using System.Linq;
 using AutoMapper;
 using DatingApp.API.Dtos;
-using DatingApp.API.Models;
+using DatingApp.Core.Models;
 
 namespace DatingApp.API.Helpers
 {
@@ -48,7 +48,13 @@ namespace DatingApp.API.Helpers
             CreateMap<PartForUpdateDto, PartModel>();
             CreateMap<MachPartAttemRegisterDto,MachinePartAttempt>();
             CreateMap<MachinePartAttempt, MachPartAttemReturnDto>();
-            CreateMap<MachPartAttemUpdateDto, MachinePartAttempt>();        
+            CreateMap<MachPartAttemUpdateDto, MachinePartAttempt>();       
+            CreateMap<AttemptDetailRegisterDto,AttemptDetail>();
+            CreateMap<AttemptDetail, AttemptDetailReturnDto>(); 
+            CreateMap<MachineRegisterDto,MachineModel>();
+            CreateMap<MachineModel, MachineReturnDto>();
+            CreateMap<MachineUpdateDto, MachineModel>();
+            CreateMap<DeviceConfigurationForUpdateDto, DeviceConfiguration>();
             
         }
     }

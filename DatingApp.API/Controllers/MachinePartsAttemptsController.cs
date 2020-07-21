@@ -6,8 +6,9 @@ using System;
  using DatingApp.API.Data;
  using DatingApp.API.Dtos;
  using DatingApp.API.Helpers;
- using DatingApp.API.Models;
- using Microsoft.AspNetCore.Authorization;
+ using DatingApp.Core.Models;
+using DatingApp.Core.Services;
+using Microsoft.AspNetCore.Authorization;
  using Microsoft.AspNetCore.Mvc;
  
 namespace DatingApp.API.Controllers
@@ -19,16 +20,18 @@ namespace DatingApp.API.Controllers
      {
          private readonly IDatingRepository _repo;
          private readonly IMapper _mapper;
-         public MachinePartsAttemptsController(IDatingRepository repo, IMapper mapper)
+
+         private readonly IMachinePartsAttemptsService _service;
+         public MachinePartsAttemptsController(IMapper mapper, IMachinePartsAttemptsService service)
          {
              _mapper = mapper;
-             _repo = repo;             
+             _service = service;             
          }
 
         [HttpGet("{id}", Name = "GetMachinePartsAttempt")]
          public async Task<IActionResult> GetMachinePartsAttempt(int id)
          {
-              var MachinePartsAttemptFromRepo = await _repo.GetMachinePartAttempt(id);
+              var MachinePartsAttemptFromRepo = await _service.GetMachinePartAttempt(id);
 
               if (MachinePartsAttemptFromRepo == null)
                  return NotFound();
@@ -39,7 +42,7 @@ namespace DatingApp.API.Controllers
          [HttpGet(Name = "GetMachinePartsAttempts")]
          public async Task<IActionResult> GetMachinePartsAttempts()
          {
-              var MachinePartsAttemptsFromRepo = await _repo.GetMachinePartsAttempts();
+              var MachinePartsAttemptsFromRepo = await _service.GetMachinePartsAttempts();
 
               var MachinePartsAttempts = _mapper.Map<IEnumerable<MachPartAttemReturnDto>>(MachinePartsAttemptsFromRepo);               
               
@@ -47,17 +50,16 @@ namespace DatingApp.API.Controllers
          }
 
         [HttpPost]
-         public async Task<IActionResult> CreateMachinePartAttempt(MachPartAttemRegisterDto MachinePartsAttemptsForCreationDto)
+         public async Task<IActionResult> CreateMachinePartAttempt(MachPartAttemRegisterDto mpaCreateDto)
          {
-             //var MachinePartsAttempts = _mapper.Map<MachinePartAttempt>(MachinePartsAttemptsForCreationDto);
+             var MachinePartsAttempts = await _service.AddByStored(mpaCreateDto.MachineModel, mpaCreateDto.PartModel, mpaCreateDto.InternalSequence);
 
-              var MachinePartsAttempts = await _repo.RegisterMachinePartAttempt(MachinePartsAttemptsForCreationDto);
-
-              if (MachinePartsAttempts.Id > 0)
+              if (MachinePartsAttempts > 0)
              {
-                 var MachinePartsAttemptsForReturnDto = _mapper.Map<MachPartAttemReturnDto>(MachinePartsAttempts);
+                 //var MachinePartsAttemptsForReturnDto = _mapper.Map<MachPartAttemReturnDto>(mpaCreateDto);
+                 //MachinePartsAttemptsForReturnDto.Id = MachinePartsAttempts;
 
-                 return Ok(MachinePartsAttemptsForReturnDto);
+                 return Ok(MachinePartsAttempts);
                  //return CreatedAtRoute("GetMachinePartsAttemptss",MachinePartsAttemptsForReturnDto);
              }
 
@@ -67,17 +69,19 @@ namespace DatingApp.API.Controllers
         [HttpPut("{id}")]
         public async Task<IActionResult> UpdateMachinePartAttempt(int id, MachPartAttemUpdateDto MachPartAttemUpdateDto)
         {
-            var MachPartAttemFromRepo = await _repo.GetMachinePartAttempt(id);
+            var MachPartAttemToBeUpdated = await _service.GetMachinePartAttempt(id);
 
-            _mapper.Map(MachPartAttemUpdateDto, MachPartAttemFromRepo);
+            if (MachPartAttemToBeUpdated == null)
+                return NotFound();
 
-            if (await _repo.SaveAll())
-             {
-                 var MachPartAttemReturnDto = _mapper.Map<MachPartAttemReturnDto>(MachPartAttemFromRepo);
+            var MachinePartAttempt = _mapper.Map<MachinePartAttempt>(MachPartAttemUpdateDto); 
 
-                 return Ok(MachPartAttemReturnDto);
-                 //return CreatedAtRoute("GetParts",PartForReturnDto);
-             }
+            await _service.UpdateMachinePartAttempt(MachPartAttemToBeUpdated, MachinePartAttempt);
+
+            var updatedMachinePartAttempt = await _service.GetMachinePartAttempt(id);
+            var MachPartAttemReturn = _mapper.Map<MachPartAttemReturnDto>(updatedMachinePartAttempt);
+
+            return Ok(MachPartAttemReturn);
 
             throw new Exception($"Updating UpdateMachinePartAttempt {id} failed on save");
         }              

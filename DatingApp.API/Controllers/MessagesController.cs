@@ -6,9 +6,9 @@ using System;
  using DatingApp.API.Data;
  using DatingApp.API.Dtos;
  using DatingApp.API.Helpers;
- using DatingApp.API.Models;
  using Microsoft.AspNetCore.Authorization;
  using Microsoft.AspNetCore.Mvc;
+ using DatingApp.Core.Models;
 
   namespace DatingApp.API.Controllers
  {
