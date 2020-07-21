@@ -15,6 +15,7 @@ import { ProductsSearchComponent } from 'app/components/products/products-search
 import { ComputersSearchComponent } from 'app/components/computers/computers-search/computers-search.component';
 import { BalancingAttemptsSearchComponent } from 'app/components/balancing-attempts/balancing-attempts-search/balancing-attempts-search.component';
 import { PartsPerComputerSearchComponent } from 'app/components/parts-per-computer/parts-per-computer-search/parts-per-computer-search.component';
+import { RolesComponent } from 'app/components/roles/roles/roles.component';
 
 export const AdminLayoutRoutes: Routes = [
     // {
@@ -74,5 +75,6 @@ export const AdminLayoutRoutes: Routes = [
     { path: 'machines',      component: ComputersSearchComponent},
     { path: 'balancing-attempts', component: BalancingAttemptsSearchComponent},
     { path: 'parts-per-computer', component: PartsPerComputerSearchComponent},
+    { path: 'pages-per-role', component: RolesComponent},
 
 ];

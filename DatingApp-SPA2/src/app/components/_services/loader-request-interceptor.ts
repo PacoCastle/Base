@@ -3,6 +3,7 @@ import { HttpEvent, HttpHandler, HttpInterceptor, HttpRequest } from "@angular/c
 import { Observable } from "rxjs";
 import { finalize } from "rxjs/operators";
 import { NgxUiLoaderService } from 'ngx-ui-loader';
+import { NgxSpinnerService } from "ngx-spinner";
 
 /**
  * ISBAN Mexico - (c) Banco Santander Central Hispano
@@ -18,11 +19,11 @@ import { NgxUiLoaderService } from 'ngx-ui-loader';
  */
 @Injectable()
 export class LoaderRequestInterceptor implements HttpInterceptor {
-    constructor(public loaderService: NgxUiLoaderService) { }
+    constructor(public loaderService: NgxSpinnerService) { }
     intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-        this.loaderService.start();
+        this.loaderService.show();
         return next.handle(req).pipe(
-            finalize(() => this.loaderService.stop())
+            finalize(() => this.loaderService.hide())
         );
     }
 }

@@ -101,3 +101,16 @@
   white-space: normal;
   text-align: left;
 }
+
+.status{
+  width: 1em;
+  height: 1em;
+  border-radius: 1em;
+}
+
+.down{
+  background: red;
+}
+.up{
+  background: rgb(11, 172, 11);
+}

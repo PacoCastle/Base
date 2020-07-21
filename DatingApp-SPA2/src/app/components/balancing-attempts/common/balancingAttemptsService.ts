@@ -9,16 +9,12 @@ import { BaseService } from 'app/components/_services/base-service';
 })
 export class BalancingAttemptsService extends BaseService {
 
-  getBalancingAttempts(): Observable<any> {
-    return this.get<any>('machines');
+  searchPartsPerMachine(machine): Observable<any> {
+    return this.get<any>(`MachinePartsAttempts`);
   }
 
   updateBalancigAttempt(id, data): Observable<any> {
-    return this.put(`machines/${id}`, data);
-  }
-
-  addBalancingAttempt(data): Observable<any> {
-    return this.post('machines', data);
+    return this.put(`MachinePartsAttempts/${id}`, data);
   }
   
 }

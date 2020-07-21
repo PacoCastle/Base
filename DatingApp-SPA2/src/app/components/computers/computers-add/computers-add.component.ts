@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { MachineService } from '../common/machineService';
 import Swal from 'sweetalert2';
+import { threadId } from 'worker_threads';
 
 @Component({
   selector: 'app-computers-add',
@@ -24,7 +25,8 @@ export class ComputersAddComponent implements OnInit {
         electricPower: new FormControl(null, [Validators.required]),
         airFlow: new FormControl(null, [Validators.required]),
         coolingWater: new FormControl(null, [Validators.required]),
-        naturalGas: new FormControl(null, [Validators.required])
+        naturalGas: new FormControl(null, [Validators.required]),
+        status: new FormControl(this.detailMachine.status.toString())
       });
     } else {
       this.machine = new FormGroup({
@@ -33,7 +35,8 @@ export class ComputersAddComponent implements OnInit {
         electricPower: new FormControl(null, [Validators.required]),
         airFlow: new FormControl(null, [Validators.required]),
         coolingWater: new FormControl(null, [Validators.required]),
-        naturalGas: new FormControl(null, [Validators.required])
+        naturalGas: new FormControl(null, [Validators.required]),
+        status: new FormControl(1)
       });
     }
   }
@@ -46,7 +49,7 @@ export class ComputersAddComponent implements OnInit {
     let data = {
       Name: this.formMachine.name.value,
       Description: this.formMachine.description.value,
-      Status: 1
+      Status: this.formMachine.status.value
     };
     if(this.update){
       this.machineService.updateMachine(this.detailMachine.id, data).subscribe(res =>{

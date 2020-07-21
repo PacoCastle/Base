@@ -13,7 +13,7 @@ export class ProductsSearchComponent implements OnInit {
   @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
   dataSourceProducts = new MatTableDataSource<any>();
   columnsToDisplay: string[] = ['name', 'description', 'tubeDiameter', 'rpm', 'leftPlane', 'centerPlane', 'rightPlane',
-                                'attempts', 'extraAttempts', 'actions'];
+                                'attempts', 'actions'];
   constructor(private matDialog: MatDialog,
     private productService: ProductService) { }
 

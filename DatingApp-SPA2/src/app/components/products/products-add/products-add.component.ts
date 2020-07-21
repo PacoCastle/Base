@@ -30,8 +30,7 @@ export class ProductsAddComponent implements OnInit {
         planeLeft: new FormControl(null),
         planeCenter: new FormControl(null),
         planeRight: new FormControl(null),
-        attempts: new FormControl(null, [Validators.required]),
-        extraAttempts: new FormControl(null)
+        attempts: new FormControl(null, [Validators.required])
       });
     } else {
       this.product = new FormGroup({
@@ -42,8 +41,7 @@ export class ProductsAddComponent implements OnInit {
         planeLeft: new FormControl(null),
         planeCenter: new FormControl(null),
         planeRight: new FormControl(null),
-        attempts: new FormControl(null, [Validators.required]),
-        extraAttempts: new FormControl(null)
+        attempts: new FormControl(null, [Validators.required])
       });
     }
   }

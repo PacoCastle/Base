@@ -12,7 +12,8 @@ import Swal from 'sweetalert2';
 export class ComputersSearchComponent implements OnInit {
   @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
   dataSourceMachines = new MatTableDataSource<any>();
-  columnsToDisplay: string[] = ['machineId', 'name', 'description', 'actions']
+  columnsToDisplay: string[] = ['status', 'machineId', 'name', 'description', 'actions'];
+  
   constructor(private machineService: MachineService,
     private matDialog: MatDialog) { }
 
@@ -67,7 +68,8 @@ export class ComputersSearchComponent implements OnInit {
       Status: 0
     };
     this.machineService.updateMachine(machine.id, data).subscribe(res =>{
-      Swal.fire("Success","Machine Successfully Deleted", "success")
+      Swal.fire("Success","Machine Successfully Deleted", "success"),
+      this.searchMachines();
     }, error =>{
       Swal.fire("Error Delete", error.error, "error");
     });

@@ -30,6 +30,8 @@ import { PartsPerComputerSearchComponent } from './parts-per-computer/parts-per-
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { LoaderRequestInterceptor } from './_services/loader-request-interceptor';
 import { NgxUiLoaderModule, NgxUiLoaderConfig } from 'ngx-ui-loader';
+import { RolesComponent } from './roles/roles/roles.component';
+import { NgxSpinnerModule } from "ngx-spinner"; 
 const configLoader : NgxUiLoaderConfig  =
 {
   bgsColor: "#3590c4",
@@ -92,7 +94,6 @@ const configLoader : NgxUiLoaderConfig  =
     MatTableModule,
     MatTabsModule,
     MatTooltipModule,
-    NgxUiLoaderModule.forRoot(configLoader),
     MatDividerModule
   ],
   declarations: [
@@ -113,7 +114,8 @@ const configLoader : NgxUiLoaderConfig  =
     BalancingAttemptsAddComponent,
     BalancingAttemptsSearchComponent,
     PartsPerComputerAddComponent,
-    PartsPerComputerSearchComponent
+    PartsPerComputerSearchComponent,
+    RolesComponent
   ],
   exports: [
     FooterComponent,

@@ -17,36 +17,11 @@ import { AdminLayoutComponent } from './layouts/admin-layout/admin-layout.compon
 import { JwtModule } from '@auth0/angular-jwt';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { LoaderRequestInterceptor } from './components/_services/loader-request-interceptor';
-import { NgxUiLoaderModule, NgxUiLoaderConfig } from 'ngx-ui-loader';
+import { NgxSpinnerComponent } from 'ngx-spinner';
 export function tokenGetter() {
   return localStorage.getItem('token');
 }
 
-const configLoader : NgxUiLoaderConfig  =
-{
-  bgsColor: "#9a3e65",
-  bgsOpacity: 0.5,
-  bgsPosition: "bottom-right",
-  bgsSize: 100,
-  bgsType: "three-strings",
-  blur: 5,
-  fgsColor: "#9a3e65",
-  fgsPosition: "center-center",
-  fgsSize: 100,
-  fgsType: "three-strings",
-  gap: 24,
-  logoPosition: "bottom-right",
-  logoSize: 55,
-  logoUrl: "./assets/images/loader.png",
-  masterLoaderId: "master",
-  overlayBorderRadius: "0",
-  overlayColor: "rgba(234,234,234,0.64)",
-  pbColor: "red",
-  pbDirection: "ltr",
-  pbThickness: 2,
-  hasProgressBar: true,
-  
-}
 @NgModule({
   imports: [
     BrowserAnimationsModule,
@@ -67,12 +42,12 @@ const configLoader : NgxUiLoaderConfig  =
         blacklistedRoutes: ['localhost:5000/api/auth']
       },
     }),
-    NgxUiLoaderModule.forRoot(configLoader)
+    
   ],
   declarations: [
     AppComponent,
     AdminLayoutComponent,
-
+    NgxSpinnerComponent
   ],
   providers: [
     {provide: HTTP_INTERCEPTORS, useClass: LoaderRequestInterceptor, multi: true}

@@ -15,32 +15,12 @@ export class UsersAddComponent implements OnInit {
   detailUser;
   detailUserOld;
   rolList = [{id: 1, description:"Users"}];
-  @ViewChild('paginator', {static: true}) paginator: MatPaginator;
-  @ViewChild('paginatorNew', {static: true}) paginatorNew: MatPaginator;
-  dataSourcePage = new MatTableDataSource<any>();
-  dataSourcePageNew = new MatTableDataSource<any>();
-  columnsToDisplay: string[] = ['page', 'actions'];
-  dummyPages = [
-    {
-      id: 1,
-      description: "Page1"
-    },
-    {
-      id: 2,
-      description: "Page2"
-    },
-    {
-      id: 3,
-      description: "Page3"
-    }
-  ];
+
 
   constructor(private userService: UserService) { }
 
   ngOnInit() {
-    this.dataSourcePage.data = this.dummyPages;
-    this.dataSourcePage.paginator = this.paginator;
-    this.dataSourcePageNew.paginator = this.paginatorNew;
+   
     if(this.update){
       this.user = new FormGroup({
         employeeiId: new FormControl(this.detailUser.name, [Validators.required]),
@@ -91,26 +71,6 @@ export class UsersAddComponent implements OnInit {
         Swal.fire("Error Add", error.error, "error");
       });
     }
-  }
-
-  addPage(index, page){
-    index = index  + (this.paginator.pageIndex * this.paginator.pageSize);
-    let list = this.dataSourcePageNew.data;
-    let list2 = this.dataSourcePage.data;
-    list.push(page);
-    list2.splice(index, 1);
-    this.dataSourcePageNew.data = list;
-    this.dataSourcePage.data = list2;
-  }
-
-  removePage(index, page){
-    index = index  + (this.paginatorNew.pageIndex * this.paginatorNew.pageSize);
-    let list = this.dataSourcePage.data;
-    let list2 = this.dataSourcePageNew.data;
-    list.push(page);
-    list2.splice(index, 1);
-    this.dataSourcePage.data = list;
-    this.dataSourcePageNew.data = list2;
   }
 
 }

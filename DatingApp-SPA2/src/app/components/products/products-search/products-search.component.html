@@ -46,10 +46,6 @@
                                     <th mat-header-cell *matHeaderCellDef> Attempts </th>
                                     <td mat-cell *matCellDef="let product"> {{product.attempts || '-'}} </td>
                                 </ng-container>
-                                <ng-container matColumnDef="extraAttempts">
-                                    <th mat-header-cell *matHeaderCellDef> Extra Attempts </th>
-                                    <td mat-cell *matCellDef="let product"> {{product.extraAttempts || '-'}} </td>
-                                </ng-container>
                                 <ng-container matColumnDef="actions" stickyEnd>
                                     <th mat-header-cell *matHeaderCellDef> 
                                         <div class="example-button-container">
