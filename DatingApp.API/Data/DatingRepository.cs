@@ -218,17 +218,7 @@ namespace DatingApp.API.Data
         {
             return await _context.DeviceConfiguration.FirstOrDefaultAsync(p =>
                 p.Id == id);
-        }   
-
-        public async Task<MachineModel> GetMachine(int id)
-        {
-            return await _context.MachineModel.FirstOrDefaultAsync(p =>
-                p.Id == id);
-        }        
-        public async Task<List<MachineModel>> GetMachines()
-        {
-            return await  _context.MachineModel.ToListAsync();            
-        } 
+        }         
         public async Task<PartModel> GetPart(int id)
         {
             return await _context.PartModel.FirstOrDefaultAsync(p =>
@@ -237,16 +227,6 @@ namespace DatingApp.API.Data
         public async Task<List<PartModel>> GetParts()
         {
             return await  _context.PartModel.ToListAsync();            
-        }         
-
-        public async Task<AttemptDetail> GetAttemptDetail(int id)
-        {
-            return await _context.AttemptDetail.FirstOrDefaultAsync(p =>
-                p.Id == id);
-        }
-        public async Task<List<AttemptDetail>> GetAttemptDetails()
-        {
-            return await  _context.AttemptDetail.ToListAsync();            
         } 
                
     }

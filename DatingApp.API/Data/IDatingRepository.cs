@@ -26,13 +26,7 @@ namespace DatingApp.API.Data
         Task<int> AddByStored(List<ConfigurationForRegisterDto> configurationForRegisterDto);
         Task<List<DeviceConfiguration>> GetDevices();
         Task<DeviceConfiguration> GetDevice(int id);
-        Task<MachineModel> GetMachine(int id);
-        Task<List<MachineModel>> GetMachines();
         Task<PartModel> GetPart(int id);
-        Task<List<PartModel>> GetParts();  
-        
-        Task<AttemptDetail> GetAttemptDetail(int id);        
-        Task<List<AttemptDetail>> GetAttemptDetails();
-
+        Task<List<PartModel>> GetParts();
     }
 }

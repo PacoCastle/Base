@@ -31,6 +31,8 @@ using DatingApp.Data;
 using DatingApp.Services;
 using Microsoft.OpenApi.Models;
 using DatingApp.API.DatingApp.Service;
+using FluentValidation.AspNetCore;
+using System.Reflection;
 
 namespace DatingApp.API
 {
@@ -135,6 +137,10 @@ namespace DatingApp.API
             services.AddScoped<IAttemptsDetailsService, AttemptsDetailsService>();
             services.AddScoped<IMachineService, MachinesService>();
             services.AddScoped<IUnitOfWork, UnitOfWork>();
+            services.AddMvc().AddFluentValidation(fv =>
+                            {
+                                fv.RegisterValidatorsFromAssembly(Assembly.GetExecutingAssembly());
+                            });
 
             // Register the Swagger generator, defining 1 or more Swagger documents
             services.AddSwaggerGen(c =>

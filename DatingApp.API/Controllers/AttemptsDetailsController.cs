@@ -10,6 +10,7 @@ using System;
  using Microsoft.AspNetCore.Mvc;
  using DatingApp.Core.Models;
  using DatingApp.Core.Services;
+using DatingApp.API.Validations;
 
 namespace DatingApp.API.Controllers
  {
@@ -48,9 +49,10 @@ namespace DatingApp.API.Controllers
          }
 
           [HttpPost]
-         public async Task<IActionResult> CreateAttemptDetail(AttemptDetailRegisterDto AttemptDetailRegisterDto)
+         public async Task<IActionResult> CreateAttemptDetail(AttemptDetailRegisterDto AttemptDetailRegisterDto)            
          {
-             var AttemptDetailToBeCreated = _mapper.Map<AttemptDetail>(AttemptDetailRegisterDto);
+
+              var AttemptDetailToBeCreated = _mapper.Map<AttemptDetail>(AttemptDetailRegisterDto);
 
               var AttemptDetailCreated = await _service.CreateAttemptDetail(AttemptDetailToBeCreated);
 
