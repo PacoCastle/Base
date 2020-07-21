@@ -18,6 +18,35 @@ import {MatFormFieldModule} from '@angular/material/form-field';
 import {MatTooltipModule} from '@angular/material/tooltip';
 import {MatSelectModule} from '@angular/material/select';
 import { ComponentsModule } from 'app/components/components.module';
+import { NgxUiLoaderConfig, NgxUiLoaderModule } from 'ngx-ui-loader';
+import { HTTP_INTERCEPTORS } from '@angular/common/http';
+import { LoaderRequestInterceptor } from 'app/components/_services/loader-request-interceptor';
+
+const configLoader : NgxUiLoaderConfig  =
+{
+  bgsColor: "#9a3e65",
+  bgsOpacity: 0.5,
+  bgsPosition: "bottom-right",
+  bgsSize: 100,
+  bgsType: "three-strings",
+  blur: 5,
+  fgsColor: "#9a3e65",
+  fgsPosition: "center-center",
+  fgsSize: 100,
+  fgsType: "three-strings",
+  gap: 24,
+  logoPosition: "bottom-right",
+  logoSize: 55,
+  logoUrl: "./assets/images/loader.png",
+  masterLoaderId: "master",
+  overlayBorderRadius: "0",
+  overlayColor: "rgba(234,234,234,0.64)",
+  pbColor: "red",
+  pbDirection: "ltr",
+  pbThickness: 2,
+  hasProgressBar: true,
+  
+}
 
 @NgModule({
   imports: [
@@ -31,7 +60,8 @@ import { ComponentsModule } from 'app/components/components.module';
     MatInputModule,
     MatSelectModule,
     MatTooltipModule,
-    ComponentsModule
+    ComponentsModule,
+    NgxUiLoaderModule.forRoot(configLoader)
   ],
   declarations: [
     DashboardComponent,
@@ -42,6 +72,9 @@ import { ComponentsModule } from 'app/components/components.module';
     MapsComponent,
     NotificationsComponent,
     UpgradeComponent,
+  ],
+  providers: [
+    {provide: HTTP_INTERCEPTORS, useClass: LoaderRequestInterceptor, multi: true}
   ]
 })
 

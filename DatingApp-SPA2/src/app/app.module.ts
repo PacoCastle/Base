@@ -24,7 +24,7 @@ export function tokenGetter() {
 
 const configLoader : NgxUiLoaderConfig  =
 {
-  bgsColor: "#3590c4",
+  bgsColor: "#9a3e65",
   bgsOpacity: 0.5,
   bgsPosition: "bottom-right",
   bgsSize: 100,
@@ -37,6 +37,7 @@ const configLoader : NgxUiLoaderConfig  =
   gap: 24,
   logoPosition: "bottom-right",
   logoSize: 55,
+  logoUrl: "./assets/images/loader.png",
   masterLoaderId: "master",
   overlayBorderRadius: "0",
   overlayColor: "rgba(234,234,234,0.64)",

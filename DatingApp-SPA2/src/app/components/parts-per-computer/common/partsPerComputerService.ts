@@ -7,9 +7,9 @@ import { BaseService } from 'app/components/_services/base-service';
 @Injectable({
   providedIn: 'root'
 })
-export class ProductService extends BaseService {
+export class PartsPerComputerService extends BaseService {
 
-  getProducts(): Observable<any> {
+  getProductsPerMachine(): Observable<any> {
     return this.get<any>('parts');
   }
 

@@ -60,14 +60,14 @@ export class UsersSearchComponent implements OnInit {
     });
   }
 
-  deleteMachine(machine: any){
+  deleteUser(user: any){
     let data = {
-      Name: machine.name,
-      Description: machine.description,
+      Name: user.name,
+      Description: user.description,
       Status: 0
     };
-    this.userService.updateUser(machine.id, data).subscribe(res =>{
-      Swal.fire("Success","Machine Successfully Deleted", "success")
+    this.userService.updateUser(user.id, data).subscribe(res =>{
+      Swal.fire("Success","User Successfully Deleted", "success")
     }, error =>{
       Swal.fire("Error Delete", error.error, "error");
     });

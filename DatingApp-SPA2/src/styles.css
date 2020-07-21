@@ -3,7 +3,13 @@
     height: 80vh;
 }
 .color-button{
-    background: #3590c4!important;
+  background-color: #3590c4;
+}
+.mat-fab.mat-primary, .mat-flat-button.mat-primary, .mat-mini-fab.mat-primary, .mat-raised-button.mat-primary {
+    background-color: #3590c4;
+}
+.mat-fab.mat-warn, .mat-flat-button.mat-warn, .mat-mini-fab.mat-warn, .mat-raised-button.mat-warn {
+  background-color: #e44f51;
 }
 .cdk-overlay-pane{
     max-height: 80vh;
@@ -34,6 +40,64 @@
     background: #d4d4d4;
   }
   
-  th.mat-header-cell {
+  th.mat-header-cell, td.mat-cell {
     text-align: center !important;
   }
+  th.mat-header-cell{
+    white-space: nowrap;
+  }
+
+.example-button-container {
+    display: flex;
+    justify-content: center;
+  }
+  .over{
+      overflow: auto;
+  }
+
+  .example-section {
+    display: flex;
+    align-content: center;
+    align-items: center;
+  }
+
+.mat-checkbox-checked.mat-accent .mat-checkbox-background, .mat-checkbox-indeterminate.mat-accent .mat-checkbox-background {
+    background-color: #3590c4;
+}
+.mat-checkbox-checked:not(.mat-checkbox-disabled).mat-accent .mat-ripple-element, .mat-checkbox:active:not(.mat-checkbox-disabled).mat-accent .mat-ripple-element {
+  background: #3590c4;
+}
+.mat-fab.mat-accent[disabled], .mat-fab.mat-primary[disabled], .mat-fab.mat-warn[disabled], 
+.mat-fab[disabled][disabled], .mat-flat-button.mat-accent[disabled], .mat-flat-button.mat-primary[disabled], 
+.mat-flat-button.mat-warn[disabled], .mat-flat-button[disabled][disabled], .mat-mini-fab.mat-accent[disabled], 
+.mat-mini-fab.mat-primary[disabled], .mat-mini-fab.mat-warn[disabled], .mat-mini-fab[disabled][disabled], 
+.mat-raised-button.mat-accent[disabled], .mat-raised-button.mat-primary[disabled], .mat-raised-button.mat-warn[disabled], 
+.mat-raised-button[disabled][disabled] {
+  background-color: rgba(0,0,0,.26);
+  color: white;
+}
+.table-responsive{
+  max-height: 60vh;
+}
+.table-responsive-2{
+  max-height: 50vh;
+}
+
+.mat-paginator-sticky {
+  bottom: 0px;
+  position: sticky;
+  z-index: 10;
+}
+.mat-tooltip {
+  /* your own custom styles here */ 
+  /* e.g. */
+  background: rgba(0, 0, 0, 0.342);
+  color: white !important;
+  width: auto !important;
+  box-shadow: none;
+  text-decoration: none;
+  padding: 0;
+  margin: 0;
+  white-space: normal;
+  text-align: left;
+}

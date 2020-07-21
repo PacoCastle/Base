@@ -70,7 +70,7 @@ export const AdminLayoutRoutes: Routes = [
     { path: 'balancing-process',  component: BalancingProcessComponent},
     { path: 'home',           component: HomeComponent},
     { path: 'users',          component: UsersSearchComponent},
-    { path: 'products',       component: ProductsSearchComponent},
+    { path: 'parts',       component: ProductsSearchComponent},
     { path: 'machines',      component: ComputersSearchComponent},
     { path: 'balancing-attempts', component: BalancingAttemptsSearchComponent},
     { path: 'parts-per-computer', component: PartsPerComputerSearchComponent},
