@@ -3,8 +3,18 @@ using AutoMapper;
 using DatingApp.API.Dtos;
 using DatingApp.Core.Models;
 
+/*
+The main AutoMapperProfiles class
+Contains all mappings necesary for use in Controllers
+*/
+/// <summary>
+/// The AutoMapperProfiles class.
+/// Contains all validations rules for Update  MachinePartAttepmt
+/// </summary>    
+/// 
 namespace DatingApp.API.Helpers
 {
+    
     public class AutoMapperProfiles : Profile
     {
         public AutoMapperProfiles()
@@ -46,7 +56,7 @@ namespace DatingApp.API.Helpers
             CreateMap<PartForRegisterDto,PartModel>();
             CreateMap<PartModel, PartForReturnDto>();
             CreateMap<PartForUpdateDto, PartModel>();
-            CreateMap<MachPartAttemRegisterDto,MachinePartAttempt>();
+            CreateMap<MachPartAttemCreateDto,MachinePartAttempt>();
             CreateMap<MachinePartAttempt, MachPartAttemReturnDto>();
             CreateMap<MachPartAttemUpdateDto, MachinePartAttempt>();       
             CreateMap<AttemptDetailRegisterDto,AttemptDetail>();

@@ -9,19 +9,19 @@ using System;
 
 namespace DatingApp.Data.Repositories
 {
-    public class MachineRepository : Repository<MachineModel>, IMachineRepository
+    public class PartRepository : Repository<PartModel>, IPartRepository
     {
         private readonly UDataContext _context;
-        public MachineRepository(UDataContext context) 
+        public PartRepository(UDataContext context) 
             : base(context)
         { 
             _context = context;
-        }  
-        public Task<MachineModel> GetMachineByName(string name)
+        }        
+        public Task<PartModel> GetPartByName(string name)
         {
-            return _context.MachineModel                
+            return _context.PartModel                
                 .SingleOrDefaultAsync(p => p.Name == name);
-        }    
+        }        
     }
 }
 

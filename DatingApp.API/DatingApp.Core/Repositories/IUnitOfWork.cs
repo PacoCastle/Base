@@ -9,6 +9,7 @@ namespace DatingApp.Core
         IMachinePartsAttemptsRepository MachinePartsAttemptsRepository { get; }
         IAttemptsDetailsRepository AttemptsDetailsRepository { get; }
         IMachineRepository MachineRepository { get; }
+        IPartRepository PartRepository { get; }
         Task<int> CommitAsync();
         
     }

@@ -6,7 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace DatingApp.API.DatingApp.Service
+namespace DatingApp.Services
 {
     public class MachinesService : IMachineService
     {
@@ -40,6 +40,10 @@ namespace DatingApp.API.DatingApp.Service
             machineToBeUpdateModel.Description = machineUpdateModel.Description;
             machineToBeUpdateModel.Status = machineUpdateModel.Status;
             await _unitOfWork.CommitAsync();
+        }
+        public async Task<MachineModel> GetMachineByName(string name)
+        {
+            return await _unitOfWork.MachineRepository.GetMachineByName(name);
         }
     }
 }

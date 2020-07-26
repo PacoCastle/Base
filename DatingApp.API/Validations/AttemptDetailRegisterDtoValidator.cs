@@ -13,6 +13,7 @@ namespace DatingApp.API.Validations
 
             RuleFor(m => m.AnguloLH)
                 .NotEmpty()
+                .WithMessage("'AnguloLH' must not be 0.")
                 .MaximumLength(3)
                 .WithMessage("'AnguloLH' must not be greater than 3");
         }

@@ -4,8 +4,8 @@ using DatingApp.Core.Models;
 
 namespace DatingApp.Core.Repositories
 {
-    public interface IMachineRepository : IRepository<MachineModel>
+    public interface IPartRepository : IRepository<PartModel>
     {
-        Task<MachineModel> GetMachineByName(string MachineModel);
+        Task<PartModel> GetPartByName(string PartModel);
     }
 }

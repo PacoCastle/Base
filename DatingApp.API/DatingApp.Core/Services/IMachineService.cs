@@ -11,5 +11,6 @@ namespace DatingApp.Core.Services
         Task<MachineModel> GetMachineById(int id);
         Task<MachineModel> CreateMachine(MachineModel machineModel);
         Task  UpdateMachine(MachineModel machineModel , MachineModel machineUpdateModel);
+        Task<MachineModel> GetMachineByName(string name);
     }
 }

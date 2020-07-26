@@ -13,6 +13,8 @@ namespace DatingApp.Data
         private AttemptsDetailsRepository _attemptsDetailsRepository;
         private MachineRepository _machineRepository;
 
+        private PartRepository _partRepository;
+
         public UnitOfWork(UDataContext context)
         {
             this._context = context;
@@ -21,6 +23,7 @@ namespace DatingApp.Data
         public IMachinePartsAttemptsRepository MachinePartsAttemptsRepository => _machinePartsAttemptsRepository = _machinePartsAttemptsRepository ?? new MachinePartsAttemptsRepository(_context);
         public IAttemptsDetailsRepository AttemptsDetailsRepository => _attemptsDetailsRepository = _attemptsDetailsRepository ?? new AttemptsDetailsRepository(_context);
         public IMachineRepository MachineRepository => _machineRepository = _machineRepository ?? new MachineRepository(_context);
+        public IPartRepository PartRepository => _partRepository = _partRepository ?? new PartRepository(_context);
 
         public async Task<int> CommitAsync()
         {

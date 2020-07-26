@@ -30,7 +30,6 @@ using DatingApp.Core.Services;
 using DatingApp.Data;
 using DatingApp.Services;
 using Microsoft.OpenApi.Models;
-using DatingApp.API.DatingApp.Service;
 using FluentValidation.AspNetCore;
 using System.Reflection;
 
@@ -136,11 +135,27 @@ namespace DatingApp.API
             services.AddScoped<IMachinePartsAttemptsService, MachinePartsAttemptsService>();
             services.AddScoped<IAttemptsDetailsService, AttemptsDetailsService>();
             services.AddScoped<IMachineService, MachinesService>();
+            services.AddScoped<IPartService, PartService>();
             services.AddScoped<IUnitOfWork, UnitOfWork>();
             services.AddMvc().AddFluentValidation(fv =>
                             {
                                 fv.RegisterValidatorsFromAssembly(Assembly.GetExecutingAssembly());
                             });
+            services.AddMvc().ConfigureApiBehaviorOptions(options =>
+            {
+                options.InvalidModelStateResponseFactory = c =>
+                {
+                var errors = c.ModelState.Values.Where(v => v.Errors.Count > 0)
+                    .SelectMany(v => v.Errors)
+                    .Select(v => v.ErrorMessage)
+                    .ToList();
+
+                return new BadRequestObjectResult(new
+                {
+                    Errors = errors
+                });
+                };
+            });
 
             // Register the Swagger generator, defining 1 or more Swagger documents
             services.AddSwaggerGen(c =>

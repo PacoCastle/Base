@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Http;
 
 namespace DatingApp.API.Dtos
 {
-    public class MachPartAttemRegisterDto
+    public class MachPartAttemCreateDto
     {
     
         public string MachineModel { get; set; }

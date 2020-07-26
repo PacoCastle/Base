@@ -1,5 +1,15 @@
 using System;
 
+/*
+The main MachinePartAttempt class
+Contains all properties to use in Context for work with Data Base
+*/
+/// <summary>
+/// The AutoMapperProfiles class.
+/// Contains all properties to use in Context for work with Data Base
+/// </summary>    
+/// 
+/// 
 namespace DatingApp.Core.Models
 {
     public class MachinePartAttempt
