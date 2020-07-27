@@ -1,10 +1,21 @@
 ﻿<Properties StartupConfiguration="{7CAD252E-A948-47F6-8DB0-FA132315E82A}|Default">
-  <MonoDevelop.Ide.Workbench>
+  <MonoDevelop.Ide.Workbench ActiveDocument="Controllers/MachinePartsAttemptsController.cs">
+    <Files>
+      <File FileName="Controllers/MachinePartsAttemptsController.cs" Line="16" Column="5" />
+    </Files>
     <Pads>
       <Pad Id="ProjectPad">
         <State name="__root__">
           <Node name="DatingApp.API" expanded="True">
-            <Node name="DatingApp.API" selected="True" />
+            <Node name="DatingApp.API" expanded="True">
+              <Node name="Controllers" expanded="True">
+                <Node name="MachinePartsAttemptsController.cs" selected="True" />
+              </Node>
+              <Node name="DatingApp.Core" expanded="True">
+                <Node name="Services" expanded="True" />
+              </Node>
+              <Node name="DatingApp.Service" expanded="True" />
+            </Node>
           </Node>
         </State>
       </Pad>
