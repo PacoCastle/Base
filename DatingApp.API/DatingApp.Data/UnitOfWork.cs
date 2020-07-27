@@ -8,14 +8,14 @@ namespace DatingApp.Data
 {
     public class UnitOfWork : IUnitOfWork
     {
-        private readonly UDataContext _context;
+        private readonly DataContext _context;
         private MachinePartsAttemptsRepository _machinePartsAttemptsRepository;        
         private AttemptsDetailsRepository _attemptsDetailsRepository;
         private MachineRepository _machineRepository;
 
         private PartRepository _partRepository;
 
-        public UnitOfWork(UDataContext context)
+        public UnitOfWork(DataContext context)
         {
             this._context = context;
         }

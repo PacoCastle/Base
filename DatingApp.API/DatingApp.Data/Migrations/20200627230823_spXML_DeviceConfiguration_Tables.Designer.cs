@@ -9,7 +9,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace DatingApp.API.Migrations
 {
-    [DbContext(typeof(UDataContext))]
+    [DbContext(typeof(DataContext))]
     [Migration("20200627230823_spXML_DeviceConfiguration_Tables")]
     partial class spXML_DeviceConfiguration_Tables
     {

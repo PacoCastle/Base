@@ -25,14 +25,14 @@ namespace DatingApp.Data.Repositories
 {
     public class MachinePartsAttemptsRepository : Repository<MachinePartAttempt>, IMachinePartsAttemptsRepository
     {
-        private readonly UDataContext _context;
+        private readonly DataContext _context;
 
         /// <summary>
-        /// The constructor of MachinePartsAttemptsRepository receive a UDataContext
+        /// The constructor of MachinePartsAttemptsRepository receive a DataContext
         /// that is used for operations with Data Base
         /// </summary>
         /// <param name="context"></param>
-        public MachinePartsAttemptsRepository(UDataContext context) 
+        public MachinePartsAttemptsRepository(DataContext context) 
             : base(context)
         { 
             _context = context;

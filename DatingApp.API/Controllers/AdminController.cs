@@ -11,6 +11,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 using DatingApp.Core.Models;
+using DatingApp.Data;
 
 namespace DatingApp.API.Controllers
 {

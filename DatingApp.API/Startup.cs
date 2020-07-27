@@ -53,11 +53,9 @@ namespace DatingApp.API
             });
 
             //QUITAR este debe quedar solo el DataContext
-            services.AddDbContext<UDataContext>(x =>
-            {
-                x.UseLazyLoadingProxies();
-                x.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"));
-            });
+            // services.AddDbContext<DataContext>(
+            //     options => options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")
+            //     , x => x.MigrationsAssembly("DatingApp.Data")));
 
             ConfigureServices(services);
         }
@@ -69,11 +67,10 @@ namespace DatingApp.API
                 x.UseLazyLoadingProxies();
                 x.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"));
             });
-            services.AddDbContext<UDataContext>(x =>
-            {
-                x.UseLazyLoadingProxies();
-                x.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"));
-            });
+            //QUITAR este debe quedar solo el DataContext
+            // services.AddDbContext<DataContext>(
+            //     options => options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")
+            //     , x => x.MigrationsAssembly("DatingApp.Data")));
 
             ConfigureServices(services);
         }
@@ -89,8 +86,8 @@ namespace DatingApp.API
             });
 
             builder = new IdentityBuilder(builder.UserType, typeof(Role), builder.Services);
+            //builder.AddEntityFrameworkStores<DataContext>();
             builder.AddEntityFrameworkStores<DataContext>();
-            builder.AddEntityFrameworkStores<UDataContext>();
             builder.AddRoleManager<RoleManager<Role>>();
             builder.AddSignInManager<SignInManager<User>>();
 

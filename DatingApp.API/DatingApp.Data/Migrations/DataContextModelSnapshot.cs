@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace DatingApp.API.Migrations
 {
-    [DbContext(typeof(UDataContext))]
+    [DbContext(typeof(DataContext))]
     partial class DataContextModelSnapshot : ModelSnapshot
     {
         protected override void BuildModel(ModelBuilder modelBuilder)
@@ -19,7 +19,7 @@ namespace DatingApp.API.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-            modelBuilder.Entity("DatingApp.API.Models.AttemptDetail", b =>
+            modelBuilder.Entity("DatingApp.Core.Models.AttemptDetail", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -58,7 +58,7 @@ namespace DatingApp.API.Migrations
                     b.ToTable("AttemptDetail");
                 });
 
-            modelBuilder.Entity("DatingApp.API.Models.DeviceConfiguration", b =>
+            modelBuilder.Entity("DatingApp.Core.Models.DeviceConfiguration", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -94,7 +94,7 @@ namespace DatingApp.API.Migrations
                     b.ToTable("DeviceConfiguration");
                 });
 
-            modelBuilder.Entity("DatingApp.API.Models.Like", b =>
+            modelBuilder.Entity("DatingApp.Core.Models.Like", b =>
                 {
                     b.Property<int>("LikerId")
                         .HasColumnType("int");
@@ -109,7 +109,7 @@ namespace DatingApp.API.Migrations
                     b.ToTable("Likes");
                 });
 
-            modelBuilder.Entity("DatingApp.API.Models.MachineModel", b =>
+            modelBuilder.Entity("DatingApp.Core.Models.MachineModel", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -130,7 +130,7 @@ namespace DatingApp.API.Migrations
                     b.ToTable("MachineModel");
                 });
 
-            modelBuilder.Entity("DatingApp.API.Models.MachinePartAttempt", b =>
+            modelBuilder.Entity("DatingApp.Core.Models.MachinePartAttempt", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -157,7 +157,7 @@ namespace DatingApp.API.Migrations
                     b.ToTable("MachinePartAttempt");
                 });
 
-            modelBuilder.Entity("DatingApp.API.Models.Message", b =>
+            modelBuilder.Entity("DatingApp.Core.Models.Message", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -197,7 +197,7 @@ namespace DatingApp.API.Migrations
                     b.ToTable("Messages");
                 });
 
-            modelBuilder.Entity("DatingApp.API.Models.PartModel", b =>
+            modelBuilder.Entity("DatingApp.Core.Models.PartModel", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -230,7 +230,7 @@ namespace DatingApp.API.Migrations
                     b.ToTable("PartModel");
                 });
 
-            modelBuilder.Entity("DatingApp.API.Models.Photo", b =>
+            modelBuilder.Entity("DatingApp.Core.Models.Photo", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -265,7 +265,7 @@ namespace DatingApp.API.Migrations
                     b.ToTable("Photos");
                 });
 
-            modelBuilder.Entity("DatingApp.API.Models.Plc", b =>
+            modelBuilder.Entity("DatingApp.Core.Models.Plc", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -301,7 +301,7 @@ namespace DatingApp.API.Migrations
                     b.ToTable("Plc");
                 });
 
-            modelBuilder.Entity("DatingApp.API.Models.Product", b =>
+            modelBuilder.Entity("DatingApp.Core.Models.Product", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -328,7 +328,7 @@ namespace DatingApp.API.Migrations
                     b.ToTable("Product");
                 });
 
-            modelBuilder.Entity("DatingApp.API.Models.Role", b =>
+            modelBuilder.Entity("DatingApp.Core.Models.Role", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -357,7 +357,7 @@ namespace DatingApp.API.Migrations
                     b.ToTable("AspNetRoles");
                 });
 
-            modelBuilder.Entity("DatingApp.API.Models.User", b =>
+            modelBuilder.Entity("DatingApp.Core.Models.User", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -454,7 +454,7 @@ namespace DatingApp.API.Migrations
                     b.ToTable("AspNetUsers");
                 });
 
-            modelBuilder.Entity("DatingApp.API.Models.UserRole", b =>
+            modelBuilder.Entity("DatingApp.Core.Models.UserRole", b =>
                 {
                     b.Property<int>("UserId")
                         .HasColumnType("int");
@@ -469,7 +469,7 @@ namespace DatingApp.API.Migrations
                     b.ToTable("AspNetUserRoles");
                 });
 
-            modelBuilder.Entity("DatingApp.API.Models.Value", b =>
+            modelBuilder.Entity("DatingApp.Core.Models.Value", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -570,54 +570,54 @@ namespace DatingApp.API.Migrations
                     b.ToTable("AspNetUserTokens");
                 });
 
-            modelBuilder.Entity("DatingApp.API.Models.Like", b =>
+            modelBuilder.Entity("DatingApp.Core.Models.Like", b =>
                 {
-                    b.HasOne("DatingApp.API.Models.User", "Likee")
+                    b.HasOne("DatingApp.Core.Models.User", "Likee")
                         .WithMany("Likers")
                         .HasForeignKey("LikeeId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
-                    b.HasOne("DatingApp.API.Models.User", "Liker")
+                    b.HasOne("DatingApp.Core.Models.User", "Liker")
                         .WithMany("Likees")
                         .HasForeignKey("LikerId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("DatingApp.API.Models.Message", b =>
+            modelBuilder.Entity("DatingApp.Core.Models.Message", b =>
                 {
-                    b.HasOne("DatingApp.API.Models.User", "Recipient")
+                    b.HasOne("DatingApp.Core.Models.User", "Recipient")
                         .WithMany("MessagesReceived")
                         .HasForeignKey("RecipientId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
-                    b.HasOne("DatingApp.API.Models.User", "Sender")
+                    b.HasOne("DatingApp.Core.Models.User", "Sender")
                         .WithMany("MessagesSent")
                         .HasForeignKey("SenderId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("DatingApp.API.Models.Photo", b =>
+            modelBuilder.Entity("DatingApp.Core.Models.Photo", b =>
                 {
-                    b.HasOne("DatingApp.API.Models.User", "User")
+                    b.HasOne("DatingApp.Core.Models.User", "User")
                         .WithMany("Photos")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("DatingApp.API.Models.UserRole", b =>
+            modelBuilder.Entity("DatingApp.Core.Models.UserRole", b =>
                 {
-                    b.HasOne("DatingApp.API.Models.Role", "Role")
+                    b.HasOne("DatingApp.Core.Models.Role", "Role")
                         .WithMany("UserRoles")
                         .HasForeignKey("RoleId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("DatingApp.API.Models.User", "User")
+                    b.HasOne("DatingApp.Core.Models.User", "User")
                         .WithMany("UserRoles")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -626,7 +626,7 @@ namespace DatingApp.API.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<int>", b =>
                 {
-                    b.HasOne("DatingApp.API.Models.Role", null)
+                    b.HasOne("DatingApp.Core.Models.Role", null)
                         .WithMany()
                         .HasForeignKey("RoleId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -635,7 +635,7 @@ namespace DatingApp.API.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<int>", b =>
                 {
-                    b.HasOne("DatingApp.API.Models.User", null)
+                    b.HasOne("DatingApp.Core.Models.User", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -644,7 +644,7 @@ namespace DatingApp.API.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<int>", b =>
                 {
-                    b.HasOne("DatingApp.API.Models.User", null)
+                    b.HasOne("DatingApp.Core.Models.User", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -653,7 +653,7 @@ namespace DatingApp.API.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<int>", b =>
                 {
-                    b.HasOne("DatingApp.API.Models.User", null)
+                    b.HasOne("DatingApp.Core.Models.User", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)

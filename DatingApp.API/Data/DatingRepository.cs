@@ -7,6 +7,7 @@ using DatingApp.API.Helpers;
 using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 using DatingApp.Core.Models;
+using DatingApp.Data;
 
 namespace DatingApp.API.Data
 {

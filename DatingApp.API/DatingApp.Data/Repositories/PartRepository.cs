@@ -11,8 +11,8 @@ namespace DatingApp.Data.Repositories
 {
     public class PartRepository : Repository<PartModel>, IPartRepository
     {
-        private readonly UDataContext _context;
-        public PartRepository(UDataContext context) 
+        private readonly DataContext _context;
+        public PartRepository(DataContext context) 
             : base(context)
         { 
             _context = context;

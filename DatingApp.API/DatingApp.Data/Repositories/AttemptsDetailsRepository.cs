@@ -11,8 +11,8 @@ namespace DatingApp.Data.Repositories
 {
     public class AttemptsDetailsRepository : Repository<AttemptDetail>, IAttemptsDetailsRepository
     {
-        private readonly UDataContext _context;
-        public AttemptsDetailsRepository(UDataContext context) 
+        private readonly DataContext _context;
+        public AttemptsDetailsRepository(DataContext context) 
             : base(context)
         { 
             _context = context;

@@ -11,8 +11,8 @@ namespace DatingApp.Data.Repositories
 {
     public class MachineRepository : Repository<MachineModel>, IMachineRepository
     {
-        private readonly UDataContext _context;
-        public MachineRepository(UDataContext context) 
+        private readonly DataContext _context;
+        public MachineRepository(DataContext context) 
             : base(context)
         { 
             _context = context;
