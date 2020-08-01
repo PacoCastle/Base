@@ -130,7 +130,7 @@ namespace DatingApp.Data.Repositories
             {
                 //Validate if the execution with DataBase was not be completed then set Successful = false
                 //and return the error Catched and Add it in Error list 
-                result.Successful = false;
+                //result.Successful = false;
                 result.errors.Add("Error -> MachinePartsAttemptsRepository ->  AddByStored " + ex.HResult +  " " + ex.Message.ToString());                
             }                 
 
