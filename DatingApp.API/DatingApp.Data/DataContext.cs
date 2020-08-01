@@ -19,9 +19,9 @@ namespace DatingApp.Data
 
         public DbSet<MachinePartAttempt> MachinePartAttempt { get; set; }    
 
-        public DbSet<AttemptDetail> AttemptDetail { get; set; }            
-
-         
+        public DbSet<AttemptDetail> AttemptDetail { get; set; }
+        //public DbSet<RoleMenu> RoleMenu { get; set; }
+        public DbSet<Menu> Menu { get; set; }        
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
@@ -42,6 +42,21 @@ namespace DatingApp.Data
                     .HasForeignKey(ur => ur.UserId)
                     .IsRequired();
             });
+
+            // builder.Entity<RoleMenu>(roleMenu => 
+            // {
+            //     roleMenu.HasKey(rm => new {rm.RoleId, rm.MenuId});
+
+            //     roleMenu.HasOne(rm => rm.Role)
+            //         .WithMany(r => r.RoleMenus)
+            //         .HasForeignKey(rm => rm.RoleId)
+            //         .IsRequired();
+
+            //     roleMenu.HasOne(rm => rm.Menu)
+            //         .WithMany(m => m.RoleMenus)
+            //         .HasForeignKey(rm => rm.MenuId)
+            //         .IsRequired();
+            // });
 
             // builder.Entity<Like>()
             //     .HasKey(k => new { k.LikerId, k.LikeeId });

@@ -1,9 +1,6 @@
-using System;
-using System.Collections.Generic;
-
-namespace DatingApp.Core.Models
+namespace DatingApp.API.Dtos
 {
-    public class Menu
+    public class MenuReturnDto
     {
         public int Id { get; set; }
         
@@ -16,8 +13,5 @@ namespace DatingApp.Core.Models
         public int ParentId { get; set; }    
 
         public int Status { get; set; }    
-
-        //public virtual ICollection<RoleMenu> RoleMenus { get; set; }       
-        
     }
 }
