@@ -134,6 +134,7 @@ namespace DatingApp.API
             services.AddScoped<IMachineService, MachinesService>();
             services.AddScoped<IPartService, PartService>();
             services.AddScoped<IMenuService, MenuService>();
+            services.AddScoped<IRoleService, RoleService>();
             services.AddScoped<IUnitOfWork, UnitOfWork>();
             services.AddMvc().AddFluentValidation(fv =>
                             {

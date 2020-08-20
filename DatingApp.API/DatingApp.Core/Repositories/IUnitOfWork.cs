@@ -11,6 +11,7 @@ namespace DatingApp.Core
         IMachineRepository MachineRepository { get; }
         IPartRepository PartRepository { get; }
         IMenuRepository MenuRepository { get; }
+        IRoleRepository RoleRepository { get; }
         Task<int> CommitAsync();
         
     }
