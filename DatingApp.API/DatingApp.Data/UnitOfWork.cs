@@ -13,6 +13,7 @@ namespace DatingApp.Data
         private readonly DataContext _context;
 
         private readonly RoleManager<Role> _roleManager;
+        private readonly UserManager<User> _userManager;
         private MachinePartsAttemptsRepository _machinePartsAttemptsRepository;        
         private AttemptsDetailsRepository _attemptsDetailsRepository;
         private MachineRepository _machineRepository;
@@ -20,13 +21,15 @@ namespace DatingApp.Data
         private PartRepository _partRepository;
         private MenuRepository _menuRepository;
         private RoleRepository _roleRepository;
+        private UserRepository _userRepository;
 
         
 
-        public UnitOfWork(DataContext context, RoleManager<Role> roleManager)
+        public UnitOfWork(DataContext context, RoleManager<Role> roleManager, UserManager<User> userManager)
         {
             this._context = context;
             this._roleManager = roleManager;
+            this._userManager = userManager;
         }
 
         public IMachinePartsAttemptsRepository MachinePartsAttemptsRepository => _machinePartsAttemptsRepository = _machinePartsAttemptsRepository ?? new MachinePartsAttemptsRepository(_context);
@@ -34,7 +37,8 @@ namespace DatingApp.Data
         public IMachineRepository MachineRepository => _machineRepository = _machineRepository ?? new MachineRepository(_context);
         public IPartRepository PartRepository => _partRepository = _partRepository ?? new PartRepository(_context);   
         public IMenuRepository MenuRepository => _menuRepository = _menuRepository ?? new MenuRepository(_context);   
-        public IRoleRepository RoleRepository => _roleRepository = _roleRepository ?? new RoleRepository(_roleManager);       
+        public IRoleRepository RoleRepository => _roleRepository = _roleRepository ?? new RoleRepository(_roleManager);    
+        public IUserRepository UserRepository => _userRepository = _userRepository ?? new UserRepository(_userManager, _context);      
 
         public async Task<int> CommitAsync()
         {

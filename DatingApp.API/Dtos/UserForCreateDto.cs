@@ -2,7 +2,7 @@ using System;
 
 namespace DatingApp.API.Dtos
 {
-    public class UserForRegisterDto
+    public class UserForCreateDto
     {        
         public string Username { get; set; }
         public string Password { get; set; }
@@ -12,11 +12,9 @@ namespace DatingApp.API.Dtos
         public string SecondLastName { get; set; }        
         public DateTime DateOfBirth { get; set; }        
         public DateTime Created { get; set; }
-        public DateTime LastActive { get; set; }
-        public UserForRegisterDto()
+        public UserForCreateDto()
         {
             Created = DateTime.Now;
-            LastActive = DateTime.Now;
         }
         public string[] RoleNames { get; set; }
     }

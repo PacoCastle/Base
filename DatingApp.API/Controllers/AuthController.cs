@@ -34,7 +34,7 @@ namespace DatingApp.API.Controllers
         }
 
         [HttpPost("register")]
-        public async Task<IActionResult> Register(UserForRegisterDto userForRegisterDto)
+        public async Task<IActionResult> Register(UserForCreateDto userForRegisterDto)
         {
             var userToCreate = _mapper.Map<User>(userForRegisterDto);
 

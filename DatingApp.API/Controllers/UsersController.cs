@@ -1,108 +1,160 @@
 using System;
-using System.Collections.Generic;
-using System.Security.Claims;
-using System.Threading.Tasks;
-using AutoMapper;
-using DatingApp.API.Data;
-using DatingApp.API.Dtos;
-using DatingApp.API.Helpers;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
-using DatingApp.Core.Models;
-
+ using System.Collections.Generic;
+ using System.Security.Claims;
+ using System.Threading.Tasks;
+ using AutoMapper;
+ using DatingApp.API.Data;
+ using DatingApp.API.Dtos;
+ using DatingApp.API.Helpers;
+ using Microsoft.AspNetCore.Authorization;
+ using Microsoft.AspNetCore.Mvc;
+ using DatingApp.Core.Models;
+using DatingApp.Core.Services;
+/*
+The UsersController class
+Contains all EndPoints for Get, Post and Put Users Entity
+*/
+/// <summary>
+/// The UsersRepository class
+/// Contains all EndPoints for Get, Post and Put Users Entity
+/// </summary>    
+/// 
 namespace DatingApp.API.Controllers
-{
-    [ServiceFilter(typeof(LogUserActivity))]
-    [Route("api/[controller]")]
-    [ApiController]
-    public class UsersController : ControllerBase
-    {
-        private readonly IDatingRepository _repo;
-        private readonly IMapper _mapper;
-        public UsersController(IDatingRepository repo, IMapper mapper)
+ {
+    [AllowAnonymous]
+     [Route("api/[controller]")]
+     [ApiController]
+     public class UsersController : ControllerBase
+     {
+         private readonly IMapper _mapper;
+
+         private readonly IUserService _service;
+         /// <summary>
+         /// UsersController Constructor Initialize the Injected Interfaces for use it.
+         /// </summary>
+         /// <param name="mapper">Interface that contain mappings between DTO's and Models</param>
+         /// <param name="service">Interface that contain acces to Service funtions and methods of Userservice</param>
+         public UsersController(IUserService service, IMapper mapper)
+         {
+             _mapper = mapper;
+             _service = service;         
+         }
+        /// <summary>
+        /// Search in User filter By Id
+        /// </summary>
+        /// <param name="id">Id for Search Register in Data Base for </param>
+        /// <returns>Object wit Status of execution and Data Searched and a Status of request</returns>
+         [HttpGet("{id}", Name = "GetUser")]
+         public async Task<IActionResult> GetUser(int id)
+         {
+             BaseResponse<UserForListDto> resultMapped = new BaseResponse<UserForListDto>();
+              //Get ther response from call GetUserById from Service that retorn object with data for be validate
+              var serviceResult  = await _service.GetUserById(id);
+
+              //If the Service response Successful the Query was executed
+              if (serviceResult.Successful)
+              {
+                  //If the search doesn't has Data filtering by Id then return NotFound (404)
+                  if (serviceResult.DataResponse == null)
+                    return NotFound(serviceResult);
+
+                  var dataMapped = _mapper.Map<UserForListDto>(serviceResult.DataResponse);
+                  
+                  resultMapped.DataResponse = dataMapped;
+
+                  //If the search has Data filtering by Id then return Ok (200)  and return the register Serached
+                  return Ok(resultMapped);
+
+              }
+              //If the Service response isn't Successful then ocurred some wrong and return (400)
+              return BadRequest(serviceResult); 
+         }
+        /// <summary>
+        /// Search All User 
+        /// </summary>
+        /// <returns>Object wit Status of execution and Data Searched and a Status of request</returns>
+         [HttpGet(Name = "GetUsers")]
+         public async Task<IActionResult> GetUsers()
+         {
+              BaseResponse<IEnumerable<UserForListDto>> resultMapped = new BaseResponse<IEnumerable<UserForListDto>>();
+              //Get ther response from call GetUsers from Service that retorn object with data for be validate
+              var serviceResult = await _service.GetUsers();
+
+              //If the Service response Successful the Query was executed  
+              if (serviceResult.Successful)
+              {
+                  //If the search doesn't has Data filtering by Id then return NotFound (404)
+                  if (serviceResult.DataResponse == null)
+                    return NotFound(serviceResult);
+                  
+                  var dataMapped = _mapper.Map<IEnumerable<UserForListDto>>(serviceResult.DataResponse);
+                  
+                  resultMapped.DataResponse = dataMapped;
+
+                  var userForReturn = _mapper.Map<IEnumerable<UserForListDto>>(serviceResult.DataResponse);
+                    //If the search has Data filtering by Id then return Ok (200) and return the register Serached
+                  return Ok(userForReturn);
+              }
+              //If the Service response isn't Successful then ocurred some wrong and return (400)
+              return BadRequest(serviceResult);     
+         }
+        /// <summary>
+        /// Create User register
+        /// </summary>
+        /// <param name="UserForCreationDto">DTO That contains the properties for Insert in Data Base</param>
+        /// <returns>Object wit Status of execution and Data Created and a Status of request</returns>
+          [HttpPost]
+         public async Task<IActionResult> CreateUser(UserForCreateDto userForCreateDto)
+         {
+            // Map to a User for Send to Service
+            var UserForCreate = _mapper.Map<User>(userForCreateDto); 
+
+             //Get ther response from call GetUsers from Service that retorn object with data for be validate
+             var serviceResult = await _service.CreateUser(UserForCreate, userForCreateDto.Password);
+
+            //If the Service response Successful the Query was executed  and return the register Created
+             if (serviceResult.Successful)
+             {
+                 return Ok(serviceResult);                 
+             }
+            //If the Service response isn't Successful then ocurred some wrong and return (400)
+             return BadRequest(serviceResult);   
+         }
+         /// <summary>
+        /// Update User register
+        /// </summary>
+        /// <param name="id">Id of Register to be Updated</param>
+        /// <param name="UserForUpdateDto">DTO that contains properties to be Updated </param>
+        /// <returns>Object wit Status of execution and Data Updated and a Status of request</returns>
+      [HttpPut("{id}")]
+        public async Task<IActionResult> UpdateUser(int id, UserForUpdateDto UserForUpdateDto)
         {
-            _mapper = mapper;
-            _repo = repo;
-        }
+            //Search if de Id to be Updated get Data for Update
+            var UserFromRepo = await _service.GetUserById(id);
 
-        [HttpGet]
-        public async Task<IActionResult> GetUsers([FromQuery]UserParams userParams)
-        {
-            var currentUserId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value);
+            //Set in a var the Data that was Obtained in the last Step 
+            var UserToBeUpdated = UserFromRepo.DataResponse;
 
-            var userFromRepo = await _repo.GetUser(currentUserId, true);
+            //If not exist Data for the id parameter return 404 and Empty DataResponse object 
+            if (UserToBeUpdated == null)
+                return NotFound();
 
-            userParams.UserId = currentUserId;
+            //If exist Data it's Mapped to a User for Send to Service
+            var UserForUpdate = _mapper.Map<User>(UserForUpdateDto); 
+            UserForUpdate.Id = id;
 
-            // if (string.IsNullOrEmpty(userParams.Gender))
-            // {
-            //     userParams.Gender = userFromRepo.Gender == "male" ? "female" : "male";
-            // }
+            //Get Response from Service and UpdateUser sendig Object to be Updated and Data for make the Update 
+            var serviceResult = await _service.UpdateUser(UserToBeUpdated, UserForUpdate);
 
-            var users = await _repo.GetUsers(userParams);
+            //if the Update was Successful then return 200 and an Object with DataResponse Updated
+            if(serviceResult.Successful)
+            {
+                var userForReturn = _mapper.Map<UserForListDto>(serviceResult.DataResponse);
+                return Ok(serviceResult);
+            }        
 
-            var usersToReturn = _mapper.Map<IEnumerable<UserForListDto>>(users);
-
-            Response.AddPagination(users.CurrentPage, users.PageSize,
-                 users.TotalCount, users.TotalPages);
-
-            return Ok(usersToReturn);
-        }
-
-        [HttpGet("{id}", Name = "GetUser")]
-        public async Task<IActionResult> GetUser(int id)
-        {
-            var isCurrentUser = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value) == id;
-
-            var user = await _repo.GetUser(id, isCurrentUser);
-
-            var userToReturn = _mapper.Map<UserForDetailedDto>(user);
-
-            return Ok(userToReturn);
-        }
-
-        [HttpPut("{id}")]
-        public async Task<IActionResult> UpdateUser(int id, UserForUpdateDto userForUpdateDto)
-        {
-            if (id != int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value))
-                return Unauthorized();
-
-            var userFromRepo = await _repo.GetUser(id, true);
-
-            _mapper.Map(userForUpdateDto, userFromRepo);
-
-            if (await _repo.SaveAll())
-                return NoContent();
-
-            throw new Exception($"Updating user {id} failed on save");
-        }
-
-        // [HttpPost("{id}/like/{recipientId}")]
-        //  public async Task<IActionResult> LikeUser(int id, int recipientId)
-        //  {
-        //      if (id != int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value))
-        //          return Unauthorized();
-
-        //       var like = await _repo.GetLike(id, recipientId);
-
-        //       if (like != null)
-        //          return BadRequest("You already like this user");
-
-        //       if (await _repo.GetUser(recipientId, false) == null)
-        //          return NotFound();
-
-        //       like = new Like
-        //      {
-        //          LikerId = id,
-        //          LikeeId = recipientId
-        //      };
-
-        //       _repo.Add<Like>(like);
-
-        //       if (await _repo.SaveAll())
-        //          return Ok();
-
-        //       return BadRequest("Failed to like user");
-        //  }
-    }
-}
+            //if the Update wasn't Successful then return 400 and an Object with Error information
+            return BadRequest(serviceResult);   
+        }         
+     }
+ } 
