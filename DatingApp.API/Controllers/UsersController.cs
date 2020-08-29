@@ -90,6 +90,7 @@ namespace DatingApp.API.Controllers
                   var dataMapped = _mapper.Map<IEnumerable<UserForListDto>>(serviceResult.DataResponse);
                   
                   resultMapped.DataResponse = dataMapped;
+                  resultMapped.Successful = serviceResult.Successful;
 
                   var userForReturn = _mapper.Map<IEnumerable<UserForListDto>>(serviceResult.DataResponse);
                     //If the search has Data filtering by Id then return Ok (200) and return the register Serached
@@ -141,7 +142,7 @@ namespace DatingApp.API.Controllers
 
             //If exist Data it's Mapped to a User for Send to Service
             var UserForUpdate = _mapper.Map<User>(UserForUpdateDto); 
-            UserForUpdate.Id = id;
+            //UserForUpdate.Id = id;
 
             //Get Response from Service and UpdateUser sendig Object to be Updated and Data for make the Update 
             var serviceResult = await _service.UpdateUser(UserToBeUpdated, UserForUpdate);

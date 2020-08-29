@@ -49,7 +49,14 @@ namespace DatingApp.Services
             {
                 //Using _unitOfWork call to a MenuRepository and through of the 
                 //GetByIdAsync GENERIC method Search the first or Default
+                
+
+                //ESTA ES LA OPCION DE QUE NO CONVIERTE dynamic A MENU
+                //result.DataResponse = await  _unitOfWork.MenuRepository.GetMenuById(id);
+
+                //ESTA ES LA OPCION OBTIENE DEL GENERICO 
                 result.DataResponse = await _unitOfWork.MenuRepository.GetByIdAsync(id);
+                result.DataResponse.RoleMenus.Clear();
 
                 //If the Query was Successful then in the result this flat in true
                 result.Successful = true; 
@@ -78,7 +85,11 @@ namespace DatingApp.Services
             {
                 //Using _unitOfWork call to a MenuRepository and through of the 
                 //GetAllAsync GENERIC method Search All register
-                result.DataResponse = await  _unitOfWork.MenuRepository.GetAllAsync(); 
+                
+                //ESTA ES LA OPCION DE QUE NO CONVIERTE ANONIMUS A MENU
+                //result.DataResponse = await  _unitOfWork.MenuRepository.GetMenus();
+
+                result.DataResponse = await  _unitOfWork.MenuRepository.GetAllAsync();
 
                 //If the Query was Successful then in the result this flat in true  
                 result.Successful = true; 

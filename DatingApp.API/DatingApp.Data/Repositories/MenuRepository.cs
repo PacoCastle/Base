@@ -18,6 +18,43 @@ namespace DatingApp.Data.Repositories
             : base(context)
         { 
             _context = context;            
+        } 
+        public async Task<dynamic> GetMenuById(int id)
+        {
+            //Menu m = new Menu();
+             var menu = await _context.Menu
+                .Select(menu => new
+                {
+                    Id = menu.Id
+                    ,Title = menu.Title
+                    ,Path = menu.Path
+                    ,Status = menu.Status
+                    ,Icon = menu.Icon
+                    ,ParentId = menu.ParentId
+
+                }).FirstOrDefaultAsync();   
+            
+            return menu;
+            
+        }   
+
+        public async Task<IEnumerable<Menu>> GetMenus()
+        {
+
+            var menuList = await _context.Menu
+                .OrderBy(x => x.Title)
+                .Select(menu => new
+                {
+                    Id = menu.Id
+                    ,Title = menu.Title
+                    ,Path = menu.Path
+                    ,Status = menu.Status
+                    ,Icon = menu.Icon
+                    ,ParentId = menu.ParentId
+                }).ToListAsync();
+            
+            return (IEnumerable<Menu>)menuList;
+            
         }       
          
     }

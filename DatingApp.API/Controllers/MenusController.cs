@@ -71,6 +71,7 @@ namespace DatingApp.API.Controllers
          [HttpGet(Name = "GetMenus")]
          public async Task<IActionResult> GetMenus()
          {
+             BaseResponse<IEnumerable<MenuReturnDto>> resultMapped = new BaseResponse<IEnumerable<MenuReturnDto>>();
               //Get ther response from call GetMenus from Service that retorn object with data for be validate
               var serviceResult = await _service.GetMenus();
 
@@ -80,9 +81,12 @@ namespace DatingApp.API.Controllers
                   //If the search doesn't has Data filtering by Id then return NotFound (404)
                   if (serviceResult.DataResponse == null)
                     return NotFound(serviceResult);
-                
+                    
+                  var dataMapped = _mapper.Map<IEnumerable<MenuReturnDto>>(serviceResult.DataResponse);
+                  
+                  resultMapped.DataResponse = dataMapped;
                     //If the search has Data filtering by Id then return Ok (200) and return the register Serached
-                  return Ok(serviceResult);
+                  return Ok(resultMapped);
               }
               //If the Service response isn't Successful then ocurred some wrong and return (400)
               return BadRequest(serviceResult);     

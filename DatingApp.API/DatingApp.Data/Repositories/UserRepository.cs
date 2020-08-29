@@ -38,20 +38,16 @@ namespace DatingApp.Data.Repositories
             })
             .FirstOrDefaultAsync().ConfigureAwait(false); */
             
-             /* var user = await _context.Users
-                .OrderBy(x => x.UserName)
-                .Select(user => new
+              var menu = await _context.Menu
+                .OrderBy(x => x.Id)
+                .Select(menu => new
                 {
-                    Id = user.Id,
-                    UserName = user.UserName,
-                    Roles = (from userRole in user.UserRoles
-                             join role in _context.Roles
-                             on userRole.RoleId
-                             equals role.Id
-                             select role.Name).ToList()
-                }).FirstOrDefaultAsync();  */
+                    Id = menu.Id,
+                    UserName = menu.Title
+                }).FirstOrDefaultAsync();  
             
             return user;
+            
         } 
         public async Task<IEnumerable<User>> GetUsers()
         {
