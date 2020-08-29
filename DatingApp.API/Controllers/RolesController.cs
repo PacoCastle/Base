@@ -46,10 +46,10 @@ namespace DatingApp.API.Controllers
         /// <param name="id">Id for Search Register in Data Base for </param>
         /// <returns>Object wit Status of execution and Data Searched and a Status of request</returns>
          [HttpGet("{id}", Name = "GetRole")]
-         public async Task<IActionResult> GetRole(string name)
+         public async Task<IActionResult> GetRole(int id)
          {
               //Get ther response from call GetRoleById from Service that retorn object with data for be validate
-              var serviceResult  = await _service.GetRoleByName(name);
+              var serviceResult  = await _service.GetRoleById(id);
 
               //If the Service response Successful the Query was executed
               if (serviceResult.Successful)

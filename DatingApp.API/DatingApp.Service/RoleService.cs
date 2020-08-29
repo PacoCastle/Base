@@ -39,6 +39,36 @@ namespace DatingApp.Services
         /// </summary>
         /// <param name="id">Id of Role for the search</param>
         /// <returns>BaseResponse<Role> with the result of the search By Id</returns>
+        public async Task<BaseResponse<Role>> GetRoleById(int id)
+        {
+            //Declare variables for result and errors for be filled with the response of _unitOfWork
+            BaseResponse<Role> result = new BaseResponse<Role>();
+            List<string> err = new List<string>();
+
+            try
+            {
+                //Using _unitOfWork call to a RoleRepository and through of the 
+                //GetRoleByName GENERIC method Search the first or Default
+                result.DataResponse = await _unitOfWork.RoleRepository.GetByIdAsync(id);
+
+                //If the Query was Successful then in the result this flat in true
+                result.Successful = true; 
+            }
+            catch (System.Exception ex )
+            {
+                //If exist a Exception it's catched and Set in err List the Message 
+                err.Add("Error en RoleService -> GetRoleById " + ex.Message);
+                //Set in the result errors object the exception message
+                result.errors = err;
+            }          
+
+            return result; 
+        } 
+        /// <summary>
+        /// Get the first or Default Role Register filter by Name 
+        /// </summary>
+        /// <param name="id">Id of Role for the search</param>
+        /// <returns>BaseResponse<Role> with the result of the search By Id</returns>
         public async Task<BaseResponse<String>> GetRoleByName(String name)
         {
             //Declare variables for result and errors for be filled with the response of _unitOfWork

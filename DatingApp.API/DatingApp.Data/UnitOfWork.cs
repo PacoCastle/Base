@@ -37,7 +37,7 @@ namespace DatingApp.Data
         public IMachineRepository MachineRepository => _machineRepository = _machineRepository ?? new MachineRepository(_context);
         public IPartRepository PartRepository => _partRepository = _partRepository ?? new PartRepository(_context);   
         public IMenuRepository MenuRepository => _menuRepository = _menuRepository ?? new MenuRepository(_context);   
-        public IRoleRepository RoleRepository => _roleRepository = _roleRepository ?? new RoleRepository(_roleManager);    
+        public IRoleRepository RoleRepository => _roleRepository = _roleRepository ?? new RoleRepository(_roleManager,_context);    
         public IUserRepository UserRepository => _userRepository = _userRepository ?? new UserRepository(_userManager, _context);      
 
         public async Task<int> CommitAsync()

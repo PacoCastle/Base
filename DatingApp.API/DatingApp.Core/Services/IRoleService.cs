@@ -11,6 +11,7 @@ namespace DatingApp.Core.Services
          Task<BaseResponse<String>> GetRoleByName(String name);
         Task<BaseResponse<Role>>  CreateRole(Role Role);
         /*Task<BaseResponse<Role>>  UpdateRole(Role Role , Role RoleUpdateModel);*/
+        Task<BaseResponse<Role>> GetRoleById(int id);
         
     }
 }

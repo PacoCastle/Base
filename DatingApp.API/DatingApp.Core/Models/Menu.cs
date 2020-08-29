@@ -17,7 +17,7 @@ namespace DatingApp.Core.Models
 
         public int Status { get; set; }    
 
-        //public virtual ICollection<RoleMenu> RoleMenus { get; set; }       
+        public virtual ICollection<RoleMenu> RoleMenus { get; set; }       
         
     }
 }

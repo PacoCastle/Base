@@ -10,12 +10,15 @@ using Microsoft.AspNetCore.Identity;
 
 namespace DatingApp.Data.Repositories
 {
-    public class RoleRepository : IRoleRepository
+    public class RoleRepository : Repository<Role>, IRoleRepository
     {
         private readonly RoleManager<Role> _roleManager;
-        public RoleRepository(RoleManager<Role> roleManager)
+        private readonly DataContext _context;
+        public RoleRepository(RoleManager<Role> roleManager, DataContext context )
+                : base(context)
         { 
             _roleManager = roleManager;
+            _context = context;
         }        
         public async Task<IEnumerable<String>> GetRoles()
         {
