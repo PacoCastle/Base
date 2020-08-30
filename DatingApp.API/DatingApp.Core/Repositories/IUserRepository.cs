@@ -17,6 +17,7 @@ namespace DatingApp.Core.Repositories
 
         Task<User> RemoveUserRoles(User user, IEnumerable<string> rolesForRemove, IEnumerable<string> rolesForExclude);
 
-        Task<User> UpdateUser(User userForBeUpdated); 
+        Task<User> UpdateUser(User userForBeUpdated);
+        Task<User> GetUserByUserName(string userName);
     }
 }

@@ -101,7 +101,13 @@ namespace DatingApp.Data.Repositories
             
             return userForBeUpdated; 
         }
-        
+        public async Task<User> GetUserByUserName(string userName)
+        {
+            var userFromRepo = await _userManager.FindByNameAsync(userName);
+
+            return userFromRepo;
+
+        }
     }
 }
 

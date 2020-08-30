@@ -140,6 +140,19 @@ namespace DatingApp.Services
                 //Set in Data Response of result object   
                 result.DataResponse = await _unitOfWork.RoleRepository.CreateRole(RoleToBeCreatedModel);
 
+                //foreach (int currentMenuId in RoleToBeCreatedModel.RoleMenus)
+                //{
+                //    RoleMenu roleMenu = new RoleMenu
+                //    {
+                //        roleMenu.RoleId = result.DataResponse.Id,
+                //        roleMenu.MenuId = currentMenuId
+                //    };
+
+                //    await _unitOfWork.RoleMenuRepository.AddAsync(roleMenu);
+
+
+                //}
+
                 //Set Successful in true because the commit was completed     
                 result.Successful = true;
 

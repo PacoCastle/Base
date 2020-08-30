@@ -13,6 +13,8 @@ namespace DatingApp.Core
         IMenuRepository MenuRepository { get; }
         IRoleRepository RoleRepository { get; }
         IUserRepository UserRepository { get; }
+        IAuthenticationRepository AuthenticationRepository { get; }
+        IRoleMenuRepository RoleMenuRepository { get; }
         Task<int> CommitAsync();
         
     }

@@ -203,5 +203,35 @@ namespace DatingApp.Services
             return result;  
             
         }
+        /// <summary>
+        /// Get the first or Default User Register filter by userName 
+        /// </summary>
+        /// <param name="userName">userName of User for the search</param>
+        /// <returns>BaseResponse<User> with the result of the search By Id</returns>
+        public async Task<BaseResponse<User>> GetUserByUserName(String userName)
+        {
+            //Declare variables for result and errors for be filled with the response of _unitOfWork
+            BaseResponse<User> result = new BaseResponse<User>();
+            List<string> err = new List<string>();
+
+            try
+            {
+                //Using _unitOfWork call to a UserRepository and through of the 
+                //GetByIdAsync GENERIC method Search the first or Default
+                result.DataResponse = await _unitOfWork.UserRepository.GetUserByUserName(userName);
+
+                //If the Query was Successful then in the result this flat in true
+                result.Successful = true;
+            }
+            catch (System.Exception ex)
+            {
+                //If exist a Exception it's catched and Set in err List the Message 
+                err.Add("Error en UserService -> GetUserByUserName " + ex.Message);
+                //Set in the result errors object the exception message
+                result.errors = err;
+            }
+
+            return result;
+        }
     }
 }

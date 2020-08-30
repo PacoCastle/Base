@@ -24,6 +24,9 @@ namespace DatingApp.Core.Models
          [NotMapped]        
          public virtual ICollection<String> RoleNames { get; set; }
 
+        [NotMapped]
+        public String token { get; set; }
+
         //public virtual ICollection<RoleMenu> RoleMenu { get; set; }
     }
 }
