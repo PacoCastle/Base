@@ -33,7 +33,7 @@ namespace DatingApp.API.Validations
             RuleFor(m => m.Email)
                 .EmailAddress()
                 .WithMessage("'Email'  Es requerido un Email valido.");
-            RuleForEach(m => m.Roles).NotEmpty().WithMessage("Roles {CollectionIndex} no puede ser vacío.");
+            RuleForEach(m => m.RoleNames).NotEmpty().WithMessage("Roles {CollectionIndex} no puede ser vacío.");
         }
     }
 }

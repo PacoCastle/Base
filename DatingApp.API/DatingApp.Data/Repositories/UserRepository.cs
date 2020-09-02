@@ -83,7 +83,7 @@ namespace DatingApp.Data.Repositories
             
             var userCreated = _userManager.FindByNameAsync(User.UserName).Result;
 
-            //_userManager.AddToRolesAsync(userCreated,User.RoleNames).Wait();
+            _userManager.AddToRolesAsync(userCreated,User.RoleNames).Wait();
             
             return User; 
         }

@@ -109,6 +109,17 @@ namespace DatingApp.Services
 
             try
             {
+                foreach (string roleName in UserToBeCreatedModel.RoleNames)
+                {
+                    var currentRole = await _unitOfWork.RoleRepository.GetRoleByName(roleName);
+                    if (currentRole == null)
+                    {
+                        err.Add("El Role " + roleName + " no existe el catálogo");
+                        //Set in the result errors object the exception message
+                        result.errors = err;
+                        return result;
+                    }
+                }
                 //Call Method in the repository for create User 
                 await _unitOfWork.UserRepository.CreateUser(UserToBeCreatedModel, password);
                 

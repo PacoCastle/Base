@@ -16,6 +16,6 @@ namespace DatingApp.API.Dtos
         {
             Created = DateTime.Now;
         }
-        public string[] Roles { get; set; }
+        public string[] RoleNames { get; set; }
     }
 }
