@@ -9,5 +9,7 @@ namespace DatingApp.API.Dtos
         public string Password { get; set; }
         public string Email { get; set; }      
         public string[] RoleNames { get; set; }
+
+        public int Status { get; set;  }
     }
 }

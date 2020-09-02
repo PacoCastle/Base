@@ -1,23 +1,16 @@
-using System;
- using System.Collections.Generic;
- using System.Security.Claims;
- using System.Threading.Tasks;
+using System.Threading.Tasks;
  using AutoMapper;
- using DatingApp.API.Data;
- using DatingApp.API.Dtos;
- using DatingApp.API.Helpers;
+using DatingApp.API.Dtos;
  using Microsoft.AspNetCore.Authorization;
  using Microsoft.AspNetCore.Mvc;
- using DatingApp.Core.Models;
-using DatingApp.Core.Services;
-using System.Net;
+ using DatingApp.Core.Services;
 /*
-The RolesController class
-Contains all EndPoints for Get, Post and Put Roles Entity
+The AuthenticationController class
+Contains all EndPoints for Login
 */
 /// <summary>
-/// The RolesRepository class
-/// Contains all EndPoints for Get, Post and Put Roles Entity
+/// The AuthenticationRepository class
+/// Contains all EndPoints for Get, Post and Put Authentication Entity
 /// </summary>    
 /// 
 namespace DatingApp.API.Controllers
@@ -31,17 +24,17 @@ namespace DatingApp.API.Controllers
 
          private readonly IAuthenticationService _service;
          /// <summary>
-         /// RolesController Constructor Initialize the Injected Interfaces for use it.
+         /// AuthenticationController Constructor Initialize the Injected Interfaces for use it.
          /// </summary>
          /// <param name="mapper">Interface that contain mappings between DTO's and Models</param>
-         /// <param name="service">Interface that contain acces to Service funtions and methods of RoleService</param>
+         /// <param name="service">Interface that contain acces to Service funtions and methods of Authenticationervice</param>
          public AuthenticationController(IAuthenticationService service, IMapper mapper)
          {
              _mapper = mapper;
              _service = service;         
          }
         /// <summary>
-        /// Create Role register
+        /// Create Role Login
         /// </summary>
         /// <param name="UserForLoginDto">DTO That contains the properties for Insert in Data Base</param>
         /// <returns>Object wit Status of execution and Data Created and a Status of request</returns>

@@ -10,6 +10,7 @@ using System;
  using Microsoft.AspNetCore.Mvc;
  using DatingApp.Core.Models;
 using DatingApp.Core.Services;
+using DatingApp.Core;
 /*
 The UsersController class
 Contains all EndPoints for Get, Post and Put Users Entity
@@ -21,7 +22,7 @@ Contains all EndPoints for Get, Post and Put Users Entity
 /// 
 namespace DatingApp.API.Controllers
  {
-    [AllowAnonymous]
+     [AllowAnonymous]
      [Route("api/[controller]")]
      [ApiController]
      public class UsersController : ControllerBase
@@ -29,25 +30,29 @@ namespace DatingApp.API.Controllers
          private readonly IMapper _mapper;
 
          private readonly IUserService _service;
-         /// <summary>
-         /// UsersController Constructor Initialize the Injected Interfaces for use it.
-         /// </summary>
-         /// <param name="mapper">Interface that contain mappings between DTO's and Models</param>
-         /// <param name="service">Interface that contain acces to Service funtions and methods of Userservice</param>
-         public UsersController(IUserService service, IMapper mapper)
+
+            private readonly IUnitOfWork _unitOfWork;
+        /// <summary>
+        /// UsersController Constructor Initialize the Injected Interfaces for use it.
+        /// </summary>
+        /// <param name="mapper">Interface that contain mappings between DTO's and Models</param>
+        /// <param name="service">Interface that contain acces to Service funtions and methods of Userservice</param>
+        public UsersController(IUserService service, IMapper mapper, IUnitOfWork unitOfWork)
          {
              _mapper = mapper;
-             _service = service;         
+             _service = service;
+            _unitOfWork = unitOfWork;
          }
         /// <summary>
         /// Search in User filter By Id
         /// </summary>
         /// <param name="id">Id for Search Register in Data Base for </param>
         /// <returns>Object wit Status of execution and Data Searched and a Status of request</returns>
+        
          [HttpGet("{id}", Name = "GetUser")]
          public async Task<IActionResult> GetUser(int id)
          {
-             BaseResponse<UserForListDto> resultMapped = new BaseResponse<UserForListDto>();
+             //BaseResponse<UserForListDto> resultMapped = new BaseResponse<UserForListDto>();
               //Get ther response from call GetUserById from Service that retorn object with data for be validate
               var serviceResult  = await _service.GetUserById(id);
 
@@ -58,12 +63,8 @@ namespace DatingApp.API.Controllers
                   if (serviceResult.DataResponse == null)
                     return NotFound(serviceResult);
 
-                  var dataMapped = _mapper.Map<UserForListDto>(serviceResult.DataResponse);
-                  
-                  resultMapped.DataResponse = dataMapped;
-
                   //If the search has Data filtering by Id then return Ok (200)  and return the register Serached
-                  return Ok(resultMapped);
+                  return Ok(serviceResult);
 
               }
               //If the Service response isn't Successful then ocurred some wrong and return (400)
@@ -76,7 +77,6 @@ namespace DatingApp.API.Controllers
          [HttpGet(Name = "GetUsers")]
          public async Task<IActionResult> GetUsers()
          {
-              BaseResponse<IEnumerable<UserForListDto>> resultMapped = new BaseResponse<IEnumerable<UserForListDto>>();
               //Get ther response from call GetUsers from Service that retorn object with data for be validate
               var serviceResult = await _service.GetUsers();
 
@@ -87,14 +87,8 @@ namespace DatingApp.API.Controllers
                   if (serviceResult.DataResponse == null)
                     return NotFound(serviceResult);
                   
-                  var dataMapped = _mapper.Map<IEnumerable<UserForListDto>>(serviceResult.DataResponse);
-                  
-                  resultMapped.DataResponse = dataMapped;
-                  resultMapped.Successful = serviceResult.Successful;
-
-                  var userForReturn = _mapper.Map<IEnumerable<UserForListDto>>(serviceResult.DataResponse);
-                    //If the search has Data filtering by Id then return Ok (200) and return the register Serached
-                  return Ok(userForReturn);
+                  //If the search has Data filtering by Id then return Ok (200) and return the register Serached
+                  return Ok(serviceResult);
               }
               //If the Service response isn't Successful then ocurred some wrong and return (400)
               return BadRequest(serviceResult);     
@@ -107,6 +101,19 @@ namespace DatingApp.API.Controllers
           [HttpPost]
          public async Task<IActionResult> CreateUser(UserForCreateDto userForCreateDto)
          {
+            List<string> err = new List<string>();
+            //Search if de userName to be Updated get Data for Create
+            var UserFromRepo = await _service.GetUserByUserName(userForCreateDto.UserName);
+
+            //If not exist Data for the id parameter return 404 and Empty DataResponse object 
+            if (UserFromRepo.DataResponse != null) {
+                err.Add("El usuario  " + userForCreateDto.UserName + " ya existe");
+                //Set in the result errors object the exception message
+                UserFromRepo.errors = err;
+
+                return Conflict(UserFromRepo);
+            }
+
             // Map to a User for Send to Service
             var UserForCreate = _mapper.Map<User>(userForCreateDto); 
 
@@ -131,10 +138,10 @@ namespace DatingApp.API.Controllers
         public async Task<IActionResult> UpdateUser(int id, UserForUpdateDto UserForUpdateDto)
         {
             //Search if de Id to be Updated get Data for Update
-            var UserFromRepo = await _service.GetUserById(id);
+            var UserToBeUpdated = await _unitOfWork.UserRepository.GetByIdAsync(id);
 
             //Set in a var the Data that was Obtained in the last Step 
-            var UserToBeUpdated = UserFromRepo.DataResponse;
+            //var UserToBeUpdated = UserFromRepo.DataResponse;
 
             //If not exist Data for the id parameter return 404 and Empty DataResponse object 
             if (UserToBeUpdated == null)
@@ -142,15 +149,13 @@ namespace DatingApp.API.Controllers
 
             //If exist Data it's Mapped to a User for Send to Service
             var UserForUpdate = _mapper.Map<User>(UserForUpdateDto); 
-            //UserForUpdate.Id = id;
-
+            
             //Get Response from Service and UpdateUser sendig Object to be Updated and Data for make the Update 
             var serviceResult = await _service.UpdateUser(UserToBeUpdated, UserForUpdate);
 
             //if the Update was Successful then return 200 and an Object with DataResponse Updated
             if(serviceResult.Successful)
             {
-                var userForReturn = _mapper.Map<UserForListDto>(serviceResult.DataResponse);
                 return Ok(serviceResult);
             }        
 

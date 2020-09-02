@@ -21,6 +21,8 @@ declaring names and parameters that can be same of the IUserServiceRepository de
 
 
 namespace DatingApp.Services
+
+    //public class Repository<TEntity> : IRepository<TEntity> where TEntity : class
 {
     public class UserService : IUserService
     {
@@ -49,15 +51,7 @@ namespace DatingApp.Services
             {
                 //Using _unitOfWork call to a UserRepository and through of the 
                 //GetByIdAsync GENERIC method Search the first or Default
-                result.DataResponse = await _unitOfWork.UserRepository.GetByIdAsync(id);
-
-                if(result.DataResponse != null)
-                {
-                    result.DataResponse.RoleNames = result.DataResponse.UserRoles
-                                                .Select(r => r.Role.Name)
-                                                .ToList();
-                    
-                } 
+                result.DataResponse = await _unitOfWork.UserRepository.GetUserById(id);
 
                 //If the Query was Successful then in the result this flat in true
                 result.Successful = true; 
@@ -86,7 +80,7 @@ namespace DatingApp.Services
             {
                 //Using _unitOfWork call to a UserRepository and through of the 
                 //GetAllAsync GENERIC method Search All register
-                result.DataResponse = await  _unitOfWork.UserRepository.GetAllAsync(); 
+                result.DataResponse = await  _unitOfWork.UserRepository.GetUsers(); 
 
                 //If the Query was Successful then in the result this flat in true  
                 result.Successful = true; 
@@ -115,16 +109,17 @@ namespace DatingApp.Services
 
             try
             {
+                //Call Method in the repository for create User 
                 await _unitOfWork.UserRepository.CreateUser(UserToBeCreatedModel, password);
                 
                 //Set Successful in true because the commit was completed     
                 result.Successful = true;
 
                 //Set in Data Response of result object   
-                result.DataResponse = await _unitOfWork.UserRepository.GetByIdAsync( UserToBeCreatedModel.Id);
+                result.DataResponse = await _unitOfWork.UserRepository.GetUserById(UserToBeCreatedModel.Id);
 
                 //Set in Details local variable  object a message for successful execution in the Create
-                detailResponse.Add(result.AddDetailResponse (UserToBeCreatedModel.Id, "Regitro exitoso"));
+                detailResponse.Add(result.AddDetailResponse (UserToBeCreatedModel.Id, "Registro exitoso"));
 
                 //Set Details from local variable to result before return
                 result.Details = detailResponse;
@@ -157,11 +152,14 @@ namespace DatingApp.Services
             try
             {
 
-                var rolesForAdd = UserForUpdateModel.RoleNames;
+                var rolesForAdd = UserForUpdateModel.Roles
+                                                    .Select(r => r.Name)
+                                                    .ToList();
 
-                var rolesForExclude = UserToBeUpdateModel.RoleNames;
+                var rolesForExclude = UserToBeUpdateModel.UserRoles
+                                                .Select(r => r.Role.Name)
+                                                .ToList();
 
-                rolesForAdd = rolesForAdd ?? new string[] { };
 
                 await _unitOfWork.UserRepository.AddUserRoles(UserToBeUpdateModel, rolesForAdd, rolesForExclude); 
 
@@ -207,7 +205,7 @@ namespace DatingApp.Services
         /// Get the first or Default User Register filter by userName 
         /// </summary>
         /// <param name="userName">userName of User for the search</param>
-        /// <returns>BaseResponse<User> with the result of the search By Id</returns>
+        /// <returns>BaseResponse<User> with the result of the search By userName</returns>
         public async Task<BaseResponse<User>> GetUserByUserName(String userName)
         {
             //Declare variables for result and errors for be filled with the response of _unitOfWork

@@ -24,47 +24,57 @@ namespace DatingApp.Data.Repositories
 
         public async Task<User> GetUserById(int id)
         {
-            User user = new User();
-            //var roles = _userManager.GetRolesAsync()
-            /* var userFrom = await _context.Users.Where(u =>
-                 u.Id == id )
-            .Select(u => new User()
+            var userFrom = await _context.Users.AsNoTracking()
+            .Select(user => new User
             {
-                Id = u.Id,
-                UserName = u.UserName,
-                Name = u.Name,
-                LastName = u.LastName
-                ,SecurityStamp = u.SecurityStamp
+                Id = user.Id,
+                UserName = user.UserName,
+                Name = user.Name,
+                LastName = user.LastName
+                ,SecurityStamp = user.SecurityStamp
+                ,Roles = (from userRole in user.UserRoles
+                         join role in _context.Roles
+                         on userRole.RoleId
+                         equals role.Id
+                         select new Role 
+                                    { 
+                                     Id = role.Id
+                                     , Name = role.Name
+                                     , Menus = (from roleMenu in role.RoleMenus
+                                                join menu in _context.Menu
+                                                on roleMenu.MenuId
+                                                equals menu.Id
+                                                select new Menu
+                                                {
+                                                    Id = menu.Id
+                                                    ,Path = menu.Path
+                                                    ,Title = menu.Title
+                                                    ,Icon = menu.Icon
+                                                    ,ParentId = menu.ParentId
+                                                    ,Status = menu.Status
+                                                }).ToList()
+                         }).ToList()
             })
-            .FirstOrDefaultAsync().ConfigureAwait(false); */
+            .FirstOrDefaultAsync(user => user.Id == id); 
             
-              var menu = await _context.Menu
-                .OrderBy(x => x.Id)
-                .Select(menu => new
-                {
-                    Id = menu.Id,
-                    UserName = menu.Title
-                }).FirstOrDefaultAsync();  
-            
-            return user;
+            return userFrom;
             
         } 
         public async Task<IEnumerable<User>> GetUsers()
         {
             //var roles = _userManager.GetRolesAsync()
-            var users = await _userManager.Users
-            .Select(u => new User()
+            var users = await _userManager.Users.AsNoTracking()
+            .Include(r => r.Roles)
+            .Select(user => new User
             {
-                Id = u.Id,
-                //UserName = u.UserName,
-                Name = u.Name,
-                LastName = u.LastName
-                ,SecurityStamp = u.SecurityStamp
-            })
-            .ToListAsync();
+                Id = user.Id,
+                UserName = user.UserName,
+                Name = user.Name,
+                LastName = user.LastName
+                ,
+                SecurityStamp = user.SecurityStamp
+            }).ToListAsync();
 
-            //return await _userManager.FindByIdAsync(id.ToString());
-            
             return users; 
         }         
         public async Task<User> CreateUser(User User, String Password)
@@ -73,7 +83,7 @@ namespace DatingApp.Data.Repositories
             
             var userCreated = _userManager.FindByNameAsync(User.UserName).Result;
 
-            _userManager.AddToRolesAsync(userCreated,User.RoleNames).Wait();
+            //_userManager.AddToRolesAsync(userCreated,User.RoleNames).Wait();
             
             return User; 
         }
