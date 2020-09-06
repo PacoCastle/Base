@@ -141,6 +141,8 @@ namespace DatingApp.API
             services.AddMvc().AddFluentValidation(fv =>
                             {
                                 fv.RegisterValidatorsFromAssembly(Assembly.GetExecutingAssembly());
+                                fv.ImplicitlyValidateChildProperties = true;
+
                             });
             services.AddMvc().ConfigureApiBehaviorOptions(options =>
             {

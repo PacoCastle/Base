@@ -24,6 +24,9 @@ namespace DatingApp.Services
 {
     public class RoleService : IRoleService
     {
+
+        private readonly IMenuService _service;
+
         private readonly IUnitOfWork _unitOfWork;
         /// <summary>
         /// RoleService receive a IUnitOfWork Interface that encapsulates all Names of the All repositories
@@ -123,6 +126,9 @@ namespace DatingApp.Services
 
             return result;
         }
+
+      
+
         /// <summary>
         /// Function thah Create a register for Role  
         /// </summary>
@@ -134,25 +140,46 @@ namespace DatingApp.Services
             BaseResponse<Role> result = new BaseResponse<Role>();
             List<string> err = new List<string>();
             List<DetailResponse> detailResponse = new  List<DetailResponse>();
+            MenuService menuService = new MenuService(_unitOfWork);
 
             try
             {
                 //Set in Data Response of result object   
                 result.DataResponse = await _unitOfWork.RoleRepository.CreateRole(RoleToBeCreatedModel);
+               
+                var IdMenu = RoleToBeCreatedModel.Menus.Select(x => x.Id).ToArray();
+                                 
+                var filterResult = _unitOfWork.MenuRepository.GetMenusById(IdMenu); //RoleToBeCreatedModel.Menus.Where(x => IdRoles.Contains(x.Id));
 
-                //foreach (int currentMenuId in RoleToBeCreatedModel.RoleMenus)
-                //{
-                //    RoleMenu roleMenu = new RoleMenu
-                //    {
-                //        roleMenu.RoleId = result.DataResponse.Id,
-                //        roleMenu.MenuId = currentMenuId
-                //    };
+                if (IdMenu.Count() == filterResult.Result.Count())
+                {
+                    foreach (var currenMenuId in filterResult.Result)
+                    {
+              
+                        RoleMenu roleMenu = new RoleMenu();
+                        roleMenu.RoleId = result.DataResponse.Id;
+                        roleMenu.MenuId = currenMenuId.Id;
 
-                //    await _unitOfWork.RoleMenuRepository.AddAsync(roleMenu);
+                        await _unitOfWork.RoleMenuRepository.AddAsync(roleMenu);
+                    }
+                }
+                else
+                {
+                    foreach(var id in IdMenu)
+                    {
+                        var resultMenu = filterResult.Result.Where(x => x.Id == id).ToArray();
+                        if (resultMenu.Count() <= 0)
+                        {
+                            err.Add(String.Format("Menu id {0} no existe", id));
+                            result.errors = err;
 
+                        }
+                    }
+                    
+                    return result;
+                }
 
-                //}
-
+            
                 //Set Successful in true because the commit was completed     
                 result.Successful = true;
 

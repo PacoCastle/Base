@@ -55,8 +55,33 @@ namespace DatingApp.Data.Repositories
             
             return (IEnumerable<Menu>)menuList;
             
-        }       
-         
+        }
+
+        public async Task<IEnumerable<Menu>> GetMenusById(IEnumerable<int> idMenu)
+        {
+            var menu = await _context.Menu
+               .Where(menu => idMenu.Contains(menu.Id))
+               .Where(menu => menu.Status == 1)
+               .Select(menu => new Menu
+               {
+                   Id = menu.Id
+                   ,
+                   Title = menu.Title
+                   ,
+                   Path = menu.Path
+                   ,
+                   Status = menu.Status
+                   ,
+                   Icon = menu.Icon
+                   ,
+                   ParentId = menu.ParentId
+
+               }).ToListAsync();
+
+            return menu;
+
+        }
+
     }
 }
 

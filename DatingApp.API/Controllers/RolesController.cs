@@ -96,26 +96,41 @@ namespace DatingApp.API.Controllers
           [HttpPost]
          public async Task<IActionResult> CreateRole(RoleForCreateDto RoleForCreateDto)
          {
+            try
+            {
+                List<string> err = new List<string>();
 
-             //Search if de Id to be Updated get Data for Update
-            var RoleFromRepo = await _service.GetRoleByName(RoleForCreateDto.Name);
+                //Search if de Id to be Updated get Data for Update
+                var RoleFromRepo = await _service.GetRoleByName(RoleForCreateDto.Name);
 
-            //If not exist Data for the id parameter return 404 and Empty DataResponse object 
-            if (RoleFromRepo != null)
-                return Conflict(RoleFromRepo);
-            // Map to a Role for Send to Service
-            var RoleForCreate = _mapper.Map<Role>(RoleForCreateDto); 
+                //If not exist Data for the id parameter return 404 and Empty DataResponse object 
+                if (RoleFromRepo.DataResponse != null)
+                {
+                    err.Add("El rol " + RoleForCreateDto.Name + " ya existe");
+                    RoleFromRepo.errors = err;
+                    return Conflict(RoleFromRepo);
+                }
 
-             //Get ther response from call GetRoles from Service that retorn object with data for be validate
-             var serviceResult = await _service.CreateRole(RoleForCreate);
+                // Map to a Role for Send to Service
+                var RoleForCreate = _mapper.Map<Role>(RoleForCreateDto);
 
-            //If the Service response Successful the Query was executed  and return the register Created
-             if (serviceResult.Successful)
-             {
-                 return Ok(serviceResult);                 
-             }
-            //If the Service response isn't Successful then ocurred some wrong and return (400)
-             return BadRequest(serviceResult);   
+                //Get ther response from call GetRoles from Service that retorn object with data for be validate
+                var serviceResult = await _service.CreateRole(RoleForCreate);
+
+                //If the Service response Successful the Query was executed  and return the register Created
+                if (serviceResult.Successful)
+                {
+                    return Ok(serviceResult);
+                }
+                //If the Service response isn't Successful then ocurred some wrong and return (400)
+                return BadRequest(serviceResult);
+            }
+            catch (Exception ex )
+            {
+
+                throw;
+            }
+            
          }
          /*/// <summary>
         /// Update Role register

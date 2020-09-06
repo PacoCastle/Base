@@ -8,5 +8,7 @@ namespace DatingApp.Core.Repositories
     {
         Task<dynamic> GetMenuById(int id);
         Task<IEnumerable<Menu>> GetMenus();
+
+        Task<IEnumerable<Menu>> GetMenusById(IEnumerable<int> id);
     }
 }
