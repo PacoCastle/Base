@@ -12,7 +12,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
-using DatingApp.Core;
+using DatingApp.Core.Models;
 
 namespace DatingApp.API.Controllers
 {
@@ -34,7 +34,7 @@ namespace DatingApp.API.Controllers
         }
 
         [HttpPost("register")]
-        public async Task<IActionResult> Register(UserForRegisterDto userForRegisterDto)
+        public async Task<IActionResult> Register(UserForCreateDto userForRegisterDto)
         {
             var userToCreate = _mapper.Map<User>(userForRegisterDto);
 

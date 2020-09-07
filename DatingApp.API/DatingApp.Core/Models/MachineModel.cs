@@ -1,6 +1,6 @@
 using System;
 
-namespace DatingApp.Core
+namespace DatingApp.Core.Models
 {
     public class MachineModel
     {

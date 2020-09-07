@@ -8,7 +8,6 @@ using AutoMapper;
 using DatingApp.API.Data;
 using DatingApp.API.Helpers;
 using DatingApp.API.Hubs;
-using DatingApp.API.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
@@ -25,7 +24,14 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.Tokens;
+using DatingApp.Core.Models;
 using DatingApp.Core;
+using DatingApp.Core.Services;
+using DatingApp.Data;
+using DatingApp.Services;
+using Microsoft.OpenApi.Models;
+using FluentValidation.AspNetCore;
+using System.Reflection;
 
 namespace DatingApp.API
 {
@@ -46,6 +52,11 @@ namespace DatingApp.API
                 x.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"));
             });
 
+            //QUITAR este debe quedar solo el DataContext
+            // services.AddDbContext<DataContext>(
+            //     options => options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")
+            //     , x => x.MigrationsAssembly("DatingApp.Data")));
+
             ConfigureServices(services);
         }
 
@@ -56,6 +67,10 @@ namespace DatingApp.API
                 x.UseLazyLoadingProxies();
                 x.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"));
             });
+            //QUITAR este debe quedar solo el DataContext
+            // services.AddDbContext<DataContext>(
+            //     options => options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")
+            //     , x => x.MigrationsAssembly("DatingApp.Data")));
 
             ConfigureServices(services);
         }
@@ -71,6 +86,7 @@ namespace DatingApp.API
             });
 
             builder = new IdentityBuilder(builder.UserType, typeof(Role), builder.Services);
+            //builder.AddEntityFrameworkStores<DataContext>();
             builder.AddEntityFrameworkStores<DataContext>();
             builder.AddRoleManager<RoleManager<Role>>();
             builder.AddSignInManager<SignInManager<User>>();
@@ -114,6 +130,67 @@ namespace DatingApp.API
             services.AddScoped<IDatingRepository, DatingRepository>();
             services.AddScoped<LogUserActivity>();
             services.AddScoped<IMachinePartsAttemptsService, MachinePartsAttemptsService>();
+            services.AddScoped<IAttemptsDetailsService, AttemptsDetailsService>();
+            services.AddScoped<IMachineService, MachinesService>();
+            services.AddScoped<IPartService, PartService>();
+            services.AddScoped<IMenuService, MenuService>();
+            services.AddScoped<IRoleService, RoleService>();
+            services.AddScoped<IUserService, UserService>();
+            services.AddScoped<IAuthenticationService, AuthenticationService>();
+            services.AddScoped<IUnitOfWork, UnitOfWork>();
+            services.AddMvc().AddFluentValidation(fv =>
+                            {
+                                fv.RegisterValidatorsFromAssembly(Assembly.GetExecutingAssembly());
+                                fv.ImplicitlyValidateChildProperties = true;
+
+                            });
+            services.AddMvc().ConfigureApiBehaviorOptions(options =>
+            {
+                options.InvalidModelStateResponseFactory = c =>
+                {
+                var errors = c.ModelState.Values.Where(v => v.Errors.Count > 0)
+                    .SelectMany(v => v.Errors)
+                    .Select(v => v.ErrorMessage)
+                    .ToList();
+
+                return new BadRequestObjectResult(new
+                {
+                    Errors = errors
+                });
+                };
+            });
+
+            // Register the Swagger generator, defining 1 or more Swagger documents
+            services.AddSwaggerGen(c =>
+            {
+                c.SwaggerDoc("v1", new OpenApiInfo
+                {
+                    Title = "My API",
+                    Version = "v1"
+                });
+                c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
+                {
+                    In = ParameterLocation.Header,
+                    Description = "Please insert JWT with Bearer into field",
+                    Name = "Authorization",
+                    Type = SecuritySchemeType.ApiKey
+                });
+                c.AddSecurityRequirement(new OpenApiSecurityRequirement {
+                    {
+                        new OpenApiSecurityScheme
+                        {
+                        Reference = new OpenApiReference
+                        {
+                            Type = ReferenceType.SecurityScheme,
+                            Id = "Bearer"
+                        }
+                        },
+                        new string[] { }
+                    }
+                });
+            });
+
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -165,6 +242,16 @@ namespace DatingApp.API
                 endpoints.MapFallbackToController("Index", "Fallback");
                 endpoints.MapHub<SignalHub>("/signalHub");
  
+            });
+
+            // Enable middleware to serve generated Swagger as a JSON endpoint.
+            app.UseSwagger();
+
+            // Enable middleware to serve swagger-ui (HTML, JS, CSS, etc.),
+            // specifying the Swagger JSON endpoint.
+            app.UseSwaggerUI(c =>
+            {
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "My API V1");
             });
         }
     }

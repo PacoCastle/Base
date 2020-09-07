@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.Identity;
 
-namespace DatingApp.Core
+namespace DatingApp.Core.Models
 {
     public class UserRole : IdentityUserRole<int>
     {

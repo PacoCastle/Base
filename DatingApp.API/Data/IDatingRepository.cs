@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using DatingApp.API.Dtos;
 using DatingApp.API.Helpers;
-using DatingApp.Core;
+using DatingApp.Core.Models;
 
 namespace DatingApp.API.Data
 {
@@ -13,12 +13,12 @@ namespace DatingApp.API.Data
         Task<bool> SaveAll();
         Task<PagedList<User>> GetUsers(UserParams userParams);
         Task<User> GetUser(int id, bool isCurrentUser);
-        Task<Photo> GetPhoto(int id);
-        Task<Photo> GetMainPhotoForUser(int userId);
-        Task<Like> GetLike(int userId, int recipientId);
-        Task<Message> GetMessage(int id);
-        Task<PagedList<Message>> GetMessagesForUser(MessageParams messageParams);
-        Task<IEnumerable<Message>> GetMessageThread(int userId, int recipientId);
+        // Task<Photo> GetPhoto(int id);
+        // Task<Photo> GetMainPhotoForUser(int userId);
+        // Task<Like> GetLike(int userId, int recipientId);
+        // Task<Message> GetMessage(int id);
+        //Task<PagedList<Message>> GetMessagesForUser(MessageParams messageParams);
+        //Task<IEnumerable<Message>> GetMessageThread(int userId, int recipientId);
         Task<PagedList<Plc>> GetPlcs(PlcParams plcParams);
         Task<IEnumerable<Plc>> GetPlcForDevice(int idDevice);
         Task<Product> GetProduct(int id);
@@ -26,15 +26,7 @@ namespace DatingApp.API.Data
         Task<int> AddByStored(List<ConfigurationForRegisterDto> configurationForRegisterDto);
         Task<List<DeviceConfiguration>> GetDevices();
         Task<DeviceConfiguration> GetDevice(int id);
-        Task<MachineModel> GetMachine(int id);
-        Task<List<MachineModel>> GetMachines();
         Task<PartModel> GetPart(int id);
-        Task<List<PartModel>> GetParts();        
-        Task<MachinePartAttempt> GetMachinePartAttempt(int id);
-        Task<List<MachinePartAttempt>> GetMachinePartsAttempts();       
-        Task<MachinePartAttempt> RegisterMachinePartAttempt(MachPartAttemRegisterDto MachPartAttemRegisterDto);
-        Task<AttemptDetail> GetAttemptDetail(int id);        
-        Task<List<AttemptDetail>> GetAttemptDetails();
-
+        Task<List<PartModel>> GetParts();
     }
 }

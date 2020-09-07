@@ -8,8 +8,10 @@ using System;
  using DatingApp.API.Helpers;
  using Microsoft.AspNetCore.Authorization;
  using Microsoft.AspNetCore.Mvc;
- using DatingApp.Core;
- 
+ using DatingApp.Core.Models;
+ using DatingApp.Core.Services;
+using DatingApp.API.Validations;
+
 namespace DatingApp.API.Controllers
  {
     [AllowAnonymous]
@@ -17,18 +19,18 @@ namespace DatingApp.API.Controllers
      [ApiController]
      public class AttemptsDetailsController : ControllerBase
      {
-         private readonly IDatingRepository _repo;
+         private readonly IAttemptsDetailsService _service;
          private readonly IMapper _mapper;
-         public AttemptsDetailsController(IDatingRepository repo, IMapper mapper)
+         public AttemptsDetailsController(IAttemptsDetailsService service , IMapper mapper)
          {
              _mapper = mapper;
-             _repo = repo;             
+             _service = service;             
          }
 
          [HttpGet("{id}", Name = "GetAttemptsDetail")]
-         public async Task<IActionResult> GetAttemptsDetail(int id)
+         public async Task<IActionResult> GetAttemptsDetailById(int id)
          {
-              var AttemptDetailFromRepo = await _repo.GetAttemptDetail(id);
+              var AttemptDetailFromRepo = await _service.GetAttemptsDetailById(id);
 
               if (AttemptDetailFromRepo == null)
                  return NotFound();
@@ -39,7 +41,7 @@ namespace DatingApp.API.Controllers
          [HttpGet(Name = "GetAttemptsDetails")]
          public async Task<IActionResult> GetAttemptsDetails()
          {
-              var AttemptDetailsFromRepo = await _repo.GetAttemptDetails();
+              var AttemptDetailsFromRepo = await _service.GetAttemptsDetails();
 
               var AttemptDetails = _mapper.Map<IEnumerable<AttemptDetailReturnDto>>(AttemptDetailsFromRepo);               
               
@@ -47,19 +49,18 @@ namespace DatingApp.API.Controllers
          }
 
           [HttpPost]
-         public async Task<IActionResult> CreateAttemptDetail(AttemptDetailRegisterDto AttemptDetailRegisterDto)
+         public async Task<IActionResult> CreateAttemptDetail(AttemptDetailRegisterDto AttemptDetailRegisterDto)            
          {
-             var AttemptDetail = _mapper.Map<AttemptDetail>(AttemptDetailRegisterDto);
 
-              _repo.Add(AttemptDetail);
+              var AttemptDetailToBeCreated = _mapper.Map<AttemptDetail>(AttemptDetailRegisterDto);
 
-              if (await _repo.SaveAll())
-             {
-                 var AttemptDetailReturnDto = _mapper.Map<AttemptDetailReturnDto>(AttemptDetail);
+              var AttemptDetailCreated = await _service.CreateAttemptDetail(AttemptDetailToBeCreated);
 
-                 return Ok(AttemptDetailReturnDto);
-                 //return CreatedAtRoute("GetParts",PartForReturnDto);
-             }
+              var AttemptDetailFromRepo = await _service.GetAttemptsDetailById(AttemptDetailCreated.Id); 
+
+              var AttemptDetailReturn = _mapper.Map<AttemptDetailReturnDto>(AttemptDetailFromRepo);       
+
+              return Ok(AttemptDetailReturn);
 
               throw new Exception("Creating the CreateAttemptDetail failed on save");
          }               

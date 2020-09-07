@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Microsoft.AspNetCore.Identity;
 using Newtonsoft.Json;
-using DatingApp.Core;
+using DatingApp.Core.Models;
 
 namespace DatingApp.API.Data
 {
@@ -32,7 +32,7 @@ namespace DatingApp.API.Data
 
                 foreach (var user in users)
                 {
-                    user.Photos.SingleOrDefault().IsApproved = true;
+                    //user.Photos.SingleOrDefault().IsApproved = true;
                     userManager.CreateAsync(user, "password").Wait();
                     userManager.AddToRoleAsync(user, "Member").Wait();
                 }
