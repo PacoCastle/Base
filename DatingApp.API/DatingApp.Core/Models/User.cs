@@ -13,8 +13,9 @@ namespace DatingApp.Core.Models
         public string SecondLastName { get; set; }
         public DateTime DateOfBirth { get; set; }
         public DateTime Created { get; set; }
-        public DateTime LastActive { get; set; }        
-        
+        public DateTime LastActive { get; set; }
+        public int Status { get; set; } = 1;
+
         // public virtual ICollection<Photo> Photos { get; set; }
         // public virtual ICollection<Like> Likers { get; set; }
         // public virtual ICollection<Like> Likees { get; set; }
@@ -29,6 +30,8 @@ namespace DatingApp.Core.Models
 
         [NotMapped]
         public virtual ICollection<Role> Roles { get; set; }
+        [NotMapped]
+        public virtual ICollection<Role> UnAssignedRoles { get; set; }
 
         //public virtual ICollection<RoleMenu> RoleMenu { get; set; }
     }

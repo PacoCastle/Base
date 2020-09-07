@@ -32,7 +32,7 @@ namespace DatingApp.Data.Repositories
         public async Task<string> GetRoleByName(string name)
         {
             var roleMngr = await _roleManager.Roles.AsNoTracking().Where(w =>
-                 w.Name == name )
+                 w.Name == name && w.Status == 1)
             .Select(r => r.Name)
             .FirstOrDefaultAsync();
             return roleMngr; 

@@ -14,7 +14,7 @@ using DatingApp.API.Validations;
 
 namespace DatingApp.API.Controllers
  {
-    [AllowAnonymous]
+     [Authorize]
      [Route("api/[controller]")]
      [ApiController]
      public class AttemptsDetailsController : ControllerBase
