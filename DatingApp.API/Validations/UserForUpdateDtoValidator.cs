@@ -15,9 +15,6 @@ namespace DatingApp.API.Validations
     {        
         public UserForUpdateDtoValidator()
         {
-            RuleFor(m => m.Status)
-                .NotEmpty()
-                .WithMessage("'Status'  no puede ser vacío.");
             RuleFor(m => m.Email)
                 .EmailAddress()
                 .WithMessage("'Email'  Es requerido un Email valido.");

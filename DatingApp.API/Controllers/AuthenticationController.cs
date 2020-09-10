@@ -42,7 +42,7 @@ namespace DatingApp.API.Controllers
         public async Task<IActionResult> Login(UserForLoginDto userForLogin)
          {
              //Search if de Id to be Updated get Data for Update
-            var serviceResult = await _service.Login(userForLogin.Username, userForLogin.Password);
+            var serviceResult = await _service.Login(userForLogin.UserName, userForLogin.Password);
 
             //If the Service response Successful the Query was executed  and return the register Created
              if (serviceResult.Successful)

@@ -109,7 +109,7 @@ namespace DatingApp.Services
 
             try
             {
-                //Send parameters to a vaoidate if exist
+                //Send parameters to a validate if exist
                 await validRoles(UserToBeCreatedModel.RoleNames, err);
 
                 //If some or Roles sending doesn't exist, then return 
@@ -162,28 +162,11 @@ namespace DatingApp.Services
             {
                 //Extract to a variable the roles to be Updated
                 var rolesForAdd = UserForUpdateModel.RoleNames;
-                //Send parameters to a vaoidate if exist
+
+                //Send parameters to a validate if exist
                 await validRoles(rolesForAdd, err);
 
-                //var allRoles = await _unitOfWork.RoleRepository.GetAllAsync();
-
-                //var allRoleNames = allRoles.Where( r=> r.Status == 1)
-                //                    .Select(r => r.Name)
-                //                    .ToList();
-
-                //var roleDiferences = rolesForAdd.Where(x => !allRoleNames.Contains(x)).ToList();
-
-                ////If some or Roles sending doesn't exist, then return 
-                //if (roleDiferences.Count > 0)
-                //{
-                //    foreach (string currentRole in roleDiferences)
-                //    {
-                //        err.Add("El Role " + currentRole + " no existe el catálogo o no se encuentra activo");
-                //    }
-                //    result.errors = roleDiferences;
-                //    return result;
-                //}
-
+                //If some or Roles sending doesn't exist, then return 
                 if (err.Count > 0)
                 {
                     result.errors = err;
@@ -195,19 +178,16 @@ namespace DatingApp.Services
                                                 .Select(r => r.Role.Name)
                                                 .ToList();
 
-                //
-                //var a = rolesForExclude.All(rolesForAdd.Contains);
-                //var list3 = rolesForExclude.Where(x => !rolesForAdd.Contains(x)).ToList();
-                //if (!a) 
-                //{
-                //    await _unitOfWork.UserRepository.AddUserRoles(UserToBeUpdateModel, rolesForAdd, rolesForExclude);
+                //If exist diference between original roles and to be Updated then
+                var originalAddDiff = rolesForExclude.All(rolesForAdd.Contains);
 
-                //    await _unitOfWork.UserRepository.RemoveUserRoles(UserToBeUpdateModel, rolesForExclude, rolesForAdd);
-                //}
-
-                await _unitOfWork.UserRepository.AddUserRoles(UserToBeUpdateModel, rolesForAdd, rolesForExclude);
-
-                await _unitOfWork.UserRepository.RemoveUserRoles(UserToBeUpdateModel, rolesForExclude, rolesForAdd);
+                if (!originalAddDiff)
+                {
+                    //Add all roles that are in the Update Object
+                    await _unitOfWork.UserRepository.AddUserRoles(UserToBeUpdateModel, rolesForAdd, rolesForExclude);
+                    //Drop all roles that the User instance had
+                    await _unitOfWork.UserRepository.RemoveUserRoles(UserToBeUpdateModel, rolesForExclude, rolesForAdd);
+                }
 
                 //Set in the object TO BE UPDATED (ORIGIN) the changues from object FOR UPDATE                
                 UserToBeUpdateModel.Name = UserForUpdateModel.Name;
@@ -215,6 +195,7 @@ namespace DatingApp.Services
                 UserToBeUpdateModel.SecondLastName = UserForUpdateModel.SecondLastName;
                 UserToBeUpdateModel.Status = UserForUpdateModel.Status;
 
+                //If the password is not null or Empety then generate Reset
                 if (!String.IsNullOrEmpty(NewPassword)) 
                 {
                     await _unitOfWork.UserRepository.ResetPassword(UserToBeUpdateModel, NewPassword);
@@ -329,15 +310,23 @@ namespace DatingApp.Services
         //    //return result FROM SERVICE object
         //    return result;
 
-        //}
-        private async Task validRoles(ICollection<string> RoleNames, List<string> err)
+        //} 
+        private async Task validRoles(ICollection<string> rolesForValidate, List<string> err)
         {
-            foreach (string roleName in RoleNames)
+            var allRoles = await _unitOfWork.RoleRepository.GetAllAsync();
+
+            var allRoleNames = allRoles.Where(r => r.Status == 1)
+                                .Select(r => r.Name)
+                                .ToList();
+
+            var roleDiferences = rolesForValidate.Where(x => !allRoleNames.Contains(x)).ToList();
+
+            //If some or Roles sending doesn't exist, then return 
+            if (roleDiferences.Count > 0)
             {
-                var currentRole = await _unitOfWork.RoleRepository.GetRoleByName(roleName);
-                if (currentRole == null)
+                foreach (string currentRole in roleDiferences)
                 {
-                    err.Add("El Role " + roleName + " no existe el catálogo o no se encuentra activo");
+                    err.Add("El Role " + currentRole + " no existe el catálogo o no se encuentra activo");
                 }
             }
         }
