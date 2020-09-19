@@ -76,7 +76,6 @@ namespace DatingApp.Data.Repositories
         {
             //var roles = _userManager.GetRolesAsync()
             var users = await _userManager.Users.AsNoTracking()
-            .Include(r => r.Roles)
             .Select(user => new User
             {
                 Id = user.Id,
