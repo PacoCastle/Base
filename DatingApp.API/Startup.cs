@@ -88,6 +88,7 @@ namespace DatingApp.API
             builder = new IdentityBuilder(builder.UserType, typeof(Role), builder.Services);
             //builder.AddEntityFrameworkStores<DataContext>();
             builder.AddEntityFrameworkStores<DataContext>();
+            builder.AddDefaultTokenProviders();
             builder.AddRoleManager<RoleManager<Role>>();
             builder.AddSignInManager<SignInManager<User>>();
 

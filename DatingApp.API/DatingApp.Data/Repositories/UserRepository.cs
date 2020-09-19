@@ -7,6 +7,7 @@ using DatingApp.Core.Repositories;
 using Microsoft.Data.SqlClient;
 using System;
 using Microsoft.AspNetCore.Identity;
+using System.Transactions;
 
 namespace DatingApp.Data.Repositories
 {
@@ -32,10 +33,12 @@ namespace DatingApp.Data.Repositories
                 Name = user.Name,
                 LastName = user.LastName
                 ,SecurityStamp = user.SecurityStamp
+                ,PasswordHash = user.PasswordHash
                 ,Roles = (from userRole in user.UserRoles
                          join role in _context.Roles
                          on userRole.RoleId
                          equals role.Id
+                         where role.Status == 1
                          select new Role 
                                     { 
                                      Id = role.Id
@@ -44,6 +47,7 @@ namespace DatingApp.Data.Repositories
                                                 join menu in _context.Menu
                                                 on roleMenu.MenuId
                                                 equals menu.Id
+                                                where menu.Status == 1
                                                 select new Menu
                                                 {
                                                     Id = menu.Id
@@ -54,6 +58,14 @@ namespace DatingApp.Data.Repositories
                                                     ,Status = menu.Status
                                                 }).ToList()
                          }).ToList()
+                ,UnAssignedRoles = (from roles in _context.Roles
+                                    where !user.UserRoles.Any(ur => ur.RoleId == roles.Id)
+                                    && roles.Status == 1
+                                    select new Role
+                                    {
+                                        Id = roles.Id
+                                        ,Name = roles.Name
+                                    }).ToList()
             })
             .FirstOrDefaultAsync(user => user.Id == id); 
             
@@ -71,21 +83,23 @@ namespace DatingApp.Data.Repositories
                 UserName = user.UserName,
                 Name = user.Name,
                 LastName = user.LastName
-                ,
-                SecurityStamp = user.SecurityStamp
+                ,SecurityStamp = user.SecurityStamp
             }).ToListAsync();
 
             return users; 
         }         
         public async Task<User> CreateUser(User User, String Password)
         {
-            var result = _userManager.CreateAsync(User, Password).Result;
-            
-            var userCreated = _userManager.FindByNameAsync(User.UserName).Result;
-
-            _userManager.AddToRolesAsync(userCreated,User.RoleNames).Wait();
-            
-            return User; 
+            using (TransactionScope scope = new TransactionScope(TransactionScopeAsyncFlowOption.Enabled))
+            {
+                var result = await _userManager.CreateAsync(User, Password);
+                if (result.Succeeded)
+                {
+                    await _userManager.AddToRolesAsync(User, User.RoleNames);
+                }
+                scope.Complete();
+            }
+            return User;
         }
         public async Task<User> GetUserRoles(User user)
         {
@@ -113,10 +127,69 @@ namespace DatingApp.Data.Repositories
         }
         public async Task<User> GetUserByUserName(string userName)
         {
-            var userFromRepo = await _userManager.FindByNameAsync(userName);
+            var userFrom = await _context.Users.AsNoTracking()
+            .Select(user => new User
+            {
+                Id = user.Id
+                ,UserName = user.UserName
+                ,Name = user.Name
+                ,LastName = user.LastName
+                ,SecurityStamp = user.SecurityStamp
+                ,PasswordHash = user.PasswordHash
+                ,Roles = (from userRole in user.UserRoles
+                         join role in _context.Roles
+                         on userRole.RoleId
+                         equals role.Id
+                         where role.Status == 1
+                         select new Role
+                         {
+                             Id = role.Id
+                                     ,
+                             Name = role.Name
+                                     ,
+                             Menus = (from roleMenu in role.RoleMenus
+                                      join menu in _context.Menu
+                                      on roleMenu.MenuId
+                                      equals menu.Id
+                                      where menu.Status == 1
+                                      select new Menu
+                                      {
+                                          Id = menu.Id
+                                          ,
+                                          Path = menu.Path
+                                          ,
+                                          Title = menu.Title
+                                          ,
+                                          Icon = menu.Icon
+                                          ,
+                                          ParentId = menu.ParentId
+                                          ,
+                                          Status = menu.Status
+                                      }).ToList()
+                         }).ToList()
+                ,
+                UnAssignedRoles = (from roles in _context.Roles
+                                   where !user.UserRoles.Any(ur => ur.RoleId == roles.Id)
+                                   && roles.Status == 1
+                                   select new Role
+                                   {
+                                       Id = roles.Id
+                                       ,
+                                       Name = roles.Name
+                                   }).ToList()
+            })
+            .FirstOrDefaultAsync(user => user.UserName == userName);
 
-            return userFromRepo;
+            return userFrom;
 
+        }
+        public async Task<User> ResetPassword(User user, string newPassword)
+        {
+            var token = await _userManager.GeneratePasswordResetTokenAsync(user);
+
+            var result = await _userManager.ResetPasswordAsync(user, token, newPassword);
+
+            return user;
         }
     }
 }

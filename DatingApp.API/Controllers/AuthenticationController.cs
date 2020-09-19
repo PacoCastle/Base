@@ -38,11 +38,11 @@ namespace DatingApp.API.Controllers
         /// </summary>
         /// <param name="UserForLoginDto">DTO That contains the properties for Insert in Data Base</param>
         /// <returns>Object wit Status of execution and Data Created and a Status of request</returns>
-        [HttpPost]
-         public async Task<IActionResult> Login(UserForLoginDto userForLogin)
+        [HttpPost("login")]
+        public async Task<IActionResult> Login(UserForLoginDto userForLogin)
          {
              //Search if de Id to be Updated get Data for Update
-            var serviceResult = await _service.Login(userForLogin.Username, userForLogin.Password);
+            var serviceResult = await _service.Login(userForLogin.UserName, userForLogin.Password);
 
             //If the Service response Successful the Query was executed  and return the register Created
              if (serviceResult.Successful)

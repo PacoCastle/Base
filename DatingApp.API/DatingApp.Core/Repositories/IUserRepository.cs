@@ -19,5 +19,6 @@ namespace DatingApp.Core.Repositories
 
         Task<User> UpdateUser(User userForBeUpdated);
         Task<User> GetUserByUserName(string userName);
+        Task<User> ResetPassword(User user, string newPassword);
     }
 }
