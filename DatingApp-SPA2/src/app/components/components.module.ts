@@ -32,6 +32,9 @@ import { LoaderRequestInterceptor } from './_services/loader-request-interceptor
 import { NgxUiLoaderModule, NgxUiLoaderConfig } from 'ngx-ui-loader';
 import { RolesComponent } from './roles/roles/roles.component';
 import { NgxSpinnerModule } from "ngx-spinner"; 
+import { RolesAddComponent } from './roles/roles-add/roles-add.component';
+import { PageSearchComponent } from './pages/page-search/page-search.component';
+import { PageAddComponent } from './pages/page-add/page-add.component';
 const configLoader : NgxUiLoaderConfig  =
 {
   bgsColor: "#3590c4",
@@ -115,7 +118,10 @@ const configLoader : NgxUiLoaderConfig  =
     BalancingAttemptsSearchComponent,
     PartsPerComputerAddComponent,
     PartsPerComputerSearchComponent,
-    RolesComponent
+    RolesComponent,
+    RolesAddComponent,
+    PageSearchComponent,
+    PageAddComponent
   ],
   exports: [
     FooterComponent,
@@ -127,7 +133,9 @@ const configLoader : NgxUiLoaderConfig  =
     UsersAddComponent,
     ProductsAddComponent,
     PartsPerComputerAddComponent,
-    BalancingAttemptsAddComponent
+    BalancingAttemptsAddComponent,
+    RolesAddComponent,
+    PageAddComponent
   ],
   providers: [
     {provide: HTTP_INTERCEPTORS, useClass: LoaderRequestInterceptor, multi: true}

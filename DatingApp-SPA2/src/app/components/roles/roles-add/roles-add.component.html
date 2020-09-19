@@ -1,0 +1,132 @@
+<div class="main-content h-100 over">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-header card-header-danger">
+                        <h4 class="card-title " *ngIf="!update">Add Role</h4>
+                        <h4 class="card-title " *ngIf="update">Update Role</h4>
+                    </div>
+                    <div class="card-body">
+                        <form class="text-center pt-3" [formGroup]="role">
+                            <div class="row">
+                                <div class="md-form col-md-12 col-sm-12">
+                                    <div class="row">
+                                        <div class="md-form col-md-3 col-sm-12">
+                                            <mat-form-field class="example-form-field p-0">
+                                                <mat-label>Name</mat-label>
+                                                <input matInput type="text" formControlName="name">
+                                                <button mat-button *ngIf="value" matSuffix mat-icon-button aria-label="Clear" (click)="formRole.name.reset()">
+                                                    <mat-icon>close</mat-icon>
+                                                </button>
+                                            </mat-form-field>
+                                        </div>
+                                        <div class="md-form col-4 col-md-4 col-sm-12" [hidden]="!update || this.detailRole.status != 1">
+                                            <mat-label class="mr-2">Status:</mat-label>
+                                            <mat-radio-group aria-label="Select an option" formControlName="status">
+                                                <mat-radio-button value="1">Active</mat-radio-button>
+                                                <mat-radio-button value="0">Inactive</mat-radio-button>
+                                            </mat-radio-group>
+                                        </div>
+                                    </div>
+                                </div>
+                               
+                                <div class="col-md-6 com-sm-12">
+                                    <span *ngIf="dataSourcePageNew.data.length == 0" class="required">Is necessary to select at least one page </span>
+                                    <div class="col-md-12 col-sm-12">
+                                        <div class="input-group no-border">
+                                            <input type="text" class="form-control" placeholder="Search..." (keyup)="applyFilterPM($event.target.value)">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12 col-sm-12">
+                                        <div class="card">
+                                            <div class="row">
+                                                
+                                                <div class="col-md-12 col-sm-12">
+                                                    <div class="card-header card-header-danger">
+                                                        <h4 class="card-title "> Role Pages</h4>
+                                                    </div>
+                                                    <div class="card-body">
+                                                        <div class="table-responsive table-responsive-2">
+                                                            <table mat-table [dataSource]="dataSourcePageNew" class="table">
+                                                                <ng-container matColumnDef="page">
+                                                                    <th mat-header-cell *matHeaderCellDef> Page </th>
+                                                                    <td mat-cell *matCellDef="let page"> {{page.title}} </td>
+                                                                </ng-container>
+                                                                <ng-container matColumnDef="actions" stickyEnd>
+                                                                    <th mat-header-cell *matHeaderCellDef></th>
+                                                                    <td mat-cell *matCellDef="let page; let i = index"> 
+                                                                        <div class="example-button-container">
+                                                                            <button mat-icon-button (click)="removePage(i, page)">
+                                                                                <i class="material-icons" >remove</i>
+                                                                            </button>
+                                                                        </div>
+                                                                    </td>
+                                                                </ng-container>
+                                                                <tr mat-header-row *matHeaderRowDef="columnsToDisplay; sticky: true"></tr>
+                                                                <tr mat-row *matRowDef="let page; columns: columnsToDisplay"></tr>
+                                                            </table>
+                                                            <mat-paginator #paginatorNew [pageSizeOptions]="[5, 10, 20]" class="mat-paginator-sticky"></mat-paginator>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6 col-sm-12">
+                                    <div class="col-md-12 col-sm-12">
+                                        <div class="input-group no-border">
+                                            <input type="text" class="form-control" placeholder="Search..." (keyup)="applyFilter($event.target.value)">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12 col-sm-12">
+                                        <div class="card">
+                                            <div class="row">
+                                                <div class="col-md-12 col-sm-12">
+                                                    <div class="card-header card-header-danger">
+                                                        <h4 class="card-title ">Page List</h4>
+                                                    </div>
+                                                    <div class="card-body">
+                                                        <div class="table-responsive table-responsive-2">
+                                                            <table mat-table [dataSource]="dataSourcePage" class="table">
+                                                                <ng-container matColumnDef="page">
+                                                                    <th mat-header-cell *matHeaderCellDef> Page </th>
+                                                                    <td mat-cell *matCellDef="let page"> {{page.title}} </td>
+                                                                </ng-container>
+                                                                <ng-container matColumnDef="actions" stickyEnd>
+                                                                    <th mat-header-cell *matHeaderCellDef></th>
+                                                                    <td mat-cell *matCellDef="let page; let i = index;"> 
+                                                                        <div class="example-button-container">
+                                                                            <button mat-icon-button (click)="addPage(i, page)">
+                                                                                <i class="material-icons" >add</i>
+                                                                            </button>
+                                                                        </div>
+                                                                    </td>
+                                                                </ng-container>
+                                                                <tr mat-header-row *matHeaderRowDef="columnsToDisplay; sticky: true"></tr>
+                                                                <tr mat-row *matRowDef="let page; columns: columnsToDisplay"></tr>
+                                                            </table>
+                                                            <mat-paginator #paginator [pageSizeOptions]="[5, 10, 20]" class="mat-paginator-sticky"></mat-paginator>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                <div class="example-button-container">
+                    <button mat-raised-button  *ngIf="!update" color="primary" 
+                    [disabled]="role.invalid || dataSourcePageNew.data.length == 0" class="color-button mr-3" (click)="createRole()">Save</button>
+                    <button mat-raised-button  *ngIf="update" color="primary" 
+                    [disabled]="(role.invalid && role.pristine) || dataSourcePageNew.data.length == 0" class="color-button mr-3" (click)="createRole()">Update</button>
+                    <button mat-raised-button [mat-dialog-close]="false" color="warn">Cancel</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

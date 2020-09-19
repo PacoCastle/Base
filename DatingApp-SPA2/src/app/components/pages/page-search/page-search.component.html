@@ -1,0 +1,59 @@
+<div class="main-content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-3">
+                <div class="input-group no-border">
+                    <input type="text" class="form-control" placeholder="Search..." (keyup)="applyFilter($event)">
+                </div>
+            </div>
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-header card-header-danger">
+                        <h4 class="card-title ">Page List</h4>
+                    </div>
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table mat-table [dataSource]="dataSourcePages" class="table">
+                                <ng-container matColumnDef="title">
+                                    <th mat-header-cell *matHeaderCellDef> Title </th>
+                                    <td mat-cell *matCellDef="let page"> {{page.title}} </td>
+                                </ng-container>
+                                <ng-container matColumnDef="path">
+                                    <th mat-header-cell *matHeaderCellDef> Path </th>
+                                    <td mat-cell *matCellDef="let page"> {{page.path}} </td>
+                                </ng-container>
+                                <ng-container matColumnDef="icon">
+                                    <th mat-header-cell *matHeaderCellDef> Icon </th>
+                                    <td mat-cell *matCellDef="let page"> <i [class]="[page.icon]"></i> - {{page.icon}}</td>
+                                </ng-container>
+                                <ng-container matColumnDef="actions" stickyEnd>
+                                    <th mat-header-cell *matHeaderCellDef> 
+                                        <div class="example-button-container">
+                                            <button mat-mini-fab color="primary" class="color-button" aria-label="Add New Page" (click)="openModalAdd()">
+                                              <i class="material-icons">add</i>
+                                            </button>
+                                        </div>
+                                    </th>
+                                    <td mat-cell *matCellDef="let page"> 
+                                        <div class="example-button-container">
+                                            <button mat-icon-button aria-label="Update" (click)="openModalUpdate(page)">
+                                                <i class="material-icons">update</i>
+                                            </button>
+                                            <button mat-icon-button aria-label="Delete" (click)="deletePage(page)">
+                                                <i class="material-icons">delete</i>
+                                            </button>
+                                        </div>
+                                    </td>
+                                </ng-container>
+                                <tr mat-header-row *matHeaderRowDef="columnsToDisplay; sticky: true"></tr>
+                                <tr mat-row *matRowDef="let page; columns: columnsToDisplay"></tr>
+                            </table>
+                            <mat-paginator [pageSizeOptions]="[5, 10, 20]" class="mat-paginator-sticky"></mat-paginator>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+  </div>
+  

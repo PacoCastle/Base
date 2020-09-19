@@ -23,7 +23,7 @@ export class ProductsSearchComponent implements OnInit {
 
   searchProducts(){
     this.productService.getProducts().subscribe(res =>{
-      this.dataSourceProducts.data = res;
+      this.dataSourceProducts.data = res.dataResponse;
     });
     this.dataSourceProducts.paginator = this.paginator;
   }

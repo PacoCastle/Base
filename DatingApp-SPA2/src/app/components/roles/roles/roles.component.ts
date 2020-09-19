@@ -1,9 +1,10 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { MatPaginator, MatTableDataSource } from '@angular/material';
+import { MatPaginator, MatTableDataSource, MatDialog } from '@angular/material';
 import { MachineService } from 'app/components/computers/common/machineService';
 import { RoleService } from '../common/rolesService';
 import Swal from 'sweetalert2';
 import { ProductService } from 'app/components/products/common/productService';
+import { RolesAddComponent } from '../roles-add/roles-add.component';
 
 @Component({
   selector: 'app-roles',
@@ -11,90 +12,119 @@ import { ProductService } from 'app/components/products/common/productService';
   styleUrls: ['./roles.component.less']
 })
 export class RolesComponent implements OnInit {
-  rolList = [{id: 1, description:"Users"}];
-  @ViewChild('paginator', {static: true}) paginator: MatPaginator;
-  @ViewChild('paginatorNew', {static: true}) paginatorNew: MatPaginator;
-  dataSourcePage = new MatTableDataSource<any>();
-  dataSourcePageNew = new MatTableDataSource<any>();
-  columnsToDisplay: string[] = ['page', 'actions'];
-  validMachine = false;
-  dummyPages = [
-    {
-      id: 1,
-      description: "Page1"
-    },
-    {
-      id: 2,
-      description: "Page2"
-    },
-    {
-      id: 3,
-      description: "Page3"
-    }
-  ];
+  /**
+   * Role list
+   *
+   * @memberof RolesComponent
+   */
+  rolList = [];
 
+  /**
+   *Viewchild role pages table paginator
+   *
+   * @type {MatPaginator}
+   * @memberof RolesComponent
+   */
+  @ViewChild('paginatorNew', {static: true}) paginatorNew: MatPaginator;
+
+  /**
+   * Datasource role pages table
+   *
+   * @memberof RolesComponent
+   */
+  dataSourcePageNew = new MatTableDataSource<any>();
+  /**
+   * Columns name of the table
+   *
+   * @type {string[]}
+   * @memberof RolesComponent
+   */
+  columnsToDisplay: string[] = ['page'];
+  /**
+   * Valid Machine flag
+   *
+   * @memberof RolesComponent
+   */
+  validMachine = false;
+  /**
+   * Data role selected
+   *
+   * @memberof RolesComponent
+   */
+  dataRole;
+
+
+  /**
+   * Creates an instance of RolesComponent.
+   * @param {MachineService} machineService
+   * @param {RoleService} roleService
+   * @param {ProductService} partServcie
+   * @memberof RolesComponent
+   */
   constructor(private machineService: MachineService,
     private roleService: RoleService,
-    private partServcie: ProductService) { }
+    private partServcie: ProductService,
+    private matDialog: MatDialog,) { }
 
   ngOnInit() {
-    this.dataSourcePage.data = this.dummyPages;
-    this.dataSourcePage.paginator = this.paginator;
+    this.getRoles();
     this.dataSourcePageNew.paginator = this.paginatorNew;
   }
+  /**
+   * method that consults the list of roles
+   *
+   * @memberof RolesComponent
+   */
+  getRoles() {
+    this.roleService.getRoles().subscribe(res=>{
+      this.rolList = res.dataResponse;
+    });
+  }
 
+  /**
+   * Method that consults pages by role
+   *
+   * @param {*} event variable containing the machine information
+   * @memberof RolesComponent
+   */
   searchPagesPerRole(event: any) {
-    const machine = event.value;
+    this.dataRole = event;
     this.roleService.getPagesPerRole().subscribe(res => {
         this.partServcie.getProducts().subscribe(resp=> {
-          this.filterLists(res, resp);
+          
         });
     });
   }
 
-  filterLists(res: any, resp: any) {
-    let missingList=[];
-    res.forEach(element => {
-      let c = 0
-      resp.forEach(elem => {
-        if(elem.id  === element.id) {
-          c++;
-        }
-      });
-      if(c === 0){
-        missingList.push(element);
+  
+  openModalAdd() {
+    const dialogRef = this.matDialog.open(RolesAddComponent, {
+      disableClose: true,
+      width: '60%'
+    })
+    dialogRef.afterClosed().subscribe((option) => {
+      if(option){
+        this.getRoles();
       }
     });
-    this.dataSourcePageNew.data = res;
-    this.dataSourcePage.data = missingList;
   }
-
-  applyFilter(event: Event) {
-    const filterValue = (event.target as HTMLInputElement).value;
-    this.dataSourcePage.filter = filterValue.trim().toLowerCase();
-  }
-  applyFilterPM(event: Event) {
-    const filterValue = (event.target as HTMLInputElement).value;
-    this.dataSourcePageNew.filter = filterValue.trim().toLowerCase();
-  }
-
-  addPage(index, page){
-    index = index  + (this.paginator.pageIndex * this.paginator.pageSize);
-    let list = this.dataSourcePageNew.data;
-    let list2 = this.dataSourcePage.data;
-    list.push(page);
-    list2.splice(index, 1);
-    this.dataSourcePageNew.data = list;
-    this.dataSourcePage.data = list2;
-  }
-
-  removePage(index, page){
-    index = index  + (this.paginatorNew.pageIndex * this.paginatorNew.pageSize);
-    let list = this.dataSourcePage.data;
-    let list2 = this.dataSourcePageNew.data;
-    list.push(page);
-    list2.splice(index, 1);
-    this.dataSourcePage.data = list;
-    this.dataSourcePageNew.data = list2;
+  openModalUpdate(role: any){
+    const dialogRef = this.matDialog.open(RolesAddComponent, {
+      disableClose: true,
+      width: '60%',
+      maxHeight: '80vh'
+    });
+    let data = {
+      name: this.dataRole.value,
+      list: this.dataSourcePageNew.data
+    }
+    dialogRef.componentInstance.detailRole = data;
+    dialogRef.componentInstance.detailRoleOld = data;
+    dialogRef.componentInstance.update = true;
+    dialogRef.afterClosed().subscribe((option) => {
+      if(option){
+        this.searchPagesPerRole(this.dataRole);
+      }
+    });
   }
 }

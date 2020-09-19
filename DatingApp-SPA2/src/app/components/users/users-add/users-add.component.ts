@@ -2,7 +2,7 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { UserService } from '../common/userService';
 import Swal from 'sweetalert2';
-import { MatPaginator, MatTableDataSource } from '@angular/material';
+import { MatPaginator, MatTableDataSource, MatDialogRef } from '@angular/material';
 
 @Component({
   selector: 'app-users-add',
@@ -10,67 +10,215 @@ import { MatPaginator, MatTableDataSource } from '@angular/material';
   styleUrls: ['./users-add.component.less']
 })
 export class UsersAddComponent implements OnInit {
+  /**
+   * User Form
+   *
+   * @type {FormGroup}
+   * @memberof UsersAddComponent
+   */
   user: FormGroup;
+
+  /**
+   * Update flag
+   *
+   * @type {boolean}
+   * @memberof UsersAddComponent
+   */
   update: boolean;
+
+  /**
+   * New User information
+   *
+   * @memberof UsersAddComponent
+   */
   detailUser;
+
+  /**
+   * Old user information
+   *
+   * @memberof UsersAddComponent
+   */
   detailUserOld;
-  rolList = [{id: 1, description:"Users"}];
+
+  /**
+   *Viewchild of the user roles table paginator
+   *
+   * @type {MatPaginator}
+   * @memberof UsersAddComponent
+   */
+  @ViewChild('paginator', {static: true}) paginator: MatPaginator;
+  /**
+   *Viewchild of the roles table paginator
+   *
+   * @type {MatPaginator}
+   * @memberof UsersAddComponent
+   */
+  @ViewChild('paginatorNew', {static: true}) paginatorNew: MatPaginator;
+  /**
+   *Datasource of the user roles table
+   *
+   * @type {MatPaginator}
+   * @memberof UsersAddComponent
+   */
+  dataSourceRole = new MatTableDataSource<any>();
+  /**
+   *Datasource of the roles table
+   *
+   * @type {MatPaginator}
+   * @memberof UsersAddComponent
+   */
+  dataSourceRoleNew = new MatTableDataSource<any>();
+  /**
+   * Columns name of the tables
+   *
+   * @type {string[]}
+   * @memberof UsersAddComponent
+   */
+  columnsToDisplay: string[] = ['role', 'actions'];
 
 
-  constructor(private userService: UserService) { }
+  /**
+   * Creates an instance of UsersAddComponent.
+   * @param {UserService} userService
+   * @memberof UsersAddComponent
+   */
+  constructor(private userService: UserService,
+    public dialogRef: MatDialogRef<UsersAddComponent>) { }
 
   ngOnInit() {
-   
+    this.userService.getRoles().subscribe(rep => {
+      this.dataSourceRole.data = rep.dataResponse;
+    });
     if(this.update){
       this.user = new FormGroup({
-        employeeiId: new FormControl(this.detailUser.name, [Validators.required]),
-        name: new FormControl(this.detailUser.description, [Validators.required]),
-        lastName: new FormControl(null, [Validators.required]),
-        motherLastName: new FormControl(null, [Validators.required]),
-        age: new FormControl(null, [Validators.required]),
-        heigth: new FormControl(null, [Validators.required]),
-        bodyMass: new FormControl(null, [Validators.required]),
-        imss: new FormControl(null, [Validators.required]),
-        role: new FormControl(null, [Validators.required])
+        userName: new FormControl(this.detailUser.userName, [Validators.required]),
+        password: new FormControl(this.detailUser.password, [Validators.required]),
+        email: new FormControl(this.detailUser.email, [Validators.required]),
+        name: new FormControl(this.detailUser.name),
+        lastName: new FormControl(this.detailUser.lastName),
+        motherLastName: new FormControl(this.detailUser.secondLastName),
+        status: new FormControl(this.detailUser.status)
+        // age: new FormControl(null, [Validators.required]),
+        // heigth: new FormControl(null, [Validators.required]),
+        // bodyMass: new FormControl(null, [Validators.required]),
+        // imss: new FormControl(null, [Validators.required]),
+        // role: new FormControl(null, [Validators.required])
       });
+      this.formUser.userName.disable();
     } else {
       this.user = new FormGroup({
-        employeeiId: new FormControl(null, [Validators.required]),
-        name: new FormControl(null, [Validators.required]),
-        lastName: new FormControl(null, [Validators.required]),
-        motherLastName: new FormControl(null, [Validators.required]),
-        age: new FormControl(null, [Validators.required]),
-        heigth: new FormControl(null, [Validators.required]),
-        bodyMass: new FormControl(null, [Validators.required]),
-        imss: new FormControl(null, [Validators.required]),
-        role: new FormControl(null, [Validators.required])
+        userName: new FormControl(null, [Validators.required]),
+        password: new FormControl(null, [Validators.required]),
+        email: new FormControl(null, [Validators.required]),
+        name: new FormControl(null),
+        lastName: new FormControl(null),
+        motherLastName: new FormControl(null),
+        status: new FormControl(null)
+        // age: new FormControl(null, [Validators.required]),
+        // heigth: new FormControl(null, [Validators.required]),
+        // bodyMass: new FormControl(null, [Validators.required]),
+        // imss: new FormControl(null, [Validators.required]),
+        // role: new FormControl(null, [Validators.required])
       });
     }
   }
 
+  /**
+   * Method that retrives the form´s damages
+   *
+   * @readonly
+   * @memberof UsersAddComponent
+   */
   get formUser(){
     return this.user.controls;
   }
 
+  /**
+   *Method that takes care of the registration or update of users
+   *
+   * @memberof UsersAddComponent
+   */
   addUser(){
     let data = {
-      Name: this.formUser.name.value,
-      Description: this.formUser.description.value,
-      Status: 1
+      userName: this.formUser.userName.value,
+      password: this.formUser.password.value,
+      email: this.formUser.email.value,
+      name: this.formUser.name.value,
+      lastName: this.formUser.lastName.value,
+      secondLastName: this.formUser.motherLastName.value,      
+      // dateOfBirth: this.formUser.description.value,
+      created: this.update?this.detailUser.created: new Date(),
+      roleNames: this.dataSourceRoleNew,
+      status: this.update?this.formUser.status: 1
     };
     if(this.update){
       this.userService.updateUser(this.detailUser.id, data).subscribe(res =>{
-        Swal.fire("Success","Machine Successfully Updated", "success")
+        Swal.fire("Success","Machine Successfully Updated", "success");
+        this.dialogRef.close(true);
       }, error =>{
         Swal.fire("Error Update", error.error, "error");
       });
     } else{
       this.userService.addUser(data).subscribe(res =>{
-        Swal.fire("Success","Machine Successfully Added", "success")
+        Swal.fire("Success","Machine Successfully Added", "success");
+        this.dialogRef.close(true);
       }, error =>{
         Swal.fire("Error Add", error.error, "error");
       });
     }
   }
+  /**
+   *Method that takes care of the Role add
+   *
+   * @param {*} indexvariable containing the position of the role
+   * @param {*} role variable containing the role information
+   * @memberof UsersAddComponent
+   */
+  addRole(index, role){
+    index = index  + (this.paginator.pageIndex * this.paginator.pageSize);
+    let list = this.dataSourceRoleNew.data;
+    let list2 = this.dataSourceRole.data;
+    list.push(role);
+    list2.splice(index, 1);
+    this.dataSourceRoleNew.data = list;
+    this.dataSourceRole.data = list2;
+  }
 
+  /**
+   *Method that takes care of the Role Remove
+   *
+   * @param {*} indexvariable containing the position of the role
+   * @param {*} role variable containing the role information
+   * @memberof UsersAddComponent
+   */
+  removeRole(index, role){
+    index = index  + (this.paginatorNew.pageIndex * this.paginatorNew.pageSize);
+    let list = this.dataSourceRole.data;
+    let list2 = this.dataSourceRoleNew.data;
+    list.push(role);
+    list2.splice(index, 1);
+    this.dataSourceRole.data = list;
+    this.dataSourceRoleNew.data = list2;
+  }
+
+  /**
+   * Role table filter
+   *
+   * @param {Event} event vairiable containing the role
+   * @memberof UsersAddComponent
+   */
+  applyFilter(event) {
+    this.dataSourceRole.filter = event.trim().toLocaleLowerCase();
+  }
+
+
+  /**
+   * User roles table filter
+   *
+   * @param {Event} event vairiable containing the role
+   * @memberof UsersAddComponent
+   */
+  applyFilterPM(event) {
+    this.dataSourceRoleNew.filter = event.trim().toLocaleLowerCase();
+  }
 }

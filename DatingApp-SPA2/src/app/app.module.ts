@@ -18,6 +18,7 @@ import { JwtModule } from '@auth0/angular-jwt';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { LoaderRequestInterceptor } from './components/_services/loader-request-interceptor';
 import { NgxSpinnerComponent } from 'ngx-spinner';
+import { RolesAddComponent } from './components/roles/roles-add/roles-add.component';
 export function tokenGetter() {
   return localStorage.getItem('token');
 }
