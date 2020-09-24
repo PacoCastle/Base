@@ -161,6 +161,7 @@ namespace DatingApp.Services
                         roleMenu.MenuId = currenMenuId.Id;
 
                         await _unitOfWork.RoleMenuRepository.AddAsync(roleMenu);
+                        await _unitOfWork.CommitAsync();
                     }
                 }
                 else
@@ -199,86 +200,112 @@ namespace DatingApp.Services
             }          
 
             return result;
-        } 
-        /* /// <summary>
+        }
+        /// <summary>
         /// Function thah Update a register for Role  
         /// </summary>
         /// <param name="RoleToBeUpdateModel">Instance of Role for be Updated</param>
         /// <param name="RoleForUpdateModel">Instance of Role with the Data to Update</param>
         /// <returns></returns>
-        public async Task<BaseResponse<Role>>  UpdateRole(Role RoleToBeUpdateModel , Role RoleForUpdateModel)
-        {
+        /// 
 
+        public async Task<BaseResponse<Role>> UpdateRole(Role RoleToBeUpdateModel, Role RoleForUpdateModel)
+        {
+            
             //Declare variables for result and errors for be filled with the response of _unitOfWork
             BaseResponse<Role> result = new BaseResponse<Role>();
-            List<string> err = new List<string>(); 
-            List<DetailResponse> detailResponse = new  List<DetailResponse>();
+            List<string> err = new List<string>();
+            List<DetailResponse> detailResponse = new List<DetailResponse>();
+            List<RoleMenu> lstRoleMenu = new List<RoleMenu>();
 
             try
             {
-                //Set in the object TO BE UPDATED (ORIGIN) the changues from object FOR UPDATE                
-                RoleToBeUpdateModel.Name = RoleForUpdateModel.Name;
-                RoleToBeUpdateModel.Description = RoleForUpdateModel.Description;
-                RoleToBeUpdateModel.Status = RoleForUpdateModel.Status;
-            
+                //Extract to a variable the roles to be Updated
+                var menuForAdd = RoleForUpdateModel.Menus;
+                //Send parameters to a validate if exist
+                await validRoles(menuForAdd, err);
 
-                //Call commit of the changues in the past step            
-                await _unitOfWork.CommitAsync();  
+                //If some or Roles sending doesn't exist, then return 
+                if (err.Count > 0)
+                {
+                    result.errors = err;
+                    return result;
+                }
 
-                //Set Successful in true because the commit was completed     
+                await _unitOfWork.RoleMenuRepository.RemoveRoleId(RoleToBeUpdateModel.Id);
+                foreach (var item in RoleForUpdateModel.Menus)
+                {
+                    lstRoleMenu.Add(new RoleMenu() { RoleId = RoleToBeUpdateModel.Id, MenuId = item.Id });
+                }
+
+                await _unitOfWork.RoleMenuRepository.AddRangeAsync(lstRoleMenu);
+                await _unitOfWork.CommitAsync();
+
                 result.Successful = true;
 
-                //Set in Data Response of result object   
-                result.DataResponse = await _unitOfWork.RoleRepository.GetByIdAsync(RoleToBeUpdateModel.Id);
-
-                //Set in Details local variable  object a message for successful execution in the Update
-                detailResponse.Add(result.AddDetailResponse (RoleToBeUpdateModel.Id, "Actualización realizada correctamente"));
+                //Set in Details local variable  object a message for successful execution in the Create
+                detailResponse.Add(result.AddDetailResponse(RoleToBeUpdateModel.Id, "Regitro exitoso"));
 
                 //Set Details from local variable to result before return
                 result.Details = detailResponse;
-                
             }
-            catch (System.Exception ex )
+            catch (Exception ex)
             {
-                //If exist a Error un the transaction then set Error Detail for return in the result
-                err.Add("Error en RoleService -> UpdateRole " + ex.Message);
-                result.errors = err;                
+
+                throw;
             }
 
-            //return result FROM SERVICE object
-            return result;  
-            
-        } */
-        /* /// <summary>
-        /// Get the first or Default Role Register filter by Name 
-        /// </summary>
-        /// <param name="id">Id of Role for the search</param>
-        /// <returns>BaseResponse<Role> with the result of the search By Name</returns>
-        public async Task<BaseResponse<Role>>  GetRoleByName(string name)
+           
+            return result;
+
+        }
+
+        public async Task<BaseResponse<int>> GetRoleByNameToId(string name)
         {
             //Declare variables for result and errors for be filled with the response of _unitOfWork
-            BaseResponse<Role> result = new BaseResponse<Role>();
+            BaseResponse<int> result = new BaseResponse<int>();
             List<string> err = new List<string>();
 
             try
             {
                 //Using _unitOfWork call to a RoleRepository and through of the 
-                //GetByIdAsync GENERIC method Search the first or Default
-                result.DataResponse = await _unitOfWork.RoleRepository.GetRoleByName(name);
+                //GetRoleByName GENERIC method Search the first or Default
+                result.DataResponse = await _unitOfWork.RoleRepository.GetRoleByNemeToId(name);
 
                 //If the Query was Successful then in the result this flat in true
-                result.Successful = true; 
+                result.Successful = true;
             }
-            catch (System.Exception ex )
+            catch (System.Exception ex)
             {
                 //If exist a Exception it's catched and Set in err List the Message 
-                err.Add("Error en RoleService -> GetRole " + ex.Message);
+                err.Add("Error en RoleService -> GetRoleByNameToId " + ex.Message);
                 //Set in the result errors object the exception message
                 result.errors = err;
-            }          
+            }
 
             return result;
-            
-        }*/
+        }
+
+        private async Task validRoles(ICollection<Menu> menuForValidate, List<string> err)
+        {
+            var allMenus = await _unitOfWork.MenuRepository.GetAllAsync();
+
+            var allMenuId = allMenus.Where(r => r.Status == 1)
+                                .Select(r => r.Id)
+                                .ToList();
+
+           
+                var roleDiferences = menuForValidate.Where(x => !allMenuId.Contains(x.Id)).ToList();
+                if (roleDiferences.Count > 0)
+                {
+                    foreach (var currentRole in roleDiferences)
+                    {
+                        err.Add("El Menu " + currentRole.Id + " no existe el catálogo o no se encuentra activo");
+                    }
+                }
+          
+            //If some or Roles sending doesn't exist, then return 
+           
+        }
     } 
 }

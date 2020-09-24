@@ -72,7 +72,7 @@ namespace DatingApp.API.Helpers
             CreateMap<RoleForCreateDto,Role>();
             CreateMap<Role, RoleForReturnDto>();
             CreateMap<RoleMenuCreateDto, Menu>();
-            
+            CreateMap<RoleForUpdateDto, Role>();
         }
     }
 }

@@ -18,7 +18,16 @@ namespace DatingApp.Data.Repositories
             : base(context)
         { 
             _context = context;            
-        } 
+        }
+
+        public async Task RemoveRoleId(int id)
+        {
+            var roleId = await _context.RoleMenu.Where(x => x.RoleId == id).ToListAsync();
+             _context.RoleMenu.RemoveRange(roleId);
+            await _context.SaveChangesAsync();
+            
+        }
+
     }
 }
 

@@ -41,9 +41,16 @@ namespace DatingApp.Data.Repositories
         {
             _roleManager.CreateAsync(role).Wait();
             return role; 
-        } 
+        }
 
-             
+        public async Task<int> GetRoleByNemeToId(string name)
+        {
+            var roleMngr = await _roleManager.Roles.AsNoTracking().Where(w =>
+                 w.Name == name && w.Status == 1)
+            .Select(r => r.Id)
+            .FirstOrDefaultAsync();
+            return roleMngr;
+        }
     }
 }
 

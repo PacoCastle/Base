@@ -11,6 +11,7 @@ using System;
  using DatingApp.Core.Models;
 using DatingApp.Core.Services;
 using System.Net;
+using DatingApp.Core;
 /*
 The RolesController class
 Contains all EndPoints for Get, Post and Put Roles Entity
@@ -30,15 +31,18 @@ namespace DatingApp.API.Controllers
          private readonly IMapper _mapper;
 
          private readonly IRoleService _service;
-         /// <summary>
-         /// RolesController Constructor Initialize the Injected Interfaces for use it.
-         /// </summary>
-         /// <param name="mapper">Interface that contain mappings between DTO's and Models</param>
-         /// <param name="service">Interface that contain acces to Service funtions and methods of RoleService</param>
-         public RolesController(IRoleService service, IMapper mapper)
+
+         private readonly IUnitOfWork _unitOfWork;
+        /// <summary>
+        /// RolesController Constructor Initialize the Injected Interfaces for use it.
+        /// </summary>
+        /// <param name="mapper">Interface that contain mappings between DTO's and Models</param>
+        /// <param name="service">Interface that contain acces to Service funtions and methods of RoleService</param>
+        public RolesController(IRoleService service, IMapper mapper, IUnitOfWork unitOfWork)
          {
              _mapper = mapper;
-             _service = service;         
+             _service = service;
+            _unitOfWork = unitOfWork;
          }
         /// <summary>
         /// Search in Role filter By Id
@@ -132,39 +136,46 @@ namespace DatingApp.API.Controllers
             }
             
          }
-         /*/// <summary>
+        /// <summary>
         /// Update Role register
         /// </summary>
         /// <param name="id">Id of Register to be Updated</param>
         /// <param name="RoleForUpdateDto">DTO that contains properties to be Updated </param>
         /// <returns>Object wit Status of execution and Data Updated and a Status of request</returns>
-      [HttpPut("{id}")]
-        public async Task<IActionResult> UpdateRole(int id, RoleForUpdateDto RoleForUpdateDto)
+        [HttpPut("{name}")]
+        public async Task<IActionResult> UpdateRole(String name , RoleForUpdateDto RoleForUpdateDto)
         {
             //Search if de Id to be Updated get Data for Update
-            var RoleFromRepo = await _service.GetRoleById(id);
-
-            //Set in a var the Data that was Obtained in the last Step 
-            var RoleToBeUpdated = RoleFromRepo.DataResponse;
-
-            //If not exist Data for the id parameter return 404 and Empty DataResponse object 
-            if (RoleToBeUpdated == null)
-                return NotFound();
-
-            //If exist Data it's Mapped to a Role for Send to Service
-            var RoleForUpdate = _mapper.Map<Role>(RoleForUpdateDto); 
-
-            //Get Response from Service and UpdateRole sendig Object to be Updated and Data for make the Update 
-            var serviceResult = await _service.UpdateRole(RoleToBeUpdated, RoleForUpdate);
-
-            //if the Update was Successful then return 200 and an Object with DataResponse Updated
-            if(serviceResult.Successful)
+            //var RoleFromRepo = await _service.GetRoleById(id);
+            try
             {
-                return Ok(serviceResult);
-            }        
 
-            //if the Update wasn't Successful then return 400 and an Object with Error information
-            return BadRequest(serviceResult);   
-        }*/         
-     } 
+                var RoleId = await _unitOfWork.RoleRepository.GetRoleByNemeToId(name);
+                var RoleToBeUpdated = await _unitOfWork.RoleRepository.GetByIdAsync(RoleId);
+
+                //If not exist Data for the id parameter return 404 and Empty DataResponse object 
+                if (RoleToBeUpdated == null)
+                    return NotFound();
+
+                //If exist Data it's Mapped to a User for Send to Service
+                var RoleForUpdate = _mapper.Map<Role>(RoleForUpdateDto);
+
+                //Get Response from Service and UpdateRole sendig Object to be Updated and Data for make the Update 
+                var serviceResult = await _service.UpdateRole(RoleToBeUpdated, RoleForUpdate);
+
+                if (serviceResult.Successful)
+                {
+                    return Ok(serviceResult);
+                }
+
+                //if the Update wasn't Successful then return 400 and an Object with Error information
+                return BadRequest(serviceResult);
+            }
+            catch (Exception ex)
+            {
+
+                throw;
+            } 
+        }
+    } 
  } 

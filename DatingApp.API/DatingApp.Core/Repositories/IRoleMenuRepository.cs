@@ -6,6 +6,6 @@ namespace DatingApp.Core.Repositories
 {
     public interface IRoleMenuRepository : IRepository<RoleMenu>
     {
-       
+        Task RemoveRoleId(int id);
     }
 }

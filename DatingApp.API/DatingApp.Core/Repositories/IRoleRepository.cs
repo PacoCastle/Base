@@ -10,5 +10,6 @@ namespace DatingApp.Core.Repositories
         Task<IEnumerable<String>> GetRoles();
         Task<String> GetRoleByName(String name);
         Task<Role> CreateRole(Role role);
+        Task<int> GetRoleByNemeToId(String name);
     }
 }

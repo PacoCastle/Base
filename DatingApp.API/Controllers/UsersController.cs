@@ -31,7 +31,7 @@ namespace DatingApp.API.Controllers
 
          private readonly IUserService _service;
 
-            private readonly IUnitOfWork _unitOfWork;
+         private readonly IUnitOfWork _unitOfWork;
         /// <summary>
         /// UsersController Constructor Initialize the Injected Interfaces for use it.
         /// </summary>
