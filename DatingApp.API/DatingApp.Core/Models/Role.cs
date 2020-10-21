@@ -12,6 +12,8 @@ namespace DatingApp.Core.Models
         public virtual ICollection<RoleMenu> RoleMenus { get; set; }
         [NotMapped]
         public virtual ICollection<Menu> Menus { get; set; }
+        [NotMapped]
+        public virtual ICollection<Menu> UnAssignedMenus { get; set; }
 
     }
 }
