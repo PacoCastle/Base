@@ -2,7 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-//using DatingApp.API.Data;
+//using DatingApp.Api.Data;
 using DatingApp.Core;
 using DatingApp.Core.Models;
 using DatingApp.Core.Services;

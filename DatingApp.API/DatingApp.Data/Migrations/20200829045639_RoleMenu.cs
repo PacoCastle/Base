@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore.Migrations;
 
-namespace DatingApp.API.Migrations
+namespace DatingApp.Data.Migrations
 {
     public partial class RoleMenu : Migration
     {

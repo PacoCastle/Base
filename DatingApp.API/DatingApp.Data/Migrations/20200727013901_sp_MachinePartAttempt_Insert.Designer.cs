@@ -7,7 +7,7 @@ using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
-namespace DatingApp.API.Migrations
+namespace DatingApp.Data.Migrations
 {
     [DbContext(typeof(DataContext))]
     [Migration("20200727013901_sp_MachinePartAttempt_Insert")]
