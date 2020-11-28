@@ -8,6 +8,7 @@ namespace DatingApp.Api.Dtos
     {
     
         public ICollection<RoleMenuCreateDto> Menus { get; set; }
+        public int status { get; set; }
 
     }
 }

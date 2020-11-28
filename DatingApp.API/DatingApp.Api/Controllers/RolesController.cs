@@ -142,16 +142,16 @@ namespace DatingApp.Api.Controllers
         /// <param name="id">Id of Register to be Updated</param>
         /// <param name="RoleForUpdateDto">DTO that contains properties to be Updated </param>
         /// <returns>Object wit Status of execution and Data Updated and a Status of request</returns>
-        [HttpPut("{name}")]
-        public async Task<IActionResult> UpdateRole(String name , RoleForUpdateDto RoleForUpdateDto)
+        [HttpPut("{id}")]
+        public async Task<IActionResult> UpdateRole(int id , RoleForUpdateDto RoleForUpdateDto)
         {
             //Search if de Id to be Updated get Data for Update
             //var RoleFromRepo = await _service.GetRoleById(id);
             try
             {
 
-                var RoleId = await _unitOfWork.RoleRepository.GetRoleByNemeToId(name);
-                var RoleToBeUpdated = await _unitOfWork.RoleRepository.GetByIdAsync(RoleId);
+                var RoleFromRepo = await _unitOfWork.RoleRepository.GetRoleById(id);
+                var RoleToBeUpdated = await _unitOfWork.RoleRepository.GetByIdAsync(RoleFromRepo.Id);
 
                 //If not exist Data for the id parameter return 404 and Empty DataResponse object 
                 if (RoleToBeUpdated == null)
