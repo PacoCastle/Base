@@ -20,14 +20,69 @@ namespace DatingApp.Data.Repositories
             _roleManager = roleManager;
             _context = context;
         }        
-        public async Task<IEnumerable<String>> GetRoles()
+        public async Task<IEnumerable<Role>> GetRoles()
         {
-            //List<string> roles = roleMngr.Roles.Select(x => x.Name).ToList();
-            var roleMngr = await _roleManager.Roles
-            .Select(r => r.Name)
-            .ToListAsync();
-            return roleMngr; 
+            var roles = await _roleManager.Roles.AsNoTracking()
+            .Select(role => new Role
+            {
+                Id = role.Id,
+                Name = role.Name,
+                Status = role.Status
+            }).ToListAsync();
+
+            return roles;
         }  
+
+        public async Task<Role> GetRoleById(int id)
+        {
+            var userFrom = await _context.Roles.AsNoTracking()
+            .Select(role => new Role
+            {
+                Id = role.Id
+                ,Name = role.Name
+                ,Status = role.Status
+                ,Menus = (from roleMenu in role.RoleMenus
+                         join menu in _context.Menu
+                         on roleMenu.MenuId
+                         equals menu.Id
+                         where menu.Status == 1
+                         select new Menu
+                         {
+                             Id = menu.Id
+                             ,
+                             Path = menu.Path
+                             ,
+                             Title = menu.Title
+                             ,
+                             Icon = menu.Icon
+                             ,
+                             ParentId = menu.ParentId
+                             ,
+                             Status = menu.Status
+                         }).ToList()
+                ,
+                UnAssignedMenus = (from menu in _context.Menu
+                                   where !role.RoleMenus.Any(rm => rm.MenuId == menu.Id)
+                                   && menu.Status == 1
+                                   select new Menu
+                                   {
+                                       Id = menu.Id
+                                       ,Path = menu.Path
+                                       ,Title = menu.Title
+                                       ,Icon = menu.Icon
+                                       ,ParentId = menu.ParentId
+                                       ,Status = menu.Status
+                                   }).ToList()
+            })
+            .FirstOrDefaultAsync(role => role.Id == id);
+
+            return userFrom;
+        }   
+        public async Task<Role> CreateRole(Role role)
+        {
+            _roleManager.CreateAsync(role).Wait();
+            return role; 
+        }
 
         public async Task<string> GetRoleByName(string name)
         {
@@ -35,15 +90,9 @@ namespace DatingApp.Data.Repositories
                  w.Name == name && w.Status == 1)
             .Select(r => r.Name)
             .FirstOrDefaultAsync();
-            return roleMngr; 
-        }   
-        public async Task<Role> CreateRole(Role role)
-        {
-            _roleManager.CreateAsync(role).Wait();
-            return role; 
-        } 
-
-             
+            
+            return roleMngr;
+        }
     }
 }
 

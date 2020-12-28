@@ -1,6 +1,6 @@
 ﻿//using AutoMapper.Configuration;
 using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.Configuration.Binder;
+//using Microsoft.Extensions.Configuration.Binder;
 using DatingApp.Core;
 using DatingApp.Core.Models;
 using DatingApp.Core.Services;
@@ -12,7 +12,7 @@ using System.Linq;
 using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
-using CloudinaryDotNet.Actions;
+//using CloudinaryDotNet.Actions;
 /*
 The UserService class
 Contains all Bussines Logic can be Injected many repositories that you considered necesary 
@@ -87,9 +87,9 @@ namespace DatingApp.Services
 
                 if (result.DataResponse != null)
                 {
-                    result.DataResponse.RoleNames = result.DataResponse.UserRoles
-                                                .Select(r => r.Role.Name)
-                                                .ToList();
+                    //result.DataResponse.RoleNames = result.DataResponse.UserRoles
+                    //                            .Select(r => r.Role.Name)
+                    //                            .ToList();
                     result.DataResponse.token = token;
 
                 }

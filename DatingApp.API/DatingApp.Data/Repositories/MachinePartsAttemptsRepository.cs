@@ -106,7 +106,7 @@ namespace DatingApp.Data.Repositories
                 var sql = "exec sp_MachinePartAttempt_Insert @MachineModel ,@PartModel ,@InternalSequence  ,@Successful OUTPUT ,@Id OUTPUT ,@Message OUTPUT";
 
                 //Execute the Sentence sending Input parameters and receiving Output response
-                _context.Database.ExecuteSqlCommand(sql, pMachineModel, pPartModel, pInternalSequence, pSuccessful, pId, pMessage);
+                //_context.Database.ExecuteSqlCommand(sql, pMachineModel, pPartModel, pInternalSequence, pSuccessful, pId, pMessage);
 
                 //Set in Successful property the OutPut tha indicate if the operation was Successful can be true or false
                 result.Successful = (bool) pSuccessful.Value;

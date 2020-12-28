@@ -7,11 +7,12 @@ namespace DatingApp.Core.Services
 {
     public interface IRoleService
     {
-        Task<BaseResponse<IEnumerable<String>>> GetRoles();
-         Task<BaseResponse<String>> GetRoleByName(String name);
+        Task<BaseResponse<IEnumerable<Role>>> GetRoles();
+        Task<BaseResponse<string>> GetRoleByName(String name);
         Task<BaseResponse<Role>>  CreateRole(Role Role);
-        /*Task<BaseResponse<Role>>  UpdateRole(Role Role , Role RoleUpdateModel);*/
+        Task<BaseResponse<Role>> UpdateRole(Role name , Role Role);
         Task<BaseResponse<Role>> GetRoleById(int id);
-        
+        //Task<BaseResponse<int>> GetRoleByNameToId(String name);
+
     }
 }

@@ -7,8 +7,10 @@ namespace DatingApp.Core.Repositories
 {
     public interface IRoleRepository : IRepository<Role>
     {
-        Task<IEnumerable<String>> GetRoles();
-        Task<String> GetRoleByName(String name);
+        Task<IEnumerable<Role>> GetRoles();
+        Task<Role> GetRoleById(int id);
         Task<Role> CreateRole(Role role);
+        
+        Task<string> GetRoleByName(String name);
     }
 }
