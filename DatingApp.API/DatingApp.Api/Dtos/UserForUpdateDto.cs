@@ -11,5 +11,7 @@ namespace DatingApp.Api.Dtos
         public string[] RoleNames { get; set; }
 
         public int Status { get; set;  }
+
+        public string Sexo { get; set; }
     }
 }

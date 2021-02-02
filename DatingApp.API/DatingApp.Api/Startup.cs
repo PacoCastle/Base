@@ -32,6 +32,7 @@ using DatingApp.Services;
 using Microsoft.OpenApi.Models;
 using FluentValidation.AspNetCore;
 using System.Reflection;
+using DatingApp.Core.Repositories;
 
 namespace DatingApp.Api
 {
