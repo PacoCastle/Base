@@ -44,7 +44,7 @@ export class LoginComponent implements OnInit {
 
   loginUser() {
     this.model = {
-      username: this.formLogin.user.value,
+      userName: this.formLogin.user.value,
       password: this.formLogin.pass.value
     }
     this.authService.login(this.model).subscribe(
@@ -52,7 +52,7 @@ export class LoginComponent implements OnInit {
         Swal.fire("Logged in successfully","","success" );
       },
       error => {
-        Swal.fire("Error", error, "error");
+        Swal.fire("Error", error.error.errors[0], "error");
       },
       () => {
         this.router.navigate(['/home']);
