@@ -4,11 +4,11 @@
   }
   
   .conteiner {
-    height: -webkit-fill-available;
-    background-color: #E7F6F6;
-    border: 1px solid #99cccc;
+    
     display: flex;
     align-items: center;
     justify-content: center;
     background: linear-gradient(rgba(53, 144, 196, 1), rgba(255, 255, 255, 0.42), rgb(0, 0, 0, 1));
     }
+
+    

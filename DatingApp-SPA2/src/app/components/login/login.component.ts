@@ -21,6 +21,9 @@ export class LoginComponent implements OnInit {
 ) {}
 
   ngOnInit() {
+    
+
+      $('.conteiner').height($(window).height());
     this.login = new FormGroup({
       user: new FormControl(null,[Validators.required]),
       pass: new FormControl(null,[Validators.required])
