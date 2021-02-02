@@ -33,6 +33,6 @@ namespace DatingApp.Core.Models
         [NotMapped]
         public virtual ICollection<Role> UnAssignedRoles { get; set; }
 
-        //public virtual ICollection<RoleMenu> RoleMenu { get; set; }
+        public string Sexo { get; set; }
     }
 }

@@ -2,7 +2,7 @@ using System;
 using System.Threading.Tasks;
 using DatingApp.Core.Repositories;
 
-namespace DatingApp.Core
+namespace DatingApp.Core.Repositories
 {
     public interface IUnitOfWork : IDisposable
     {

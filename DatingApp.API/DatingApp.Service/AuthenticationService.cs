@@ -12,6 +12,7 @@ using System.Linq;
 using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
+using DatingApp.Core.Repositories;
 //using CloudinaryDotNet.Actions;
 /*
 The UserService class
@@ -122,7 +123,7 @@ namespace DatingApp.Services
             var tokenDescriptor = new SecurityTokenDescriptor
             {
                 Subject = new ClaimsIdentity(claims),
-                Expires = DateTime.Now.AddDays(1),
+                Expires = DateTime.Now.AddSeconds(20),
                 SigningCredentials = creds
             };
 

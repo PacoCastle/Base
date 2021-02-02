@@ -11,6 +11,7 @@ using System;
  using DatingApp.Core.Models;
 using DatingApp.Core.Services;
 using DatingApp.Core;
+using DatingApp.Core.Repositories;
 /*
 The UsersController class
 Contains all EndPoints for Get, Post and Put Users Entity
@@ -22,8 +23,8 @@ Contains all EndPoints for Get, Post and Put Users Entity
 /// 
 namespace DatingApp.Api.Controllers
 {
-    //[AllowAnonymous]
-    [Authorize]
+    [AllowAnonymous]
+    //[Authorize]
     [Route("api/[controller]")]
      [ApiController]
      public class UsersController : ControllerBase

@@ -12,6 +12,7 @@ using System;
 using DatingApp.Core.Services;
 using System.Net;
 using DatingApp.Core;
+using DatingApp.Core.Repositories;
 /*
 The RolesController class
 Contains all EndPoints for Get, Post and Put Roles Entity

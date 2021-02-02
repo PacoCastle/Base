@@ -34,6 +34,8 @@ namespace DatingApp.Data.Repositories
                 LastName = user.LastName
                 ,SecurityStamp = user.SecurityStamp
                 ,PasswordHash = user.PasswordHash
+                ,Sexo = user.Sexo
+                ,Status = user.Status
                 ,Roles = (from userRole in user.UserRoles
                          join role in _context.Roles
                          on userRole.RoleId
@@ -83,6 +85,8 @@ namespace DatingApp.Data.Repositories
                 Name = user.Name,
                 LastName = user.LastName
                 ,SecurityStamp = user.SecurityStamp
+                ,Sexo = user.Sexo
+                ,Status = user.Status
             }).ToListAsync();
 
             return users; 
@@ -135,6 +139,8 @@ namespace DatingApp.Data.Repositories
                 ,LastName = user.LastName
                 ,SecurityStamp = user.SecurityStamp
                 ,PasswordHash = user.PasswordHash
+                ,Sexo = user.Sexo
+                ,Status = user.Status
                 ,Roles = (from userRole in user.UserRoles
                          join role in _context.Roles
                          on userRole.RoleId
