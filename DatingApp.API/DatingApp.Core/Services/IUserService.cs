@@ -12,6 +12,7 @@ namespace DatingApp.Core.Services
         Task<BaseResponse<User>>  CreateUser(User user, String password);
         Task<BaseResponse<User>> UpdateUser(User UserToBeUpdateModel, User UserForUpdateModel, string NewPassword);
         Task<BaseResponse<User>> GetUserByUserName(string userName);
+        Task<BaseResponse<User>> DeleteUser(User UserToBeUpdateModel);
 
     }
 }

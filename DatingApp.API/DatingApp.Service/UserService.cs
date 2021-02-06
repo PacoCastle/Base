@@ -266,52 +266,51 @@ namespace DatingApp.Services
         /// <summary>
         /// Function thah Update a register for User  
         /// </summary>
-        /// <param name="UserToBeUpdateModel">Instance of User for be Updated</param>
-        /// <param name="UserForUpdateModel">Instance of User with the Data to Update</param>
+        /// <param name="id">Instance of User for be Updated</param>
         /// <returns></returns>
-        //public async Task<BaseResponse<User>> GetUserUnAssignedRoles(User UserFromRepo)
-        //{
-        //    //Declare variables for result and errors for be filled with the response of _unitOfWork
-        //    BaseResponse<User> result = new BaseResponse<User>();
-        //    List<string> err = new List<string>();
-        //    List<DetailResponse> detailResponse = new List<DetailResponse>();
+        public async Task<BaseResponse<User>> DeleteUser(User UserToBeUpdateModel)
+        {
+            //Declare variables for result and errors for be filled with the response of _unitOfWork
+            BaseResponse<User> result = new BaseResponse<User>();
+            List<string> err = new List<string>();
+            List<DetailResponse> detailResponse = new List<DetailResponse>();
 
-        //    try
-        //    {
-        //        //Extract to a variable the roles to be Updated
-        //        var rolesAssigned = UserFromRepo.Roles
-        //                                            .Select(r => r.Name)
-        //                                            .ToList();
+            try
+            {
+                //Set in the object TO BE UPDATED (ORIGIN) the status 0              
+                UserToBeUpdateModel.Status = 0;
 
+                //Call commit of the changues in the past step            
+                await _unitOfWork.CommitAsync();
+                //await _unitOfWork.UserRepository.UpdateUser(UserToBeUpdateModel);
 
+                //Set Successful in true because the commit was completed     
+                result.Successful = true;
 
-        //        //Set Successful in true because the commit was completed     
-        //        result.Successful = true;
+                //Set in Data Response of result object   
+                var userFromRepo = await this.GetUserById(UserToBeUpdateModel.Id);
 
-        //        //Set in Data Response of result object   
-        //        var userFromRepo = await this.GetUserById(UserToBeUpdateModel.Id);
+                //
+                result.DataResponse = userFromRepo.DataResponse;
 
-        //        //
-        //        result.DataResponse = userFromRepo.DataResponse;
+                //Set in Details local variable  object a message for successful execution in the Update
+                detailResponse.Add(result.AddDetailResponse(UserToBeUpdateModel.Id, "Actualización realizada correctamente"));
 
-        //        //Set in Details local variable  object a message for successful execution in the Update
-        //        detailResponse.Add(result.AddDetailResponse(UserToBeUpdateModel.Id, "Actualización realizada correctamente"));
+                //Set Details from local variable to result before return
+                result.Details = detailResponse;
 
-        //        //Set Details from local variable to result before return
-        //        result.Details = detailResponse;
+            }
+            catch (System.Exception ex)
+            {
+                //If exist a Error un the transaction then set Error Detail for return in the result
+                err.Add("Error en UserService -> UpdateUser " + ex.Message);
+                result.errors = err;
+            }
 
-        //    }
-        //    catch (System.Exception ex)
-        //    {
-        //        //If exist a Error un the transaction then set Error Detail for return in the result
-        //        err.Add("Error en UserService -> UpdateUser " + ex.Message);
-        //        result.errors = err;
-        //    }
+            //return result FROM SERVICE object
+            return result;
 
-        //    //return result FROM SERVICE object
-        //    return result;
-
-        //} 
+        }
         private async Task validRoles(ICollection<string> rolesForValidate, List<string> err)
         {
             var allRoles = await _unitOfWork.RoleRepository.GetAllAsync();
