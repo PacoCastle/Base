@@ -34,7 +34,7 @@ export class UserService extends BaseService {
    * @memberof UserService
    */
   updateUser(id, data): Observable<any> {
-    return this.put(`users/${id}`, data);
+    return this.put(`Users/${id}`, data);
   }
  /**
    * Method that takes care of the user registration
@@ -43,7 +43,11 @@ export class UserService extends BaseService {
    * @memberof UserService
    */
   addUser(data): Observable<any> {
-    return this.post('users', data);
+    return this.post('Users', data);
+  }
+
+  deleteUser(id): Observable<any> {
+    return this.delete(`Users/${id}`);
   }
   
 }

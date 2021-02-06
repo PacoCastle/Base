@@ -120,7 +120,7 @@ export class BaseService {
      * @memberof BaseService
      */
     delete<T>( requestUrl: string): Observable<T> {
-      return this.httpClient.delete<T>(this.configuration + requestUrl, { headers: this.headers, withCredentials: true });
+      return this.httpClient.delete<T>(this.configuration + requestUrl, { headers: this.headers});
     }
 
     /**

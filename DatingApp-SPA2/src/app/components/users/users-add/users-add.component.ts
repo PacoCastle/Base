@@ -88,9 +88,6 @@ export class UsersAddComponent implements OnInit {
     public dialogRef: MatDialogRef<UsersAddComponent>) { }
 
   ngOnInit() {
-    this.userService.getRoles().subscribe(rep => {
-      this.dataSourceRole.data = rep.dataResponse;
-    });
     if(this.update){
       this.user = new FormGroup({
         userName: new FormControl(this.detailUser.userName, [Validators.required]),
@@ -122,7 +119,14 @@ export class UsersAddComponent implements OnInit {
     } else {
       this.user = new FormGroup({
         userName: new FormControl(null, [Validators.required]),
-        password: new FormControl(null, [Validators.required]),
+        password: new FormControl(null, [Validators.compose([
+          Validators.required,
+          CommonFuntions.patternValidator(/\d/, { hasNumber: true }),
+          CommonFuntions.patternValidator(/[A-Z]/, { hasCapitalCase: true }),
+          CommonFuntions.patternValidator(/[a-z]/, { hasSmallCase: true }),
+          CommonFuntions.patternValidator(new RegExp(`/[ [!@#$%^&*()_+-=[]{};':"|,.<>/?]/](<mailto:!@#$%^&*()_+-=[]{};':"|,.<>/?]/>)`), { hasSpecialCharacters: true }),
+          Validators.minLength(10)
+        ])]),
         cpassword: new FormControl(null, [Validators.required]),
         email: new FormControl(null, [Validators.required]),
         name: new FormControl(null),
@@ -135,8 +139,14 @@ export class UsersAddComponent implements OnInit {
         // bodyMass: new FormControl(null, [Validators.required]),
         // imss: new FormControl(null, [Validators.required]),
         // role: new FormControl(null, [Validators.required])
-      });
+      },{
+          // check whether our password and confirm password match
+          validators: CommonFuntions.passwordMatchValidator as ValidatorFn 
+       });
     }
+    this.userService.getRoles().subscribe(rep => {
+      this.dataSourceRole.data = rep.dataResponse;
+    });
   }
 
   /**

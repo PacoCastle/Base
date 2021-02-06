@@ -62,25 +62,20 @@ export class UsersSearchComponent implements OnInit {
   }
 
   deleteUser(user: any){
-    let data = {
-      password: this.commonFuntion.parseNull(user.password),
-      email: this.commonFuntion.parseNull(user.email),
-      name: this.commonFuntion.parseNull(user.name),
-      lastName: this.commonFuntion.parseNull(user.lastName),
-      secondLastName: this.commonFuntion.parseNull(user.secondLastName),
-      roleNames: this.getRoleList(user.roleNames),
-      status: 0,
-      sexo: this.commonFuntion.parseNull(user.sexo),
-    };
-    this.userService.updateUser(user.id, data).subscribe(res =>{
+    
+    this.userService.deleteUser(user.id).subscribe(res =>{
       Swal.fire("Success","User Successfully Deleted", "success")
     }, error =>{
-      let e:string = "";
-      error.error.errors.forEach(element => {
-        e += `${element}\n`; 
-      });
-      Swal.fire("Error Delete", e, "error");
-    });
+      // let e:string = "";
+      // error.error.errors.forEach(element => {
+      //   e += `${element}\n`; 
+      // });
+      Swal.fire("Error Delete", error.error, "error");
+    }, () => {
+      this.searchUsers();
+    }
+
+    );
   }
 
     /**
