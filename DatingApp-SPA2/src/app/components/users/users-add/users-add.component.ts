@@ -1,8 +1,9 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { FormGroup, FormControl, Validators, ValidatorFn } from '@angular/forms';
 import { UserService } from '../common/userService';
 import Swal from 'sweetalert2';
 import { MatPaginator, MatTableDataSource, MatDialogRef } from '@angular/material';
+import { CommonFuntions } from 'app/components/commons/common-funtions';
 
 @Component({
   selector: 'app-users-add',
@@ -76,6 +77,7 @@ export class UsersAddComponent implements OnInit {
    */
   columnsToDisplay: string[] = ['role', 'actions'];
 
+  
 
   /**
    * Creates an instance of UsersAddComponent.
@@ -92,28 +94,42 @@ export class UsersAddComponent implements OnInit {
     if(this.update){
       this.user = new FormGroup({
         userName: new FormControl(this.detailUser.userName, [Validators.required]),
-        password: new FormControl(this.detailUser.password, [Validators.required]),
+        password: new FormControl(this.detailUser.password, [Validators.compose([
+          Validators.required,
+          CommonFuntions.patternValidator(/\d/, { hasNumber: true }),
+          CommonFuntions.patternValidator(/[A-Z]/, { hasCapitalCase: true }),
+          CommonFuntions.patternValidator(/[a-z]/, { hasSmallCase: true }),
+          CommonFuntions.patternValidator(new RegExp(`/[ [!@#$%^&*()_+-=[]{};':"|,.<>/?]/](<mailto:!@#$%^&*()_+-=[]{};':"|,.<>/?]/>)`), { hasSpecialCharacters: true }),
+          Validators.minLength(10)
+        ])]),
+        cpassword: new FormControl(null, [Validators.required]),
         email: new FormControl(this.detailUser.email, [Validators.required]),
         name: new FormControl(this.detailUser.name),
         lastName: new FormControl(this.detailUser.lastName),
         motherLastName: new FormControl(this.detailUser.secondLastName),
-        status: new FormControl(this.detailUser.status)
+        status: new FormControl(this.detailUser.status),
+        sexo: new FormControl(this.detailUser.sexo, [Validators.required])
         // age: new FormControl(null, [Validators.required]),
         // heigth: new FormControl(null, [Validators.required]),
         // bodyMass: new FormControl(null, [Validators.required]),
         // imss: new FormControl(null, [Validators.required]),
         // role: new FormControl(null, [Validators.required])
-      });
+      },{
+        // check whether our password and confirm password match
+        validators: CommonFuntions.passwordMatchValidator as ValidatorFn 
+     });
       this.formUser.userName.disable();
     } else {
       this.user = new FormGroup({
         userName: new FormControl(null, [Validators.required]),
         password: new FormControl(null, [Validators.required]),
+        cpassword: new FormControl(null, [Validators.required]),
         email: new FormControl(null, [Validators.required]),
         name: new FormControl(null),
         lastName: new FormControl(null),
         motherLastName: new FormControl(null),
-        status: new FormControl(null)
+        status: new FormControl(null),
+        sexo: new FormControl(null,  [Validators.required])
         // age: new FormControl(null, [Validators.required]),
         // heigth: new FormControl(null, [Validators.required]),
         // bodyMass: new FormControl(null, [Validators.required]),
@@ -148,8 +164,9 @@ export class UsersAddComponent implements OnInit {
       secondLastName: this.formUser.motherLastName.value,      
       // dateOfBirth: this.formUser.description.value,
       created: this.update?this.detailUser.created: new Date(),
-      roleNames: this.dataSourceRoleNew,
-      status: this.update?this.formUser.status: 1
+      roleNames: this.getRoleList(this.dataSourceRoleNew),
+      status: this.update?this.formUser.status: 1,
+      sexo: this.formUser.sexo.value
     };
     if(this.update){
       this.userService.updateUser(this.detailUser.id, data).subscribe(res =>{
@@ -163,9 +180,22 @@ export class UsersAddComponent implements OnInit {
         Swal.fire("Success","Machine Successfully Added", "success");
         this.dialogRef.close(true);
       }, error =>{
-        Swal.fire("Error Add", error.error, "error");
+        Swal.fire("Error Add", error.error.errors[0], "error");
       });
     }
+  }
+  /**
+   * Metodo que se encarga de obtener la lista de roles
+   *
+   * @param {MatTableDataSource<any>} dataSourceRoleNew
+   * @memberof UsersAddComponent
+   */
+  getRoleList(dataSourceRoleNew: MatTableDataSource<any>) {
+    let roleList= [];
+    dataSourceRoleNew.data.forEach(element => {
+      roleList.push(element.name)
+    });
+    return roleList;
   }
   /**
    *Method that takes care of the Role add

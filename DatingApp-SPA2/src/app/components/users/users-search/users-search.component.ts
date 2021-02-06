@@ -3,6 +3,7 @@ import { MatTableDataSource, MatPaginator, MatDialog } from '@angular/material';
 import { UsersAddComponent } from '../users-add/users-add.component';
 import Swal from 'sweetalert2';
 import { UserService } from '../common/userService';
+import { CommonFuntions} from '../../commons/common-funtions'
 
 @Component({
   selector: 'app-users-search',
@@ -15,7 +16,7 @@ export class UsersSearchComponent implements OnInit {
   columnsToDisplay: string[] = ['employeeId', 'name', 'motherLastName', 'actions']
 
   constructor(private matDialog: MatDialog,
-    private userService: UserService) { }
+    private userService: UserService,private commonFuntion: CommonFuntions ) { }
  
   ngOnInit() {
    this.searchUsers();
@@ -23,7 +24,7 @@ export class UsersSearchComponent implements OnInit {
   
   searchUsers(){
     this.userService.getUsers().subscribe(res =>{
-      this.dataSourceUsers.data = res;
+      this.dataSourceUsers.data = res.dataResponse;
     });
     this.dataSourceUsers.paginator = this.paginator;
   }
@@ -62,15 +63,42 @@ export class UsersSearchComponent implements OnInit {
 
   deleteUser(user: any){
     let data = {
-      Name: user.name,
-      Description: user.description,
-      Status: 0
+      password: this.commonFuntion.parseNull(user.password),
+      email: this.commonFuntion.parseNull(user.email),
+      name: this.commonFuntion.parseNull(user.name),
+      lastName: this.commonFuntion.parseNull(user.lastName),
+      secondLastName: this.commonFuntion.parseNull(user.secondLastName),
+      roleNames: this.getRoleList(user.roleNames),
+      status: 0,
+      sexo: this.commonFuntion.parseNull(user.sexo),
     };
     this.userService.updateUser(user.id, data).subscribe(res =>{
       Swal.fire("Success","User Successfully Deleted", "success")
     }, error =>{
-      Swal.fire("Error Delete", error.error, "error");
+      let e:string = "";
+      error.error.errors.forEach(element => {
+        e += `${element}\n`; 
+      });
+      Swal.fire("Error Delete", e, "error");
     });
+  }
+
+    /**
+   * Metodo que se encarga de obtener la lista de roles
+   *
+   * @param {MatTableDataSource<any>} dataSourceRoleNew
+   * @memberof UsersAddComponent
+   */
+  getRoleList(dataSourceRoleNew:any) {
+    let roleList= [];
+    if(dataSourceRoleNew !== null){
+      dataSourceRoleNew.forEach(element => {
+        roleList.push(element.name)
+      });
+    } else {
+      roleList.push("");
+    }
+    return roleList;
   }
 
 }

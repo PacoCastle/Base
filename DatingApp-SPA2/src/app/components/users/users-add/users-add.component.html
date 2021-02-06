@@ -32,6 +32,15 @@
                                         </div>
                                         <div class="md-form col-md-3 col-sm-12">
                                             <mat-form-field class="example-form-field p-0">
+                                                <mat-label>Confirm Password</mat-label>
+                                                <input matInput type="text" formControlName="cpassword">
+                                                <button mat-button *ngIf="value" matSuffix mat-icon-button aria-label="Clear" (click)="formUser.cpassword.reset()">
+                                                    <mat-icon>close</mat-icon>
+                                                </button>
+                                            </mat-form-field>
+                                        </div>
+                                        <div class="md-form col-md-3 col-sm-12">
+                                            <mat-form-field class="example-form-field p-0">
                                                 <mat-label>E-mail</mat-label>
                                                 <input matInput type="email" formControlName="email">
                                                 <button mat-button *ngIf="value" matSuffix mat-icon-button aria-label="Clear" (click)="formUser.email.reset()">
@@ -66,6 +75,13 @@
                                                 </button>
                                             </mat-form-field>
                                         </div>
+                                        <div class="md-form col-4 col-md-4 col-sm-12">
+                                            <mat-label class="mr-2">Sexo:</mat-label>
+                                            <mat-radio-group aria-label="Select an option" formControlName="sexo">
+                                                <mat-radio-button value="Masculino">Masculino</mat-radio-button>
+                                                <mat-radio-button value="Femenino">Femenino</mat-radio-button>
+                                            </mat-radio-group>
+                                        </div>
                                          <div class="md-form col-4 col-md-4 col-sm-12" [hidden]="!update || this.detailUser.status != 1">
                                             <mat-label class="mr-2">Status:</mat-label>
                                             <mat-radio-group aria-label="Select an option" formControlName="status">
@@ -73,6 +89,7 @@
                                                 <mat-radio-button value="0">Inactive</mat-radio-button>
                                             </mat-radio-group>
                                         </div>
+                                        
                                         <!-- <mat-divider></mat-divider>
                                         <div class="md-form col-md-3 col-sm-12">
                                             <mat-form-field class="example-form-field p-0">
@@ -133,7 +150,7 @@
                                                             <table mat-table [dataSource]="dataSourceRoleNew" class="table">
                                                                 <ng-container matColumnDef="role">
                                                                     <th mat-header-cell *matHeaderCellDef> Role </th>
-                                                                    <td mat-cell *matCellDef="let role"> {{role}} </td>
+                                                                    <td mat-cell *matCellDef="let role"> {{role.name}} </td>
                                                                 </ng-container>
                                                                 <ng-container matColumnDef="actions" stickyEnd>
                                                                     <th mat-header-cell *matHeaderCellDef></th>
@@ -174,7 +191,7 @@
                                                             <table mat-table [dataSource]="dataSourceRole" class="table">
                                                                 <ng-container matColumnDef="role">
                                                                     <th mat-header-cell *matHeaderCellDef> Role </th>
-                                                                    <td mat-cell *matCellDef="let role"> {{role}} </td>
+                                                                    <td mat-cell *matCellDef="let role"> {{role.name}} </td>
                                                                 </ng-container>
                                                                 <ng-container matColumnDef="actions" stickyEnd>
                                                                     <th mat-header-cell *matHeaderCellDef></th>

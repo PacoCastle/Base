@@ -48,11 +48,16 @@ export class LoginComponent implements OnInit {
       password: this.formLogin.pass.value
     }
     this.authService.login(this.model).subscribe(
-      next => {
+      () => {
         Swal.fire("Logged in successfully","","success" );
       },
       error => {
-        Swal.fire("Error", error.error.errors[0], "error");
+        if(error.error){
+          Swal.fire("Error", error.error.errors[0], "error");
+        } else {
+          
+        Swal.fire("Error", "", "error");
+        }
       },
       () => {
         this.router.navigate(['/home']);
