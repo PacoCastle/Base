@@ -130,7 +130,7 @@ namespace DatingApp.Api.Controllers
             //If the Service response isn't Successful then ocurred some wrong and return (400)
              return BadRequest(serviceResult);   
          }
-         /// <summary>
+        /// <summary>
         /// Update User register
         /// </summary>
         /// <param name="id">Id of Register to be Updated</param>
@@ -167,29 +167,27 @@ namespace DatingApp.Api.Controllers
         /// <param name="id">Id of Register to be Updated</param>
         /// <param name="UserForUpdateDto">DTO that contains properties to be Updated </param>
         /// <returns>Object wit Status of execution and Data Updated and a Status of request</returns>
-        //[HttpGet("{id}/unsssigned_roles", Name = "GetUnAssignedRoles")]
-        //public async Task<IActionResult> GetUserUnAssignedRoles(int id)
-        //{
-        //    //Search if de Id to be Updated get Data for Update
-        //    var UserFromRepo = await _unitOfWork.UserRepository.GetByIdAsync(id);
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> DeleteUser(int id)
+        {
+            //Search if de Id to be Updated get Data for Update
+            var UserToBeUpdated = await _unitOfWork.UserRepository.GetByIdAsync(id);
 
-        //    //If not exist Data for the id parameter return 404 and Empty DataResponse object 
-        //    if (UserFromRepo == null)
-        //        return NotFound();
+            //If not exist Data for the id parameter return 404 and Empty DataResponse object 
+            if (UserToBeUpdated == null)
+                return NotFound();
 
-        //    //If the Service response Successful the Query was executed
-        //    if (serviceResult.Successful)
-        //    {
-        //        //If the search doesn't has Data filtering by Id then return NotFound (404)
-        //        if (serviceResult.DataResponse == null)
-        //            return NotFound(serviceResult);
+            //Get Response from Service and UpdateUser sendig Object to be Updated and Data for make the Update 
+            var serviceResult = await _service.DeleteUser(UserToBeUpdated);
 
-        //        //If the search has Data filtering by Id then return Ok (200)  and return the register Serached
-        //        return Ok(serviceResult);
+            //if the Update was Successful then return 200 and an Object with DataResponse Updated
+            if (serviceResult.Successful)
+            {
+                return Ok(serviceResult);
+            }
 
-        //    }
-        //    //If the Service response isn't Successful then ocurred some wrong and return (400)
-        //    return BadRequest(serviceResult);
-        //}
+            //if the Update wasn't Successful then return 400 and an Object with Error information
+            return BadRequest(serviceResult);
+        }
     }
  } 

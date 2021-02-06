@@ -36,6 +36,7 @@ namespace DatingApp.Data.Repositories
                 ,PasswordHash = user.PasswordHash
                 ,Sexo = user.Sexo
                 ,Status = user.Status
+                ,Email = user.Email
                 ,Roles = (from userRole in user.UserRoles
                          join role in _context.Roles
                          on userRole.RoleId
@@ -141,6 +142,7 @@ namespace DatingApp.Data.Repositories
                 ,PasswordHash = user.PasswordHash
                 ,Sexo = user.Sexo
                 ,Status = user.Status
+                ,Email = user.Email
                 ,Roles = (from userRole in user.UserRoles
                          join role in _context.Roles
                          on userRole.RoleId

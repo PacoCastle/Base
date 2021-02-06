@@ -19,10 +19,15 @@ namespace DatingApp.Api.Validations
         readonly Regex regEx = new Regex(expression, RegexOptions.IgnoreCase);
         public UserForUpdateDtoValidator()
         {
-            RuleFor(m => m.Email)
+            When(m => m.RoleNames.Length > 0  , () => {
+                RuleForEach(m => m.RoleNames).NotEmpty().WithMessage("Roles {CollectionIndex} no puede ser vacío.");
+            });
+
+            When(m => m.Email.Length > 0, () => {
+                RuleFor(m => m.Email)
                 .EmailAddress()
                 .WithMessage("'Email'  Es requerido un Email valido.");
-            RuleForEach(m => m.RoleNames).NotEmpty().WithMessage("Roles {CollectionIndex} no puede ser vacío.");
+            });
 
             When(m => m.Password.Length > 0, () => {
                 RuleFor(m => m.Password)
