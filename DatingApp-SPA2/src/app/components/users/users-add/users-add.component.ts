@@ -150,7 +150,7 @@ export class UsersAddComponent implements OnInit {
           validators: CommonFuntions.passwordMatchValidator as ValidatorFn 
        });
        this.userService.getRoles().subscribe(rep => {
-        this.dataSourceRole.data = rep.dataResponse;
+        this.dataSourceRole.data = rep.dataResponse.filter(roles => roles.status ==1);
         this.dataSourceRole.paginator = this.paginator;
       });
     }
