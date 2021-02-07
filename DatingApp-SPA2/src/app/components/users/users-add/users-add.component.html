@@ -75,20 +75,21 @@
                                                 </button>
                                             </mat-form-field>
                                         </div>
-                                        <div class="md-form col-4 col-md-4 col-sm-12">
-                                            <mat-label class="mr-2">Sexo:</mat-label>
-                                            <mat-radio-group aria-label="Select an option" formControlName="sexo">
-                                                <mat-radio-button value="Masculino">Masculino</mat-radio-button>
-                                                <mat-radio-button value="Femenino">Femenino</mat-radio-button>
-                                            </mat-radio-group>
-                                        </div>
-                                         <div class="md-form col-4 col-md-4 col-sm-12" [hidden]="!update || this.detailUser.status != 1">
+                                        <div class="md-form col-4 col-md-4 col-sm-12" [hidden]="!update || this.detailUser.status == 1">
                                             <mat-label class="mr-2">Status:</mat-label>
                                             <mat-radio-group aria-label="Select an option" formControlName="status">
-                                                <mat-radio-button value="1">Active</mat-radio-button>
+                                                <mat-radio-button class="mr-2" value="1">Active</mat-radio-button>
                                                 <mat-radio-button value="0">Inactive</mat-radio-button>
                                             </mat-radio-group>
                                         </div>
+                                        <div class="md-form col-5 col-md-5 col-sm-12">
+                                            <mat-label class="mr-2">Sexo:</mat-label>
+                                            <mat-radio-group aria-label="Select an option" formControlName="sexo">
+                                                <mat-radio-button class="mr-2" value="Masculino">Masculino</mat-radio-button>
+                                                <mat-radio-button value="Femenino">Femenino</mat-radio-button>
+                                            </mat-radio-group>
+                                        </div>
+                                         
                                         
                                         <!-- <mat-divider></mat-divider>
                                         <div class="md-form col-md-3 col-sm-12">
@@ -219,9 +220,9 @@
                     </div>
                 </div>
                 <div class="example-button-container">
-                    <button mat-raised-button *ngIf="!update" color="primary" 
+                    <button mat-raised-button [hidden]="update" color="primary" 
                     [disabled]="user.invalid || dataSourceRoleNew.data.length == 0" class="color-button mr-3" (click)="addUser()">Save</button>
-                    <button mat-raised-button *ngIf="update" color="primary" 
+                    <button mat-raised-button [hidden]="!update" color="primary" 
                     [disabled]="(user.invalid && user.pristine) || dataSourceRoleNew.data.length == 0" class="color-button mr-3" (click)="addUser()">Update</button>
                     <button mat-raised-button [mat-dialog-close]="false" color="warn">Cancel</button>
                 </div>

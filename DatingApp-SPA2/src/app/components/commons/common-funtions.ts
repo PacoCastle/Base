@@ -49,4 +49,18 @@ export class CommonFuntions {
           control.get('cpassword').setErrors({ NoPassswordMatch: true });
         }
       }
+
+    /**
+     * Metodo que sirva para validar si un dato es null, undefined o vacio retornando true si lo es
+     *
+     * @param {*} dato
+     * @memberof CommonFuntions
+     */
+    validaDato(dato){
+      let flag = false;
+      if(dato === null || dato === undefined || dato ==="") {
+        flag = true;
+      }
+      return flag;
+    }
 }

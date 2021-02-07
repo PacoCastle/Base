@@ -85,26 +85,19 @@ export class UsersAddComponent implements OnInit {
    * @memberof UsersAddComponent
    */
   constructor(private userService: UserService,
-    public dialogRef: MatDialogRef<UsersAddComponent>) { }
+    public dialogRef: MatDialogRef<UsersAddComponent>,private commonFuntions: CommonFuntions) { }
 
   ngOnInit() {
     if(this.update){
       this.user = new FormGroup({
         userName: new FormControl(this.detailUser.userName, [Validators.required]),
-        password: new FormControl(this.detailUser.password, [Validators.compose([
-          Validators.required,
-          CommonFuntions.patternValidator(/\d/, { hasNumber: true }),
-          CommonFuntions.patternValidator(/[A-Z]/, { hasCapitalCase: true }),
-          CommonFuntions.patternValidator(/[a-z]/, { hasSmallCase: true }),
-          CommonFuntions.patternValidator(new RegExp(`/[ [!@#$%^&*()_+-=[]{};':"|,.<>/?]/](<mailto:!@#$%^&*()_+-=[]{};':"|,.<>/?]/>)`), { hasSpecialCharacters: true }),
-          Validators.minLength(10)
-        ])]),
-        cpassword: new FormControl(null, [Validators.required]),
+        password: new FormControl(null),
+        cpassword: new FormControl(null),
         email: new FormControl(this.detailUser.email, [Validators.required]),
         name: new FormControl(this.detailUser.name),
         lastName: new FormControl(this.detailUser.lastName),
         motherLastName: new FormControl(this.detailUser.secondLastName),
-        status: new FormControl(this.detailUser.status),
+        status: new FormControl(Number(this.detailUser.status)),
         sexo: new FormControl(this.detailUser.sexo, [Validators.required])
         // age: new FormControl(null, [Validators.required]),
         // heigth: new FormControl(null, [Validators.required]),
@@ -116,16 +109,26 @@ export class UsersAddComponent implements OnInit {
         validators: CommonFuntions.passwordMatchValidator as ValidatorFn 
      });
       this.formUser.userName.disable();
+      this.formUser.password.valueChanges.subscribe(pass => {
+        if(!this.commonFuntions.validaDato(pass) ){
+          this.formUser.password.setValidators([
+            Validators.required,
+            Validators.pattern('(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[$@$!%*?&])[A-Za-z\d$@$!%*?&].{10,}')
+          ]);
+          this.formUser.cpassword.setValidators([
+            Validators.required
+          ]);
+        } else {
+          this.formUser.password.setValidators([]);
+          this.formUser.cpassword.setValidators([]);
+        }
+      })
     } else {
       this.user = new FormGroup({
         userName: new FormControl(null, [Validators.required]),
         password: new FormControl(null, [Validators.compose([
           Validators.required,
-          CommonFuntions.patternValidator(/\d/, { hasNumber: true }),
-          CommonFuntions.patternValidator(/[A-Z]/, { hasCapitalCase: true }),
-          CommonFuntions.patternValidator(/[a-z]/, { hasSmallCase: true }),
-          CommonFuntions.patternValidator(new RegExp(`/[ [!@#$%^&*()_+-=[]{};':"|,.<>/?]/](<mailto:!@#$%^&*()_+-=[]{};':"|,.<>/?]/>)`), { hasSpecialCharacters: true }),
-          Validators.minLength(10)
+          Validators.pattern('(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[$@$!%*?&])[A-Za-z\d$@$!%*?&].{10,}')
         ])]),
         cpassword: new FormControl(null, [Validators.required]),
         email: new FormControl(null, [Validators.required]),
@@ -167,7 +170,7 @@ export class UsersAddComponent implements OnInit {
   addUser(){
     let data = {
       userName: this.formUser.userName.value,
-      password: this.formUser.password.value,
+      password: this.commonFuntions.parseNull(this.formUser.password.value),
       email: this.formUser.email.value,
       name: this.formUser.name.value,
       lastName: this.formUser.lastName.value,
@@ -175,19 +178,19 @@ export class UsersAddComponent implements OnInit {
       // dateOfBirth: this.formUser.description.value,
       created: this.update?this.detailUser.created: new Date(),
       roleNames: this.getRoleList(this.dataSourceRoleNew),
-      status: this.update?this.formUser.status: 1,
+      status: this.update?this.formUser.status.value: 1,
       sexo: this.formUser.sexo.value
     };
     if(this.update){
       this.userService.updateUser(this.detailUser.id, data).subscribe(res =>{
-        Swal.fire("Success","Machine Successfully Updated", "success");
+        Swal.fire("Success","User Successfully Updated", "success");
         this.dialogRef.close(true);
       }, error =>{
         Swal.fire("Error Update", error.error, "error");
       });
     } else{
       this.userService.addUser(data).subscribe(res =>{
-        Swal.fire("Success","Machine Successfully Added", "success");
+        Swal.fire("Success","User Successfully Added", "success");
         this.dialogRef.close(true);
       }, error =>{
         Swal.fire("Error Add", error.error.errors[0], "error");

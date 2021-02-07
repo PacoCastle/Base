@@ -52,7 +52,7 @@ export class LoginComponent implements OnInit {
         Swal.fire("Logged in successfully","","success" );
       },
       error => {
-        if(error.error){
+        if(error.error.errors || error.error.errors.length > 0){
           Swal.fire("Error", error.error.errors[0], "error");
         } else {
           
