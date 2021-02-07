@@ -97,7 +97,7 @@ export class UsersAddComponent implements OnInit {
         name: new FormControl(this.detailUser.name),
         lastName: new FormControl(this.detailUser.lastName),
         motherLastName: new FormControl(this.detailUser.secondLastName),
-        status: new FormControl(Number(this.detailUser.status)),
+        status: new FormControl(this.detailUser.status.toString()),
         sexo: new FormControl(this.detailUser.sexo, [Validators.required])
         // age: new FormControl(null, [Validators.required]),
         // heigth: new FormControl(null, [Validators.required]),
@@ -108,21 +108,22 @@ export class UsersAddComponent implements OnInit {
         // check whether our password and confirm password match
         validators: CommonFuntions.passwordMatchValidator as ValidatorFn 
      });
+     
       this.formUser.userName.disable();
       this.formUser.password.valueChanges.subscribe(pass => {
-        if(!this.commonFuntions.validaDato(pass) ){
-          this.formUser.password.setValidators([
-            Validators.required,
-            Validators.pattern('(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[$@$!%*?&])[A-Za-z\d$@$!%*?&].{10,}')
-          ]);
-          this.formUser.cpassword.setValidators([
-            Validators.required
-          ]);
-        } else {
+        this.formUser.password.setValidators([
+          Validators.pattern('(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[$@$!%*?&])[A-Za-z\d$@$!%*?&].{10,}')
+        ]);
+        this.formUser.password.updateValueAndValidity({emitEvent: true});
+        if(this.commonFuntions.validaDato(pass) ){
           this.formUser.password.setValidators([]);
-          this.formUser.cpassword.setValidators([]);
+          this.formUser.cpassword.setValidators([]); 
         }
-      })
+      });
+      this.dataSourceRoleNew.data = this.detailUser.roles?this.detailUser.roles:[];
+      this.dataSourceRole.data = this.detailUser.unAssignedRoles?this.detailUser.unAssignedRoles:[]; 
+      this.dataSourceRole.paginator = this.paginator;
+      this.dataSourceRoleNew.paginator = this.paginatorNew;
     } else {
       this.user = new FormGroup({
         userName: new FormControl(null, [Validators.required]),
@@ -146,10 +147,11 @@ export class UsersAddComponent implements OnInit {
           // check whether our password and confirm password match
           validators: CommonFuntions.passwordMatchValidator as ValidatorFn 
        });
+       this.userService.getRoles().subscribe(rep => {
+        this.dataSourceRole.data = rep.dataResponse;
+        this.dataSourceRole.paginator = this.paginator;
+      });
     }
-    this.userService.getRoles().subscribe(rep => {
-      this.dataSourceRole.data = rep.dataResponse;
-    });
   }
 
   /**
@@ -225,6 +227,8 @@ export class UsersAddComponent implements OnInit {
     list2.splice(index, 1);
     this.dataSourceRoleNew.data = list;
     this.dataSourceRole.data = list2;
+    this.dataSourceRole.paginator = this.paginator;
+      this.dataSourceRoleNew.paginator = this.paginatorNew;
   }
 
   /**
@@ -242,6 +246,8 @@ export class UsersAddComponent implements OnInit {
     list2.splice(index, 1);
     this.dataSourceRole.data = list;
     this.dataSourceRoleNew.data = list2;
+    this.dataSourceRole.paginator = this.paginator;
+      this.dataSourceRoleNew.paginator = this.paginatorNew;
   }
 
   /**

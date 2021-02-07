@@ -75,11 +75,11 @@
                                                 </button>
                                             </mat-form-field>
                                         </div>
-                                        <div class="md-form col-4 col-md-4 col-sm-12" [hidden]="!update || this.detailUser.status == 1">
+                                        <div class="md-form col-4 col-md-4 col-sm-12" *ngIf="update && detailUser.status == 0">
                                             <mat-label class="mr-2">Status:</mat-label>
                                             <mat-radio-group aria-label="Select an option" formControlName="status">
-                                                <mat-radio-button class="mr-2" value="1">Active</mat-radio-button>
-                                                <mat-radio-button value="0">Inactive</mat-radio-button>
+                                                <mat-radio-button class="mr-2" value=1>Active</mat-radio-button>
+                                                <mat-radio-button value=0>Inactive</mat-radio-button>
                                             </mat-radio-group>
                                         </div>
                                         <div class="md-form col-5 col-md-5 col-sm-12">

@@ -70,7 +70,7 @@ export class CommonFuntions {
      * @param {*} dato Atributo que representa el valor a validar
      * @memberof CommonFuntions
      */
-    static parseStatus( dato:any){
+    parseStatus( dato:any){
       if (dato === 0 ){
           dato= "Inactivo";
       }else{

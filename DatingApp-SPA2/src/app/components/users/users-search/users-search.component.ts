@@ -25,9 +25,6 @@ export class UsersSearchComponent implements OnInit {
   searchUsers(){
     this.userService.getUsers().subscribe(res =>{
       this.dataSourceUsers.data = res.dataResponse;
-      this.dataSourceUsers.data.forEach(user => {
-        user.status = CommonFuntions.parseStatus(user.status);
-      });
     });
     this.dataSourceUsers.paginator = this.paginator;
   }
