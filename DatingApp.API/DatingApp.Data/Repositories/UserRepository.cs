@@ -88,6 +88,7 @@ namespace DatingApp.Data.Repositories
                 ,SecurityStamp = user.SecurityStamp
                 ,Sexo = user.Sexo
                 ,Status = user.Status
+                ,Email = user.Email
             }).ToListAsync();
 
             return users; 
