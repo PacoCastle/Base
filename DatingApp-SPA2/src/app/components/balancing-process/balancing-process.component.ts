@@ -89,7 +89,7 @@ export class BalancingProcessComponent implements OnInit {
     this.dataSourceAttempts.paginator = this.paginator;
     this.graph();
     this.balancing = new FormGroup({
-      user: new FormControl(this.authService.currentUser.username,[Validators.required]),
+      user: new FormControl(this.authService.currentUser.userName,[Validators.required]),
       partNumber: new FormControl(13215446,[Validators.required]),
       consecutive: new FormControl(123544125778,[Validators.required]),
       date: new FormControl("14/07/2020",[Validators.required]),

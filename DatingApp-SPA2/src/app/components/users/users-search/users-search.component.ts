@@ -13,8 +13,8 @@ import { CommonFuntions} from '../../commons/common-funtions'
 export class UsersSearchComponent implements OnInit {
   @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
   dataSourceUsers = new MatTableDataSource<any>();
-  columnsToDisplay: string[] = ['employeeId', 'name', 'motherLastName', 'actions']
-
+  //columnsToDisplay: string[] = ['employeeId', 'email','userName','sexo','status','name', 'motherLastName', 'actions']
+  columnsToDisplay: string[] = ['employeeId', 'email','userName','sexo','status','actions']
   constructor(private matDialog: MatDialog,
     private userService: UserService,private commonFuntion: CommonFuntions ) { }
  
@@ -25,6 +25,9 @@ export class UsersSearchComponent implements OnInit {
   searchUsers(){
     this.userService.getUsers().subscribe(res =>{
       this.dataSourceUsers.data = res.dataResponse;
+      this.dataSourceUsers.data.forEach(user => {
+        user.status = CommonFuntions.parseStatus(user.status);
+      });
     });
     this.dataSourceUsers.paginator = this.paginator;
   }

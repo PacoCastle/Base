@@ -18,18 +18,34 @@
                                     <th mat-header-cell *matHeaderCellDef> Employee ID </th>
                                     <td mat-cell *matCellDef="let user"> {{user.id}} </td>
                                 </ng-container>
+                                <ng-container matColumnDef="email">
+                                    <th mat-header-cell *matHeaderCellDef> Email </th>
+                                    <td mat-cell *matCellDef="let user"> {{user.email}} </td>
+                                </ng-container>
+                                <ng-container matColumnDef="userName">
+                                    <th mat-header-cell *matHeaderCellDef> userName </th>
+                                    <td mat-cell *matCellDef="let user"> {{user.userName}} </td>
+                                </ng-container>
+                                <ng-container matColumnDef="sexo">
+                                    <th mat-header-cell *matHeaderCellDef> Sexo </th>
+                                    <td mat-cell *matCellDef="let user"> {{user.sexo||"-"}} </td>
+                                  </ng-container>
+                                  <ng-container matColumnDef="status">
+                                    <th mat-header-cell *matHeaderCellDef> Status </th>
+                                    <td mat-cell *matCellDef="let user"> {{user.status||"-"}} </td>
+                                  </ng-container>
                                 <ng-container matColumnDef="name">
                                     <th mat-header-cell *matHeaderCellDef> Name </th>
                                     <td mat-cell *matCellDef="let user"> {{user.name}} </td>
                                   </ng-container>
-                                  <ng-container matColumnDef="lastName">
+                                  <!--<ng-container matColumnDef="lastName">
                                     <th mat-header-cell *matHeaderCellDef> Last Name </th>
                                     <td mat-cell *matCellDef="let user"> {{user.lastName}} </td>
                                   </ng-container>
                                 <ng-container matColumnDef="motherLastName">
                                     <th mat-header-cell *matHeaderCellDef> Mother´s Last Name </th>
                                     <td mat-cell *matCellDef="let user"> {{user.secondLastName||"-"}} </td>
-                                  </ng-container>
+                                  </ng-container>-->
                                   <ng-container matColumnDef="actions" stickyEnd>
                                     <th mat-header-cell *matHeaderCellDef> 
                                         <div class="example-button-container">

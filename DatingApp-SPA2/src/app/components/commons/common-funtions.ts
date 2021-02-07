@@ -49,4 +49,20 @@ export class CommonFuntions {
           control.get('cpassword').setErrors({ NoPassswordMatch: true });
         }
       }
+
+      /**
+     * Metodo que valida que el cuando el dato sea 0 se reemplaza por "Inactivo"
+     * y cuando el dato sea 1 se reemplaza por "Activo"
+     *
+     * @param {*} dato Atributo que representa el valor a validar
+     * @memberof CommonFuntions
+     */
+    static parseStatus( dato:any){
+      if (dato === 0 ){
+          dato= "Inactivo";
+      }else{
+        dato= "Activo";
+      } 
+      return dato;
+  }
 }
