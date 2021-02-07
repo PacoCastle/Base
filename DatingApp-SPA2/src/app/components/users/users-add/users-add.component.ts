@@ -120,10 +120,12 @@ export class UsersAddComponent implements OnInit {
           this.formUser.cpassword.setValidators([]); 
         }
       });
-      this.dataSourceRoleNew.data = this.detailUser.roles?this.detailUser.roles:[];
-      this.dataSourceRole.data = this.detailUser.unAssignedRoles?this.detailUser.unAssignedRoles:[]; 
-      this.dataSourceRole.paginator = this.paginator;
-      this.dataSourceRoleNew.paginator = this.paginatorNew;
+        this.userService.getRolesById(this.detailUser.id).subscribe(rep => {
+        this.dataSourceRoleNew.data = rep.dataResponse.roles?rep.dataResponse.roles:[];
+        this.dataSourceRole.data = rep.dataResponse.unAssignedRoles?rep.dataResponse.unAssignedRoles:[]; 
+        this.dataSourceRole.paginator = this.paginator;
+        this.dataSourceRoleNew.paginator = this.paginatorNew;
+      });
     } else {
       this.user = new FormGroup({
         userName: new FormControl(null, [Validators.required]),

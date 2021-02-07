@@ -9,13 +9,13 @@ declare interface RouteInfo {
 }
 export const ROUTES: RouteInfo[] = [
     {path: "users", title: "Users", icon: "fa fa-id-card-o"} ,
-    {path: "parts", title: "Parts", icon: "fa fa-cog"} ,
-    {path: "pages", title: "Pages", icon: "fa fa-cog"} ,
-    {path: "machines", title: "Machines", icon: "fa fa-desktop"},
-    {path: "parts-per-computer", title: "Parts Per Machine", icon: "fa fa-cogs"},
-    {path: "pages-per-role", title: "Pages Per Role", icon: "fa fa-address-card-o"},
-    {path: "balancing-process", title: "Balancing Process", icon: "fa fa-bar-chart"},
-    {path: "balancing-attempts", title: "Balanced Parts", icon: "fa fa-file-text-o"} 
+    // {path: "parts", title: "Parts", icon: "fa fa-cog"} ,
+    // {path: "pages", title: "Pages", icon: "fa fa-cog"} ,
+    // {path: "machines", title: "Machines", icon: "fa fa-desktop"},
+    // {path: "parts-per-computer", title: "Parts Per Machine", icon: "fa fa-cogs"},
+    // {path: "pages-per-role", title: "Pages Per Role", icon: "fa fa-address-card-o"},
+    // {path: "balancing-process", title: "Balancing Process", icon: "fa fa-bar-chart"},
+    // {path: "balancing-attempts", title: "Balanced Parts", icon: "fa fa-file-text-o"} 
 ];
 
 @Component({

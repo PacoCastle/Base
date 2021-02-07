@@ -8,6 +8,9 @@ import { BaseService } from 'app/components/_services/base-service';
   providedIn: 'root'
 })
 export class UserService extends BaseService {
+  getRolesById(id: any): Observable<any> {
+    return this.get<any>(`users/${id}`);
+  }
 
   /**
    * Method that takes care of the users consultation
