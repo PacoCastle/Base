@@ -2,6 +2,8 @@ import { Component, OnInit, ElementRef } from '@angular/core';
 import { ROUTES } from '../sidebar/sidebar.component';
 import {Location, LocationStrategy, PathLocationStrategy} from '@angular/common';
 import { Router } from '@angular/router';
+import { AuthService } from '../_services/auth.service';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-navbar',
@@ -15,7 +17,10 @@ export class NavbarComponent implements OnInit {
     private toggleButton: any;
     private sidebarVisible: boolean;
 
-    constructor(location: Location,  private element: ElementRef, private router: Router) {
+    constructor(location: Location,
+          private element: ElementRef,
+           private router: Router,
+           private authService: AuthService) {
       this.location = location;
           this.sidebarVisible = false;
     }
@@ -110,7 +115,7 @@ export class NavbarComponent implements OnInit {
     };
 
     getTitle(){
-      var titlee = this.location.prepareExternalUrl(this.location.path());
+      var titlee = this.location.prepareExternalUrl(this.location.path()).substring(1);
       if(titlee.charAt(0) === '#'){
           titlee = titlee.slice( 1 );
       }
@@ -120,6 +125,15 @@ export class NavbarComponent implements OnInit {
               return this.listTitles[item].title;
           }
       }
-      return 'Dashboard';
+      return 'Home';
     }
+
+    logout() {
+        localStorage.removeItem('token');
+        localStorage.removeItem('user');
+        this.authService.decodedToken = null;
+        this.authService.currentUser = null;
+        Swal.fire('Logged Out');
+        this.router.navigate(['']);
+      }
 }

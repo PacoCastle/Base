@@ -1,0 +1,62 @@
+<div class="main-content h-100 over">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-header card-header-danger">
+                        <h4 class="card-title " *ngIf="!update">Add Page</h4>
+                        <h4 class="card-title " *ngIf="update">Update Page</h4>
+                    </div>
+                    <div class="card-body">
+                        <form class="text-center pt-3" [formGroup]="page">
+                            <div class="row">
+                                <div class="md-form col-md-3 col-sm-12">
+                                    <mat-form-field class="example-form-field p-0">
+                                        <mat-label>Title</mat-label>
+                                        <input matInput type="text" formControlName="title">
+                                        <button mat-button *ngIf="value" matSuffix mat-icon-button aria-label="Clear" (click)="formPage.title.reset()">
+                                            <mat-icon>close</mat-icon>
+                                        </button>
+                                    </mat-form-field>
+                                </div>
+                                <div class="md-form col-md-6 col-sm-12">
+                                    <mat-form-field class="example-form-field p-0">
+                                        <mat-label>Path</mat-label>
+                                        <input matInput type="text" formControlName="path">
+                                        <button mat-button *ngIf="value" matSuffix mat-icon-button aria-label="Clear" (click)="formPage.title.reset()">
+                                            <mat-icon>close</mat-icon>
+                                        </button>
+                                    </mat-form-field>
+                                </div>
+                                <div class="md-form col-md-3 col-sm-12">
+                                    <mat-form-field appearance="fill">
+                                        <mat-label>Icon</mat-label>
+                                        <mat-select formControlName="icon">>
+                                            <mat-option *ngFor="let icon of iconList" [value]="icon">
+                                                 <i [class]="icon"></i> - {{icon}}
+                                            </mat-option>
+                                        </mat-select>
+                                      </mat-form-field>
+                                </div>
+                                <div class="md-form col-4 col-md-4 col-sm-12" [hidden]="!update || this.detailPage.status != 1">
+                                    <mat-label class="mr-2">Status:</mat-label>
+                                    <mat-radio-group aria-label="Select an option" formControlName="status">
+                                        <mat-radio-button value="1">Active</mat-radio-button>
+                                        <mat-radio-button value="0">Inactive</mat-radio-button>
+                                    </mat-radio-group>
+                                </div>                               
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                <div class="example-button-container">
+                    <button mat-raised-button *ngIf="!update" color="primary" 
+                    [disabled]="page.invalid" class="color-button mr-3" (click)="addPage()">Save</button>
+                    <button mat-raised-button *ngIf="update" color="primary" 
+                    [disabled]="page.invalid && page.pristine" class="color-button mr-3" (click)="addPage()">Update</button>
+                    <button mat-raised-button [mat-dialog-close]="false" color="warn">Cancel</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

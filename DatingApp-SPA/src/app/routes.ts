@@ -1,5 +1,5 @@
 import { Routes } from '@angular/router';
-import { HomeComponent } from './home/home.component';
+import { LoginComponent } from './modules/login/login/login.component';
 import { MemberListComponent } from './members/member-list/member-list.component';
 import { MessagesComponent } from './messages/messages.component';
 import { ListsComponent } from './lists/lists.component';
@@ -20,9 +20,11 @@ import { ProductRegisterComponent } from './products/product-register/product-re
 import { ProductEditComponent } from './products/product-edit/product-edit.component';
 import { ProductEditResolver } from './_resolvers/product-edit.resolver';
 import { PlcListResolver } from './_resolvers/plc-list.resolver';
+import { HomeComponent } from './modules/home/home/home.component';
+import { BalancingProcessComponent } from './modules/pages-user/balancing-process/balancing-process.component';
 
 export const appRoutes: Routes = [
-  { path: '', component: HomeComponent },
+  { path: '', component: LoginComponent },
   {
     path: '',
     runGuardsAndResolvers: 'always',
@@ -32,6 +34,16 @@ export const appRoutes: Routes = [
         path: 'members',
         component: MemberListComponent,
         resolve: { users: MemberListResolver }
+      },
+      {
+        path: 'home',
+        component: HomeComponent,
+        
+      },
+      {
+        path: 'balancing-process',
+        component: BalancingProcessComponent,
+        
       },
       {
         path: 'members/:id',

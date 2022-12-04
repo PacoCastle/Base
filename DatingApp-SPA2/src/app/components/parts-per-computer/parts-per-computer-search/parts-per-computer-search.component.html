@@ -1,0 +1,117 @@
+<div class="main-content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-12 col-sm-12">
+                <div class="md-form col-md-3 col-sm-12">
+                    <mat-form-field appearance="fill">
+                        <mat-label>Machine</mat-label>
+                        <mat-select (selectionChange)="searchPartsPerMachine($event)">
+                            <mat-option *ngFor="let machine of machineList" [value]="machine.id">
+                                {{machine.name}}
+                            </mat-option>
+                        </mat-select>
+                      </mat-form-field>
+                </div>
+            </div>
+            <div class="col-md-6 com-sm-12">
+                <div class="col-md-12 col-sm-12">
+                    <div class="input-group no-border">
+                        <input type="text" class="form-control" placeholder="Search..." (keyup)="applyFilterPM($event)">
+                    </div>
+                </div>
+                <div class="col-md-12 col-sm-12">
+                    <div class="card">
+                        <div class="row">
+                            <div class="col-md-12 col-sm-12">
+                                <div class="card-header card-header-danger">
+                                    <h4 class="card-title ">Parts of the Machine</h4>
+                                </div>
+                                <div class="card-body">
+                                    <div class="table-responsive table-responsive-2">
+                                        <table mat-table [dataSource]="dataSourceProductsMachine" class="table">
+                                            <ng-container matColumnDef="name">
+                                                <th mat-header-cell *matHeaderCellDef> Name </th>
+                                                <td mat-cell *matCellDef="let productMachine"> {{productMachine.name}} </td>
+                                            </ng-container>
+                                            <ng-container matColumnDef="description">
+                                                <th mat-header-cell *matHeaderCellDef> Description </th>
+                                                <td mat-cell *matCellDef="let productMachine"> {{productMachine.description}} </td>
+                                            </ng-container>
+                                            <ng-container matColumnDef="actions" stickyEnd>
+                                                <th mat-header-cell *matHeaderCellDef>
+                                                    <div class="example-button-container">
+                                                        <button mat-mini-fab color="primary" 
+                                                        class="color-button" (click)="openModalAdd()"
+                                                        [disabled]="dataSourceProductsMachine.data.length == 0">
+                                                          <i class="material-icons" >save</i>
+                                                        </button>
+                                                    </div>
+                                                </th>
+                                                <td mat-cell *matCellDef="let productMachine; let i = index"> 
+                                                    <div class="example-button-container">
+                                                        <button mat-icon-button (click)="removePart(i, productMachine)">
+                                                            <i class="material-icons" >remove</i>
+                                                        </button>
+                                                    </div>
+                                                </td>
+                                            </ng-container>
+                                            <tr mat-header-row *matHeaderRowDef="columnsToDisplay; sticky: true"></tr>
+                                            <tr mat-row *matRowDef="let productMachine; columns: columnsToDisplay"></tr>
+                                        </table>
+                                        <mat-paginator #paginatorPm [pageSizeOptions]="[5, 10, 20]" class="mat-paginator-sticky"></mat-paginator>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6 col-sm-12">
+                <div class="col-md-12 col-sm-12">
+                    <div class="input-group no-border">
+                        <input type="text" class="form-control" placeholder="Search..." (keyup)="applyFilter($event)">
+                    </div>
+                </div>
+                <div class="col-md-12 col-sm-12">
+                    <div class="card">
+                        <div class="row">
+                            <div class="col-md-12 col-sm-12">
+                                <div class="card-header card-header-danger">
+                                    <h4 class="card-title ">Parts List</h4>
+                                </div>
+                                <div class="card-body">
+                                    <div class="table-responsive table-responsive-2">
+                                        <table mat-table [dataSource]="dataSourceProducts" class="table">
+                                            <ng-container matColumnDef="name">
+                                                <th mat-header-cell *matHeaderCellDef> Name </th>
+                                                <td mat-cell *matCellDef="let product"> {{product.name}} </td>
+                                            </ng-container>
+                                            <ng-container matColumnDef="description">
+                                                <th mat-header-cell *matHeaderCellDef> Description </th>
+                                                <td mat-cell *matCellDef="let product"> {{product.description}} </td>
+                                            </ng-container>
+                                            <ng-container matColumnDef="actions" stickyEnd>
+                                                <th mat-header-cell *matHeaderCellDef></th>
+                                                <td mat-cell *matCellDef="let product; let i = index;"> 
+                                                    <div class="example-button-container">
+                                                        <button mat-icon-button (click)="addPart(i, product)">
+                                                            <i class="material-icons" >add</i>
+                                                        </button>
+                                                    </div>
+                                                </td>
+                                            </ng-container>
+                                            <tr mat-header-row *matHeaderRowDef="columnsToDisplay; sticky: true"></tr>
+                                            <tr mat-row *matRowDef="let product; columns: columnsToDisplay"></tr>
+                                        </table>
+                                        <mat-paginator #paginator [pageSizeOptions]="[5, 10, 20]" class="mat-paginator-sticky"></mat-paginator>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+  </div>
+  

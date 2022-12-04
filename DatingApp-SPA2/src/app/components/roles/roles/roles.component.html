@@ -1,0 +1,52 @@
+<div class="main-content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-3 col-sm-3">
+                <div class="md-form col-md-12 col-sm-12">
+                    <mat-form-field appearance="fill">
+                        <mat-label>Role</mat-label>
+                        <mat-select (selectionChange)="searchPagesPerRole($event)">
+                            <mat-option *ngFor="let rol of rolList" [value]="rol">
+                                {{rol}}
+                            </mat-option>
+                        </mat-select>
+                      </mat-form-field>
+                </div>
+                <div class="md-form col-md-12 col-sm-12">
+                    <button mat-raised-button color="primary" class="color-button mr-3" (click)="openModalAdd()">Add role</button>
+                </div>
+                <br>
+                <div class="md-form col-md-12 col-sm-12">
+                    <button [disabled]="!dataRole" mat-raised-button color="primary" class="color-button mr-3" (click)="openModalUpdate()">Update role</button>
+                </div>
+            </div>
+            <div class="col-md-6 com-sm-12">
+                <div class="col-md-12 col-sm-12">
+                    <div class="card">
+                        <div class="row">
+                            <div class="col-md-12 col-sm-12">
+                                <div class="card-header card-header-danger">
+                                    <h4 class="card-title "> Role Pages</h4>
+                                </div>
+                                <div class="card-body">
+                                    <div class="table-responsive table-responsive-2">
+                                        <table mat-table [dataSource]="dataSourcePageNew" class="table">
+                                            <ng-container matColumnDef="page">
+                                                <th mat-header-cell *matHeaderCellDef> Page </th>
+                                                <td mat-cell *matCellDef="let page"> {{page.description}} </td>
+                                            </ng-container>
+                                            <tr mat-header-row *matHeaderRowDef="columnsToDisplay; sticky: true"></tr>
+                                            <tr mat-row *matRowDef="let page; columns: columnsToDisplay"></tr>
+                                        </table>
+                                        <mat-paginator #paginatorNew [pageSizeOptions]="[5, 10, 20]" class="mat-paginator-sticky"></mat-paginator>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+  </div>
+  

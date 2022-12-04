@@ -23,7 +23,7 @@ import { TimeAgoPipe } from 'time-ago-pipe';
 
 import { AppComponent } from './app.component';
 import { NavComponent } from './nav/nav.component';
-import { HomeComponent } from './home/home.component';
+import { LoginComponent } from './modules/login/login/login.component';
 import { RegisterComponent } from './register/register.component';
 import { ErrorInterceptorProvider } from './_services/error.interceptor';
 import { MemberListComponent } from './members/member-list/member-list.component';
@@ -53,6 +53,15 @@ import { ProductListResolver } from './_resolvers/product-list.resolver';
 import { ProductEditComponent } from './products/product-edit/product-edit.component';
 import { ProductEditResolver } from './_resolvers/product-edit.resolver';
 import { PlcListResolver } from './_resolvers/plc-list.resolver';
+import {MatCardModule} from '@angular/material/card';
+import {MatIconModule} from '@angular/material/icon';
+import {MatInputModule} from '@angular/material/input';
+import {MatButtonModule} from '@angular/material/button';
+import { HomeComponent } from './modules/home/home/home.component';
+import { MenuComponent } from './modules/menu/menu.component';
+import {MatCheckboxModule, MatToolbarModule, MatListModule, MatSidenavModule, MatExpansionModule, MatMenu, MatAutocompleteModule, MatButtonToggleModule, MatChipsModule, MatStepperModule, MatDatepickerModule, MatDialogModule, MatGridListModule, MatNativeDateModule, MatPaginatorModule, MatProgressBarModule, MatProgressSpinnerModule, MatRadioModule, MatRippleModule, MatSelectModule, MatSliderModule, MatSlideToggleModule, MatSnackBarModule, MatSortModule, MatTableModule, MatTabsModule, MatTooltipModule} from '@angular/material';
+import {MatMenuModule} from '@angular/material/menu';
+import { BalancingProcessComponent } from './modules/pages-user/balancing-process/balancing-process.component';
 
 export function tokenGetter() {
   return localStorage.getItem('token');
@@ -69,7 +78,7 @@ export class CustomHammerConfig extends HammerGestureConfig {
   declarations: [
     AppComponent,
     NavComponent,
-    HomeComponent,
+    LoginComponent,
     RegisterComponent,
     MemberListComponent,
     ListsComponent,
@@ -88,7 +97,10 @@ export class CustomHammerConfig extends HammerGestureConfig {
     PlcListComponent,
     ProductRegisterComponent,
     ProductListComponent,
-    ProductEditComponent
+    ProductEditComponent,
+    HomeComponent,
+    MenuComponent,
+    BalancingProcessComponent
   ],
   imports: [
     BrowserModule,
@@ -111,7 +123,39 @@ export class CustomHammerConfig extends HammerGestureConfig {
         whitelistedDomains: ['localhost:5000'],
         blacklistedRoutes: ['localhost:5000/api/auth']
       }
-    })
+    }),
+    MatCardModule,
+    MatIconModule,
+    MatInputModule,
+    MatButtonModule,
+    MatListModule,
+    MatCheckboxModule, 
+    MatToolbarModule,
+    MatSidenavModule,
+    MatIconModule,
+    MatExpansionModule,
+    MatMenuModule,
+    MatAutocompleteModule,
+    MatButtonToggleModule,
+    MatChipsModule,
+    MatStepperModule,
+    MatDatepickerModule,
+    MatDialogModule,
+    MatGridListModule,
+    MatNativeDateModule,
+    MatPaginatorModule,
+    MatProgressBarModule,
+    MatProgressSpinnerModule,
+    MatRadioModule,
+    MatRippleModule,
+    MatSelectModule,
+    MatSliderModule,
+    MatSlideToggleModule,
+    MatSnackBarModule,
+    MatSortModule,
+    MatTableModule,
+    MatTabsModule,
+    MatTooltipModule
   ],
   providers: [
     ErrorInterceptorProvider,

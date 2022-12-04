@@ -1,0 +1,77 @@
+<div class="main-content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-12 col-sm-12">
+                <div class="md-form col-md-3 col-sm-12">
+                    <mat-form-field appearance="fill">
+                        <mat-label>Machine</mat-label>
+                        <mat-select (selectionChange)="searchAttemptsPerMachine($event)">
+                            <mat-option *ngFor="let machine of machineList" [value]="machine.id">
+                                {{machine.name}}
+                            </mat-option>
+                        </mat-select>
+                      </mat-form-field>
+                </div>
+            </div>
+            <div class="col-md-12 col-sm-12">
+                <div class="input-group no-border col-md-3 col-sm-12">
+                    <input type="text" class="form-control" placeholder="Search..." (keyup)="applyFilter($event)">
+                </div>
+            </div>
+            <div class="col-md-12 col-sm-12">
+                <div class="card">
+                    <div class="card-header card-header-danger">
+                        <h4 class="card-title ">Balancing Parts List</h4>
+                    </div>
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table mat-table [dataSource]="dataSourceBalancingParts" class="table">
+                                <ng-container matColumnDef="machineName">
+                                    <th mat-header-cell *matHeaderCellDef> Machine Name </th>
+                                    <td mat-cell *matCellDef="let balancingPart"> {{balancingPart.machineModelId}} </td>
+                                </ng-container>
+                                <ng-container matColumnDef="partName">
+                                    <th mat-header-cell *matHeaderCellDef> Part Name </th>
+                                    <td mat-cell *matCellDef="let balancingPart"> {{balancingPart.partModelId}} </td>
+                                </ng-container>
+                                <ng-container matColumnDef="attemptConsecutive">
+                                    <th mat-header-cell *matHeaderCellDef> Attempt Consecutive </th>
+                                    <td mat-cell *matCellDef="let balancingPart"> {{balancingPart.internalSequence || '-'}} </td>
+                                </ng-container>
+                                <ng-container matColumnDef="defaultAttempts">
+                                    <th mat-header-cell *matHeaderCellDef> Default attempts </th>
+                                    <td mat-cell *matCellDef="let balancingPart"> {{balancingPart.defaultAttempts || '-'}} </td>
+                                </ng-container>
+                                <ng-container matColumnDef="extraAttempts">
+                                    <th mat-header-cell *matHeaderCellDef> Extra Attempts </th>
+                                    <td mat-cell *matCellDef="let balancingPart"> {{balancingPart.extraAttempts || '-'}} </td>
+                                </ng-container>
+                                <ng-container matColumnDef="availableAttempts">
+                                    <th mat-header-cell *matHeaderCellDef> Aviable attempts </th>
+                                    <td mat-cell *matCellDef="let balancingPart"> {{balancingPart.availableAttempts || '-'}} </td>
+                                </ng-container>
+                                <ng-container matColumnDef="actions" stickyEnd>
+                                    <th mat-header-cell *matHeaderCellDef></th>
+                                    <td mat-cell *matCellDef="let balancingPart"> 
+                                        <div class="example-button-container">
+                                            <button mat-icon-button aria-label="Update" (click)="openModalUpdate(balancingPart)">
+                                                <i class="material-icons">update</i>
+                                            </button>
+                                            <button mat-icon-button aria-label="Delete" (click)="deleteBalancingPart(balancingPart)">
+                                                <i class="material-icons">delete</i>
+                                            </button>
+                                        </div>
+                                    </td>
+                                </ng-container>
+                                <tr mat-header-row *matHeaderRowDef="columnsToDisplay; sticky: true"></tr>
+                                <tr mat-row *matRowDef="let balancingPart; columns: columnsToDisplay"></tr>
+                            </table>
+                            <mat-paginator [pageSizeOptions]="[5, 10, 20]" class="mat-paginator-sticky"></mat-paginator>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+  </div>
+  

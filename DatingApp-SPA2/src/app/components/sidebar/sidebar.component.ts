@@ -5,17 +5,17 @@ declare interface RouteInfo {
     path: string;
     title: string;
     icon: string;
-    class: string;
+    submenus?: any
 }
 export const ROUTES: RouteInfo[] = [
-    { path: '/dashboard', title: 'Dashboard',  icon: 'dashboard', class: '' },
-    { path: '/user-profile', title: 'User Profile',  icon:'person', class: '' },
-    { path: '/table-list', title: 'Table List',  icon:'content_paste', class: '' },
-    { path: '/typography', title: 'Typography',  icon:'library_books', class: '' },
-    { path: '/icons', title: 'Icons',  icon:'bubble_chart', class: '' },
-    { path: '/maps', title: 'Maps',  icon:'location_on', class: '' },
-    { path: '/notifications', title: 'Notifications',  icon:'notifications', class: '' },
-    { path: '/upgrade', title: 'Upgrade to PRO',  icon:'unarchive', class: 'active-pro' },
+    {path: "users", title: "Users", icon: "fa fa-id-card-o"} ,
+    // {path: "parts", title: "Parts", icon: "fa fa-cog"} ,
+    // {path: "pages", title: "Pages", icon: "fa fa-cog"} ,
+    // {path: "machines", title: "Machines", icon: "fa fa-desktop"},
+    // {path: "parts-per-computer", title: "Parts Per Machine", icon: "fa fa-cogs"},
+    // {path: "pages-per-role", title: "Pages Per Role", icon: "fa fa-address-card-o"},
+    // {path: "balancing-process", title: "Balancing Process", icon: "fa fa-bar-chart"},
+    // {path: "balancing-attempts", title: "Balanced Parts", icon: "fa fa-file-text-o"} 
 ];
 
 @Component({
@@ -29,7 +29,7 @@ export class SidebarComponent implements OnInit {
   constructor() { }
 
   ngOnInit() {
-    this.menuItems = ROUTES.filter(menuItem => menuItem);
+    this.menuItems = ROUTES.filter(pathItem => pathItem);
   }
   isMobileMenu() {
       if ($(window).width() > 991) {
